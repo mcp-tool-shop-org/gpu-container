@@ -12,13 +12,14 @@ import json
 import sys
 from typing import List, Optional
 
+from ..errors import GpuContainerError, guard
 from ..profiler import model as model_mod
 from ..profiler.schema import Profile
 from .calibration import CalibrationModel, CalibrationStore
 from .placement import plan_llama_cpp
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def _main(argv: Optional[List[str]] = None) -> int:
     for _stream in (sys.stdout, sys.stderr):
         try:
             _stream.reconfigure(encoding="utf-8")
@@ -29,6 +30,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         prog="gpu-container-plan",
         description="Plan an MoE placement (llama.cpp --n-cpu-moe) from a rig+model profile.",
     )
+    ap.add_argument("--debug", action="store_true", help="show the full traceback on an unexpected error")
     ap.add_argument("--profile", required=True, help="profile.json from gpu-container-profile")
     ap.add_argument("--model-config", help="HF config.json to (re)profile the model side into the plan")
     ap.add_argument("--model-name", help="override the model name")
@@ -46,12 +48,23 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("-o", "--out", help="write the plan JSON here (default: stdout)")
     args = ap.parse_args(argv)
 
-    with open(args.profile, "r", encoding="utf-8") as f:
-        prof = Profile.from_json(f.read())
+    try:
+        with open(args.profile, "r", encoding="utf-8") as f:
+            prof = Profile.from_json(f.read())
+    except FileNotFoundError:
+        raise GpuContainerError("IO_PROFILE_NOT_FOUND", f"profile not found: {args.profile}",
+                                hint="run `gpu-container-profile -o profile.json` first (in-container)")
+    except (ValueError, OSError) as e:
+        raise GpuContainerError("INPUT_BAD_PROFILE", f"could not read {args.profile}",
+                                hint="expected a profile.json from gpu-container-profile", cause=str(e))
 
     if args.model_config:
-        with open(args.model_config, "r", encoding="utf-8") as f:
-            cfg = json.load(f)
+        try:
+            with open(args.model_config, "r", encoding="utf-8") as f:
+                cfg = json.load(f)
+        except (OSError, ValueError) as e:
+            raise GpuContainerError("INPUT_BAD_MODEL_CONFIG", f"could not read {args.model_config}",
+                                    hint="expected a HuggingFace config.json", cause=str(e))
         prof.model = model_mod.analyze_config(cfg, name=args.model_name, quant=args.quant or "gguf-q4_k_m")
     elif args.quant and prof.model is not None:
         prof.model.quant = args.quant
@@ -78,6 +91,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(js)
     print(plan.message, file=sys.stderr)
     return 0 if plan.verdict == "ship" else 3
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    return guard(_main, argv)
 
 
 if __name__ == "__main__":

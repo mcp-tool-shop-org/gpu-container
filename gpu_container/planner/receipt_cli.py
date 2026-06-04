@@ -21,6 +21,7 @@ import sys
 from datetime import date
 from typing import List, Optional
 
+from ..errors import GpuContainerError, guard
 from ..profiler.schema import PlacementPlan
 from .calibration import CalibrationStore
 from .receipt import build_receipt, parse_llama_bench, plan_to_calibration_point
@@ -34,7 +35,7 @@ def _read(path: Optional[str]) -> str:
         return f.read()
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def _main(argv: Optional[List[str]] = None) -> int:
     for _stream in (sys.stdout, sys.stderr):
         try:
             _stream.reconfigure(encoding="utf-8")
@@ -45,6 +46,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         prog="gpu-container-receipt",
         description="Measure a plan against a llama-bench run -> receipt + recalibration write-back.",
     )
+    ap.add_argument("--debug", action="store_true", help="show the full traceback on an unexpected error")
     ap.add_argument("--plan", required=True, help="plan.json from gpu-container-plan")
     ap.add_argument("--bench", help="llama-bench -o json output (file or '-' for stdin)")
     ap.add_argument("--decode-tok-s", type=float, help="measured decode tok/s (instead of --bench)")
@@ -71,13 +73,13 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.bench is not None:
         rows = parse_llama_bench(_read(args.bench))
         if not rows:
-            print("ERROR: --bench produced no parseable llama-bench rows.", file=sys.stderr)
-            return 2
+            raise GpuContainerError("INPUT_NO_BENCH_ROWS", "--bench produced no parseable llama-bench rows",
+                                    hint="pass `llama-bench -o json` output (a file or '-' for stdin)")
         decode = _pick(rows, "tg") if decode is None else decode
         prefill = _pick(rows, "pp") if prefill is None else prefill
     if decode is None:
-        print("ERROR: need a measured decode rate (--bench with a tg row, or --decode-tok-s).", file=sys.stderr)
-        return 2
+        raise GpuContainerError("INPUT_NO_DECODE_RATE", "need a measured decode rate",
+                                hint="give --bench output with a tg (token-generation) row, or --decode-tok-s")
 
     # Optional per-expert routing de-risk: fold the concentration verdict into the receipt (--trace).
     concentration = None
@@ -131,6 +133,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     if receipt.cleared_floor is False:
         return 3  # below the >1 tok/s floor — the ship was optimistic
     return 0
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    return guard(_main, argv)
 
 
 if __name__ == "__main__":

@@ -21,6 +21,7 @@ import argparse
 import sys
 from typing import List, Optional
 
+from ..errors import GpuContainerError, guard
 from .activation import ActivationTrace, analyze_concentration, load_trace
 
 
@@ -53,7 +54,7 @@ def _trace_from_imatrix(path: str, model_name: str, topk: int) -> ActivationTrac
     })
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def _main(argv: Optional[List[str]] = None) -> int:
     for _stream in (sys.stdout, sys.stderr):
         try:
             _stream.reconfigure(encoding="utf-8")
@@ -64,6 +65,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         prog="gpu-container-concentration",
         description="Per-expert-cache de-risk gate: does this model's routing concentrate enough to cache?",
     )
+    ap.add_argument("--debug", action="store_true", help="show the full traceback on an unexpected error")
     src = ap.add_mutually_exclusive_group(required=True)
     src.add_argument("--trace", help="ActivationTrace JSON (L×E per-expert counts)")
     src.add_argument("--imatrix", help="llama-imatrix imatrix.gguf (extract per-expert counts; needs `gguf`)")
@@ -79,13 +81,15 @@ def main(argv: Optional[List[str]] = None) -> int:
         try:
             trace = _trace_from_imatrix(args.imatrix, args.model_name, args.topk)
         except (ValueError, OSError) as e:
-            print(f"ERROR: {e}", file=sys.stderr)
-            return 2
+            raise GpuContainerError("INPUT_BAD_IMATRIX", str(e),
+                                    hint="pass --trace with an L×E counts JSON instead, "
+                                         "or `pip install gguf` for the --imatrix path")
     else:
         trace = load_trace(args.trace)
         if trace is None:
-            print(f"ERROR: could not load a trace from {args.trace}", file=sys.stderr)
-            return 2
+            raise GpuContainerError("IO_TRACE_UNREADABLE", f"could not load a trace from {args.trace}",
+                                    hint="expected an ActivationTrace JSON "
+                                         "(model, num_experts, experts_per_token, layers[])")
 
     rep = analyze_concentration(trace, coverage_target=args.coverage, cache_helps_threshold=args.threshold)
 
@@ -106,6 +110,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         print(f"  note: {n}", file=sys.stderr)
 
     return 5 if rep.cache_helps else 0
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    return guard(_main, argv)
 
 
 if __name__ == "__main__":

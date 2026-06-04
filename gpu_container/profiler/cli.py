@@ -18,6 +18,7 @@ import os
 import sys
 from typing import List, Optional
 
+from ..errors import GpuContainerError, guard
 from . import baseline as baseline_mod
 from . import model as model_mod
 from .hardware import profile_hardware
@@ -64,11 +65,12 @@ def _build_notes(prof: Profile) -> List[str]:
     return notes
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def _main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(
         prog="gpu-container-profile",
         description="Profile the rig (and optionally a model) into the placement-planner contract.",
     )
+    ap.add_argument("--debug", action="store_true", help="show the full traceback on an unexpected error")
     ap.add_argument("--model-config", help="path to a HuggingFace config.json to profile the model side")
     ap.add_argument("--model-name", help="override the model name")
     ap.add_argument("--quant", help="quant tag, e.g. gguf-q4_k_m")
@@ -97,14 +99,23 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     # --- obtain the profile (load or measure) -------------------------------------------
     if args.from_profile:
-        with open(args.from_profile, "r", encoding="utf-8") as f:
-            prof = Profile.from_json(f.read())
+        try:
+            with open(args.from_profile, "r", encoding="utf-8") as f:
+                prof = Profile.from_json(f.read())
+        except (OSError, ValueError) as e:
+            raise GpuContainerError("INPUT_BAD_PROFILE", f"could not read {args.from_profile}",
+                                    hint="expected a profile.json from a prior `gpu-container-profile` run",
+                                    cause=str(e))
     else:
         hw = profile_hardware(created, run_benches=not args.no_bench, bench_dir=args.bench_dir)
         mp = None
         if args.model_config:
-            with open(args.model_config, "r", encoding="utf-8") as f:
-                cfg = json.load(f)
+            try:
+                with open(args.model_config, "r", encoding="utf-8") as f:
+                    cfg = json.load(f)
+            except (OSError, ValueError) as e:
+                raise GpuContainerError("INPUT_BAD_MODEL_CONFIG", f"could not read {args.model_config}",
+                                        hint="expected a HuggingFace config.json", cause=str(e))
             mp = model_mod.analyze_config(cfg, name=args.model_name, quant=args.quant)
         prof = Profile(schema_version=SCHEMA_VERSION, created=created, hardware=hw, model=mp, notes=[])
         prof.notes = _build_notes(prof)
@@ -115,8 +126,8 @@ def main(argv: Optional[List[str]] = None) -> int:
             prof, db_path=args.baseline_db, context=args.baseline_context, measured_date=created,
         )
         if "error" in summary:
-            print(f"emit-baseline failed: {summary['error']}", file=sys.stderr)
-            return 2
+            raise GpuContainerError("RUNTIME_EMIT_BASELINE_FAILED", str(summary["error"]),
+                                    hint="check --baseline-db path and that the docker-knowledge KB is reachable")
         print(f"emit-baseline: wrote {summary['written']} rows "
               f"({', '.join(summary['metrics'])}) -> {summary['source_file']} "
               f"[context: {summary['context']}] in {summary['db']}", file=sys.stderr)
@@ -130,6 +141,10 @@ def main(argv: Optional[List[str]] = None) -> int:
     else:
         print(js)
     return 0
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    return guard(_main, argv)
 
 
 if __name__ == "__main__":

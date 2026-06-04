@@ -44,6 +44,8 @@ import time
 from dataclasses import asdict, dataclass, field
 from typing import List, Optional
 
+from .errors import GpuContainerError, guard
+
 
 @dataclass
 class Thresholds:
@@ -451,9 +453,8 @@ def _run_supervise(args: argparse.Namespace) -> int:
     if command and command[0] == "--":     # tolerate the `--` separator argparse may keep
         command = command[1:]
     if not command:
-        print("ERROR: no command to supervise. Usage: gpu-container-watchdog run [opts] -- <command...>",
-              file=sys.stderr)
-        return 2
+        raise GpuContainerError("INPUT_NO_COMMAND", "no command to supervise",
+                                hint="usage: gpu-container-watchdog run [opts] -- <command...>")
     t = _thresholds_from_args(args)
     t0 = time.monotonic()
 
@@ -488,7 +489,7 @@ def _run_supervise(args: argparse.Namespace) -> int:
     return 0
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def _main(argv: Optional[List[str]] = None) -> int:
     for _stream in (sys.stdout, sys.stderr):
         try:
             _stream.reconfigure(encoding="utf-8")
@@ -500,6 +501,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         description="Rig-safety control plane: watch GPU+host metrics, abort on a hard-threshold breach.",
     )
     _add_threshold_args(ap)
+    ap.add_argument("--debug", action="store_true", help="show the full traceback on an unexpected error")
     ap.add_argument("--watch", action="store_true", help="loop until a breach (else a single one-shot reading)")
     ap.add_argument("--interval", type=float, default=5.0, help="--watch poll seconds (default 5)")
     ap.add_argument("--max-polls", type=int, help="--watch: stop after N polls (default: until breach/interrupt)")
@@ -517,6 +519,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     rp.add_argument("--json", action="store_true", help="emit the JSON report per poll")
     rp.add_argument("--log", help="append each poll as a JSONL line here (the rolling trajectory)")
     rp.add_argument("--peaks-out", help="write the run's peak-metrics JSON here (feed to gpu-container-receipt --peaks)")
+    rp.add_argument("--debug", action="store_true", help="show the full traceback on an unexpected error")
     rp.add_argument("command", nargs=argparse.REMAINDER, help="the command to supervise, after `--`")
 
     args = ap.parse_args(argv)
@@ -550,6 +553,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         if args.max_polls and polls >= args.max_polls:
             return _EXIT[rep.verdict]
         time.sleep(max(0.5, args.interval))
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    return guard(_main, argv)
 
 
 if __name__ == "__main__":

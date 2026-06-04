@@ -24,9 +24,9 @@
 
 ## B. Error Handling
 
-- [ ] `[all]` Errors follow the Structured Error Shape: `code`, `message`, `hint`, `cause?`, `retryable?` — GAP: CLIs emit `ERROR: <message>` to stderr + exit codes, but not the `{code, message, hint, cause?, retryable?}` shape. See RELEASE_ASSESSMENT.md (P1).
-- [ ] `[cli]` Exit codes: 0 ok · 1 user error · 2 runtime error · 3 partial success — SKIP: deliberately uses domain ANDON verdict codes documented in docs/cli.md (plan 0/3, receipt 0/3/4/2, concentration 0/5/2, watchdog 0/5/7) — a richer, stable scriptable contract. Flagged for ratification in RELEASE_ASSESSMENT.md.
-- [ ] `[cli]` No raw stack traces without `--debug` — GAP: common error paths are guarded, but there is no top-level handler or `--debug` flag, so an unexpected exception (e.g. a malformed input file) can surface a traceback. See RELEASE_ASSESSMENT.md (P1).
+- [x] `[all]` Errors follow the Structured Error Shape: `code`, `message`, `hint`, `cause?`, `retryable?` (2026-06-04 — `GpuContainerError` in gpu_container/errors.py, raised across all 5 CLIs; renders `ERROR [CODE]: msg` + hint/cause)
+- [ ] `[cli]` Exit codes: 0 ok · 1 user error · 2 runtime error · 3 partial success — SKIP: deliberately uses domain ANDON verdict codes documented in docs/cli.md (plan 0/3, receipt 0/3/4/2, concentration 0/5/2, watchdog 0/5/7) — a richer, stable scriptable contract; structured errors exit 2. Ratified 2026-06-04.
+- [x] `[cli]` No raw stack traces without `--debug` (2026-06-04 — a shared `guard()` wraps every CLI `main()`; an unexpected exception prints one clean line + exit 2, the full traceback only with `--debug`)
 - [ ] `[mcp]` Tool errors return structured results — server never crashes on bad input — SKIP: not an MCP server
 - [ ] `[mcp]` State/config corruption degrades gracefully (stale data over crash) — SKIP: not an MCP server
 - [ ] `[desktop]` Errors shown as user-friendly messages — no raw exceptions in UI — SKIP: not a desktop app
@@ -38,7 +38,7 @@
 - [x] `[all]` CHANGELOG.md (Keep a Changelog format) (2026-06-04)
 - [x] `[all]` LICENSE file present and repo states support status (2026-06-04 — MIT LICENSE; support status in SECURITY.md)
 - [x] `[cli]` `--help` output accurate for all commands and flags (2026-06-04 — argparse-generated; verified + smoke-tested by scripts/verify.py)
-- [ ] `[cli|mcp|desktop]` Logging levels defined: silent / normal / verbose / debug — secrets redacted at all levels — GAP (low priority): no formal `--quiet`/`--verbose`/`--debug`; de-facto split is JSON→stdout, human notes→stderr; no secrets exist to redact (local tool). See RELEASE_ASSESSMENT.md (P2).
+- [ ] `[cli|mcp|desktop]` Logging levels defined: silent / normal / verbose / debug — secrets redacted at all levels — SKIP: stateless local planner with **no secrets to redact** (verified — no credentials handled); the output contract is machine→stdout (JSON), human notes→stderr, full tracebacks→`--debug`. Formal silent/verbose levels would add config surface without value. 2026-06-04.
 - [ ] `[mcp]` All tools documented with description + parameters — SKIP: not an MCP server
 - [ ] `[complex]` HANDBOOK.md: daily ops, warn/critical response, recovery procedures — SKIP: not a background daemon / stateful service; operational guidance lives in docs/quickstart.md + docs/cli.md
 
@@ -46,7 +46,7 @@
 
 - [x] `[all]` `verify` script exists (test + build + smoke in one command) (2026-06-04 — scripts/verify.py; runs the suite + a 5-command CLI smoke, `--build` adds the wheel/sdist)
 - [ ] `[all]` Version in manifest matches git tag — PENDING RELEASE: manifest is 0.1.0, no tag yet; resolves at the v1.0.0 bump + tag (D2 in RELEASE_ASSESSMENT.md)
-- [ ] `[all]` Dependency scanning runs in CI (ecosystem-appropriate) — PENDING: .github/workflows/ci.yml drafted (pip-audit job), awaiting the commit/Actions-spend decision
+- [x] `[all]` Dependency scanning runs in CI (ecosystem-appropriate) (2026-06-04 — .github/workflows/ci.yml `pip-audit` job; first run green)
 - [ ] `[all]` Automated dependency update mechanism exists — SKIP: org GitHub-Actions rule forbids dependabot unless explicitly requested; deps are minimal (optional psutil/numpy/nvidia-ml-py, dev pytest)
 - [ ] `[npm]` `npm pack --dry-run` includes: dist/, README.md, CHANGELOG.md, LICENSE — SKIP: not an npm package
 - [x] `[npm]` `engines.node` set · `[pypi]` `python_requires` set (2026-06-04 — requires-python = ">=3.10")
