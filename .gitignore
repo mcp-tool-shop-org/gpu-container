@@ -54,3 +54,5 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+site/.astro/
+.polyglot-cache.json
