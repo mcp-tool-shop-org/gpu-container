@@ -1,6 +1,16 @@
+<div align="center">
+
 # gpu-container
 
-> **A GPU-enabled container exposes the device. A model-aware runtime decides what lives in VRAM, pinned RAM, and NVMe.**
+[![CI](https://github.com/mcp-tool-shop-org/gpu-container/actions/workflows/ci.yml/badge.svg)](https://github.com/mcp-tool-shop-org/gpu-container/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/gpu-container)](https://pypi.org/project/gpu-container/)
+[![npm](https://img.shields.io/npm/v/gpu-container)](https://www.npmjs.com/package/gpu-container)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Handbook](https://img.shields.io/badge/handbook-docs-blue)](https://mcp-tool-shop-org.github.io/gpu-container/)
+
+**A GPU-enabled container exposes the device. A model-aware runtime decides what lives in VRAM, pinned RAM, and NVMe.**
+
+</div>
 
 Run the largest useful local model your machine can honestly support, with explicit placement plans, benchmark receipts, and refusal when the plan would thrash.
 
@@ -58,3 +68,11 @@ Built and working today: `gpu-container-profile`, `gpu-container-plan`, `gpu-con
 - [`docs/constraints.md`](docs/constraints.md) — non-goals + the Windows/WSL CUDA Unified-Memory correction
 - [`docs/prior-art.md`](docs/prior-art.md) — runtimes we orchestrate, and the gap this product fills
 - [`docs/feasibility.md`](docs/feasibility.md) — feasibility assessment, research grounding, and what's confirmed live
+
+---
+
+<div align="center">
+
+Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a> · MIT Licensed
+
+</div>
