@@ -68,6 +68,7 @@ def test_qwen3_q4_fits_fully_in_vram():
     assert plan.vram_used_mib < 30000
     assert plan.predicted_decode_tok_s > 1.0
     assert "-ngl 99 --n-cpu-moe 0" in plan.llama_flags
+    assert "-fa on" in plan.llama_flags            # tri-state flash-attn; bare -fa is rejected by current llama.cpp
 
 
 def test_mixtral_q8_needs_cpu_offload_but_ships():

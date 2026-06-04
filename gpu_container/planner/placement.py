@@ -157,7 +157,9 @@ def plan_llama_cpp(
     verdict = "refuse" if (below_floor or not ram_ok) else "ship"
     vu = vram_used_mib(N)
 
-    flags = f"-ngl 99 --n-cpu-moe {N} -c {ctx_len} -fa"
+    # -fa on (not bare -fa): current llama.cpp made flash-attn a tri-state (on|off|auto) and rejects
+    # a value-less -fa. Confirmed against the ghcr.io/ggml-org/llama.cpp:full-cuda help (2026-06-04).
+    flags = f"-ngl 99 --n-cpu-moe {N} -c {ctx_len} -fa on"
     cmd_model = f"-hf {model_ref}" if model_ref else "-m <model.gguf>"
 
     if verdict == "refuse" and below_floor:
