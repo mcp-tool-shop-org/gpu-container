@@ -17,6 +17,8 @@ from .schema import (  # noqa: F401
     HardwareProfile,
     MemoryInfo,
     ModelProfile,
+    PlacementPlan,
     PlatformInfo,
     Profile,
+    Receipt,
 )

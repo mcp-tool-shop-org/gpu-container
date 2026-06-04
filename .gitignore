@@ -35,6 +35,13 @@ weights/
 receipts/
 profiles/out/
 *.receipt.json
+profile*.json
+plan*.json
+bench*.json
+receipt*.json
+prof_dry.json
+*.config.json
+*-err.txt
 
 # --- Secrets / env ---
 .env

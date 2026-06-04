@@ -61,6 +61,8 @@ class MemoryInfo:
     pinnable_ceiling_gib: Optional[float] = None       # WSL2 limits this (docker-knowledge container-runtime)
     pinnable_method: Optional[str] = None              # how the ceiling was probed (provenance)
     pinnable_capped: Optional[bool] = None             # True => probe hit its max; ceiling is a lower bound
+    cpu_mem_bw_gbps: Optional[float] = None            # measured CPU RAM bandwidth — the MoE-offload throughput input
+    cpu_mem_bw_method: Optional[str] = None            # how it was measured (provenance)
 
 
 @dataclass
@@ -92,6 +94,12 @@ class ModelProfile:
     quant: Optional[str] = None                  # "gguf-q4_k_m" | "gptq" | "awq" | "fp8" | None
     expert: ExpertInfo = field(default_factory=ExpertInfo)
     kv_bytes_per_token: Optional[int] = None     # closed-form; see model.kv_bytes_per_token()
+    # Closed-form param split (model.analyze_config) — the planner's placement math keys off these.
+    # `expert_params_total` is the part `--n-cpu-moe` can move to CPU; `non_expert_params` (attention,
+    # router, embeddings, head, shared experts, dense layers) ALWAYS stays on the GPU.
+    expert_params_total: Optional[int] = None
+    non_expert_params: Optional[int] = None
+    n_moe_layers: Optional[int] = None           # layers that actually carry routed experts
 
     def kv_bytes_at(self, context_tokens: int, batch: int = 1) -> Optional[int]:
         """KV-cache bytes at a given context — linear in context (docker-knowledge throughput-prediction)."""
@@ -122,6 +130,53 @@ class Profile:
     @classmethod
     def from_json(cls, s: str) -> "Profile":
         return cls.from_dict(json.loads(s))
+
+
+@dataclass
+class PlacementPlan:
+    """The planner's output: how to place an MoE model across VRAM/RAM for a runtime, with a
+    predicted memory map + throughput and an honest ship/refuse verdict (>1 tok/s floor)."""
+    fits: bool
+    verdict: str                                 # "ship" | "refuse"
+    runtime: str = "llama.cpp"
+    n_cpu_moe: Optional[int] = None              # the --n-cpu-moe value (MoE layers whose experts -> CPU RAM)
+    n_moe_layers: Optional[int] = None
+    llama_flags: Optional[str] = None            # the exact flag string to launch with
+    vram_budget_mib: Optional[float] = None
+    vram_used_mib: Optional[float] = None
+    ram_used_mib: Optional[float] = None         # CPU-resident expert bytes (regular host RAM)
+    predicted_decode_tok_s: Optional[float] = None
+    throughput_basis: Optional[str] = None       # "in-VRAM (±10%)" | "cpu-offload estimate — confirmed by receipt"
+    floor_tok_s: float = 1.0
+    message: Optional[str] = None                # plan summary / contrastive refusal frame
+    assumptions: Optional[dict] = None           # cpu_mem_bw_gbps, vram_bw_gbps, bpw, ctx, overhead_mib
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    def to_json(self, indent: int = 2) -> str:
+        return json.dumps(self.to_dict(), indent=indent, ensure_ascii=False)
+
+
+@dataclass
+class Receipt:
+    """The measured proof — a DIFFERENT mechanism (measurement) verifying the planner's forecast."""
+    runtime: str = "llama.cpp"
+    n_cpu_moe: Optional[int] = None
+    measured_decode_tok_s: Optional[float] = None
+    measured_prefill_tok_s: Optional[float] = None
+    measured_vram_used_mib: Optional[float] = None
+    predicted_decode_tok_s: Optional[float] = None
+    decode_error_pct: Optional[float] = None     # 100*(measured-predicted)/measured
+    cleared_floor: Optional[bool] = None
+    method: Optional[str] = None                 # how it was measured (provenance)
+    notes: List[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    def to_json(self, indent: int = 2) -> str:
+        return json.dumps(self.to_dict(), indent=indent, ensure_ascii=False)
 
 
 def _build(dc_type: Any, value: Any) -> Any:

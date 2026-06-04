@@ -239,6 +239,37 @@ def measure_bandwidth(bench_dir: Optional[str] = None) -> BandwidthInfo:
     return bw
 
 
+def measure_cpu_mem_bw(array_mib: int = 256, iters: int = 7) -> dict:
+    """CPU RAM read+write bandwidth (GB/s) via a large out-of-cache numpy copy — the input the
+    MoE CPU-offload throughput model keys off (CPU computes its experts at RAM bandwidth). Honest
+    None if numpy is unavailable; the planner then flags a labelled default."""
+    out = {"gbps": None, "method": None}
+    try:
+        import statistics
+        import time
+
+        import numpy as np
+    except Exception:
+        out["method"] = "not-measured: numpy unavailable"
+        return out
+    try:
+        n = (array_mib * 1024 * 1024) // 8  # float64 elements; 256 MiB >> L3 to defeat cache
+        a = np.empty(n, dtype=np.float64)
+        b = np.ones(n, dtype=np.float64)
+        np.copyto(a, b)  # warmup
+        times = []
+        for _ in range(iters):
+            t0 = time.perf_counter()
+            np.copyto(a, b)  # read b + write a == 2 * n * 8 bytes
+            times.append(time.perf_counter() - t0)
+        med = statistics.median(times)
+        out["gbps"] = round((2 * n * 8) / med / 1e9, 1) if med > 0 else None
+        out["method"] = f"numpy copy (read+write), {array_mib} MiB, median of {iters}"
+    except Exception as e:
+        out["method"] = f"not-measured: {e}"
+    return out
+
+
 def _probe_pinnable(mem: MemoryInfo) -> None:
     """Fill the pinnable-RAM ceiling on `mem` via a cudaHostAlloc probe (in place).
 
@@ -265,6 +296,9 @@ def profile_hardware(created: str, run_benches: bool = True,
     if run_benches:
         bw = measure_bandwidth(bench_dir=bench_dir)
         _probe_pinnable(mem)
+        cb = measure_cpu_mem_bw()
+        mem.cpu_mem_bw_gbps = cb["gbps"]
+        mem.cpu_mem_bw_method = cb["method"]
     else:
         bw = BandwidthInfo(method="not-measured (--no-bench): identity detection only")
     return HardwareProfile(gpu=gpu, platform=plat, bandwidth=bw, memory=mem)

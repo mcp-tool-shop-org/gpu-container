@@ -39,6 +39,72 @@ def _dtype_bytes_from(cfg: dict) -> float:
     return _DTYPE_BYTES.get(td, 2.0)
 
 
+# Effective GGUF bits-per-weight (incl. quant metadata overhead) — llama.cpp quant tables.
+# Used to turn a closed-form param count into a realistic on-device byte footprint.
+_BPW = {
+    "q2_k": 3.35, "q3_k_s": 3.50, "q3_k_m": 3.91, "q3_k_l": 4.27,
+    "q4_0": 4.55, "q4_1": 4.78, "q4_k_s": 4.57, "q4_k_m": 4.83,
+    "q5_0": 5.54, "q5_1": 6.00, "q5_k_s": 5.52, "q5_k_m": 5.67,
+    "q6_k": 6.56, "q8_0": 8.50,
+    "iq2_xxs": 2.06, "iq3_xxs": 3.06, "iq4_xs": 4.25, "iq4_nl": 4.50,
+    "mxfp4": 4.25, "fp8": 8.0, "f16": 16.0, "bf16": 16.0, "f32": 32.0,
+}
+
+
+def bytes_per_weight(quant: Optional[str], dtype_bytes: float = 2.0) -> float:
+    """Bytes per weight for a quant tag (e.g. 'gguf-q4_k_m' -> 0.60), or the dtype default."""
+    if quant:
+        k = quant.lower().replace("gguf-", "").replace("-", "_").strip()
+        if k in _BPW:
+            return _BPW[k] / 8.0
+    return dtype_bytes
+
+
+def estimate_param_split(cfg: dict, num_experts: Optional[int]) -> Optional[dict]:
+    """Closed-form param split from a HF config — no safetensors needed.
+
+    Returns the two quantities the placement planner keys off:
+      - `expert_total` / `expert_each` — routed-expert params (`--n-cpu-moe` can move these to CPU),
+      - `non_expert` — attention + router + embeddings + head + shared experts + dense layers
+        (ALWAYS on the GPU), plus `total` and `n_moe_layers`.
+    Approximations (documented, receipt-confirmed): SwiGLU expert = 3·H·I; biases/norms omitted
+    (sub-1%); a real GGUF may keep embeddings/output at higher precision than the headline quant.
+    """
+    H = cfg.get("hidden_size")
+    L = cfg.get("num_hidden_layers")
+    if not (H and L):
+        return None
+    n_heads = cfg.get("num_attention_heads") or 0
+    n_kv = cfg.get("num_key_value_heads") or n_heads
+    head_dim = cfg.get("head_dim") or (H // n_heads if n_heads else 0)
+    vocab = cfg.get("vocab_size") or 0
+    inter = cfg.get("intermediate_size") or 0
+    moe_inter = cfg.get("moe_intermediate_size") or inter
+    tied = bool(cfg.get("tie_word_embeddings", False))
+    n_dense = cfg.get("first_k_dense_replace") or cfg.get("num_dense_layers") or 0
+    n_shared = cfg.get("n_shared_experts") or cfg.get("num_shared_experts") or 0
+    shared_inter = cfg.get("shared_expert_intermediate_size") or moe_inter
+
+    n_moe_layers = max(0, L - n_dense) if num_experts else 0
+    dense_count = L - n_moe_layers  # dense FFN layers (= n_dense for MoE, = L for dense models)
+
+    expert_each = 3 * H * moe_inter if (num_experts and moe_inter) else 0
+    expert_total = (num_experts or 0) * expert_each * n_moe_layers
+
+    attn_total = (2 * H * n_heads * head_dim + 2 * H * n_kv * head_dim) * L  # q,o + k,v
+    router_total = (num_experts or 0) * H * n_moe_layers
+    shared_total = (n_shared * 3 * H * shared_inter) * n_moe_layers if n_shared else 0
+    dense_ffn_total = (3 * H * inter) * dense_count
+    embed = vocab * H
+    head = 0 if tied else vocab * H
+    non_expert = attn_total + router_total + shared_total + dense_ffn_total + embed + head
+    return {
+        "expert_total": int(expert_total), "expert_each": int(expert_each),
+        "non_expert": int(non_expert), "total": int(non_expert + expert_total),
+        "n_moe_layers": int(n_moe_layers),
+    }
+
+
 def analyze_config(config: dict, name: Optional[str] = None, quant: Optional[str] = None) -> ModelProfile:
     """Build a ModelProfile from a HuggingFace-style config.json dict.
 
@@ -61,11 +127,13 @@ def analyze_config(config: dict, name: Optional[str] = None, quant: Optional[str
     experts_per_token = (config.get("num_experts_per_tok") or config.get("num_experts_per_token")
                          or config.get("moe_topk"))
     is_moe = num_experts is not None
+    split = estimate_param_split(config, num_experts)
     expert = ExpertInfo(
         is_moe=is_moe,
         num_experts=num_experts,
         experts_per_token=experts_per_token,
         shared_params=config.get("n_shared_experts"),
+        expert_params_each=(split or {}).get("expert_each") or None,
     )
 
     kvbpt = None
@@ -75,6 +143,7 @@ def analyze_config(config: dict, name: Optional[str] = None, quant: Optional[str
     return ModelProfile(
         name=name,
         architecture="moe" if is_moe else ("dense" if n_layers else "unknown"),
+        total_params=(split or {}).get("total"),
         n_layers=n_layers,
         n_kv_heads=n_kv_heads,
         head_dim=head_dim,
@@ -82,4 +151,7 @@ def analyze_config(config: dict, name: Optional[str] = None, quant: Optional[str
         quant=quant,
         expert=expert,
         kv_bytes_per_token=kvbpt,
+        expert_params_total=(split or {}).get("expert_total"),
+        non_expert_params=(split or {}).get("non_expert"),
+        n_moe_layers=(split or {}).get("n_moe_layers"),
     )

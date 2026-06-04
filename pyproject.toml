@@ -17,11 +17,12 @@ dependencies = []
 # Richer GPU introspection (NVML v2); the profiler falls back to nvidia-smi if absent.
 # nvidia-ml-py is NVIDIA's maintained binding and provides `import pynvml`.
 gpu = ["nvidia-ml-py>=12.535.0"]
-host = ["psutil>=5.9.0"]
+host = ["psutil>=5.9.0", "numpy>=1.24"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
 gpu-container-profile = "gpu_container.profiler.cli:main"
+gpu-container-plan = "gpu_container.planner.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["gpu_container"]
