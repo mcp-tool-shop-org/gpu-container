@@ -42,6 +42,10 @@ On Windows/WSL, CUDA Unified Memory oversubscription is **not the path**. CUDA t
 
 Built and working today: `gpu-container-profile`, `gpu-container-plan`, `gpu-container-receipt` (with the recalibration loop), `gpu-container-concentration` (routing de-risk), and `gpu-container-watchdog` (supervise a GPU job safely). llama.cpp is the integrated backend; the placement math is backend-agnostic. Start with the [quickstart](docs/quickstart.md).
 
+## Privacy & safety
+
+`gpu-container` is a **local, offline tool** — it makes no network calls and collects **no telemetry**, by default or otherwise. It reads GPU metrics (`nvidia-smi` / NVML) and host memory (`psutil`), the model `config.json` you supply, and the JSON files you point it at; it writes only to the output paths you specify. It does **not** read or transmit model weights, credentials, or tokens. Host-level actions (`wsl --shutdown`, `docker stop`, `kill`) run only when you explicitly opt in via the watchdog's `--on-breach`; the defaults never touch your machine beyond the job they supervise. Full policy: [SECURITY.md](SECURITY.md).
+
 ## Documentation
 
 - [`docs/quickstart.md`](docs/quickstart.md) — end-to-end walkthrough: profile → plan → launch under the watchdog → receipt → recalibrate

@@ -1,0 +1,57 @@
+name: CI
+
+# Paths-gated per the org GitHub Actions rules: only run when code, tests, packaging,
+# the verify script, or the workflow itself change. workflow_dispatch is the manual fallback.
+on:
+  push:
+    paths:
+      - 'pyproject.toml'
+      - 'gpu_container/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'pyproject.toml'
+      - 'gpu_container/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[dev,host]"
+      # The verify script runs the test suite + a CLI smoke of all five commands in one command (gate D1).
+      - run: python scripts/verify.py
+
+  deps:
+    # Dependency scanning (shipcheck gate D3). The core package has zero required deps;
+    # this scans the optional [host] extras (psutil, numpy) + the build toolchain.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[host]" pip-audit
+      - run: pip-audit
