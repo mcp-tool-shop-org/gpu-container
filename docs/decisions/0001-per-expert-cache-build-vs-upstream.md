@@ -48,7 +48,7 @@ Before building anything, we ran the gate on the real model. Captured a per-expe
 
 This is the gate doing its job: it turns "should we build `#20757`?" into a number, and for this model the number says **hold** — the build would buy ~nothing here. The cache pays off only for a model/workload scoring `cache_helps` with a **low** `hot_frac` (≈ < 0.25), which Qwen3 does not approach.
 
-**Caveats:** one model, two workloads; the diverse trace is under-sampled (but under-sampling can only *exaggerate* concentration, so "diverse is uniform" is robust); 90%/50% are tunable — the *numbers*, not the boolean, are the output. Reproducible: `llama-imatrix -m <gguf> -f <corpus> -ngl 99 --no-ppl -o imatrix.gguf` → per-layer `ffn_down_exps.weight.counts` → `analyze_concentration`.
+**Caveats:** one model, two workloads; the diverse trace is under-sampled (but under-sampling can only *exaggerate* concentration, so "diverse is uniform" is robust); 90%/50% are tunable — the *numbers*, not the boolean, are the output. Reproducible: `llama-imatrix -m <gguf> -f <corpus> -ngl 99 --no-ppl -o imatrix.gguf` → `gpu-container-concentration --imatrix imatrix.gguf --model-name <name>` (extracts the per-layer `ffn_down_exps.weight.counts` and runs the gate).
 
 ## Revisit trigger
 
