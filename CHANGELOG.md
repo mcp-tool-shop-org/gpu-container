@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-06-04
+
+### Changed
+- **npm package README** is now first-class — logo, badges, full content, and 8-language translations (it was a thin stub). No code change from 0.1.1; this release exists to publish the corrected npm page (npm only updates the page on a new version, and the launcher version must match a release that carries the binaries).
+
 ## [0.1.1] - 2026-06-04
 
 First **complete** beta (all four channels: PyPI · npm · Docker/ghcr · GitHub Release binaries).

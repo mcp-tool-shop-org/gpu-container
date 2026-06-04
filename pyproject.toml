@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gpu-container"
-version = "0.1.1"
+version = "0.1.2"
 description = "Model-aware inference memory-placement planner for single-GPU rigs — profile, plan, prove."
 readme = "README.md"
 requires-python = ">=3.10"

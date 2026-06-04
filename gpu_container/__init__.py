@@ -6,4 +6,4 @@ grounds the measurement methodology lives in the docker-knowledge KB
 (readouts/docker-knowledge), seeded by the feasibility study-swarm.
 """
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
