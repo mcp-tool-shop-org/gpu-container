@@ -80,7 +80,7 @@ Per-token latency floor ≈ (expert bytes touched ÷ tier bandwidth). Because ba
 
 The flagship's deep half, grounded by docker-knowledge **wave-4** (moe-placement lane; 12 findings, 3-lens verified, 0 fabrications). The design that survived verification:
 
-- **Placement atom = the runtime expert-slot cache, not `-ot`.** A layer's experts are one fused tensor (`blk.N.ffn_*_exps.weight {n_embd, n_ff, n_expert}`), so `-ot` is per-layer. Per-expert hot/warm/cold tiering is a persistent GPU-slot cache (`expert_id→slot` map) built at llama.cpp's [`#20757`](https://github.com/ggml-org/llama.cpp/issues/20757) hook (the byte-offset expert copy that today has *no* persistence). **Open decision:** build it in-product vs ride/contribute upstream `#20757` (its PoC already shows 12–14 tok/s vs 0.5–1).
+- **Placement atom = the runtime expert-slot cache, not `-ot`.** A layer's experts are one fused tensor (`blk.N.ffn_*_exps.weight {n_embd, n_ff, n_expert}`), so `-ot` is per-layer. Per-expert hot/warm/cold tiering is a persistent GPU-slot cache (`expert_id→slot` map) built at llama.cpp's [`#20757`](https://github.com/ggml-org/llama.cpp/issues/20757) hook (the byte-offset expert copy that today has *no* persistence). **Decision ([ADR-0001](decisions/0001-per-expert-cache-build-vs-upstream.md), 2026-06-04): Option B — consume `#20757`'s cache *mechanism*, contribute the *policy*** (Least-Stale + cross-layer-gate); keep calibration/trace/receipt in-product. The near-term trace + per-layer-calibration work is unblocked and decoupled from this.
 - **Trace = `eval-callback` → L×E matrix** at <1% overhead (MoE-Infinity EAM budget); SGLang/vLLM recorders are the cross-engine fallback.
 - **Eviction = Least-Stale** (stale/current queue, key `(stale-flag, layer-index)`) — stock model, no surgery.
 - **Prefetch = cross-layer gate** (next layer's existing router on the current hidden state; Fate ~99% hit, AdapMoE 1.35×) — stock model, no retrain. Pre-gated excluded (needs fine-tune); MoE-Beyond deferred (needs a trained predictor).
@@ -90,7 +90,7 @@ Sources + per-citation verification: `readouts/docker-knowledge/waves/wave-04-pe
 
 ## Risks / open questions
 - Prefetch hit-rate on *your* workloads vs the papers' benchmarks — the ~5–12% miss tail still pays full NVMe latency.
-- ✅ **Resolved (wave-4):** llama.cpp `-ot` granularity is **per-layer** (fused expert tensor); per-expert control requires the runtime cache (`#20757` hook). The one **open decision**: build that cache in-product vs contribute to / ride the upstream `#20757` effort.
+- ✅ **Resolved (wave-4 + [ADR-0001](decisions/0001-per-expert-cache-build-vs-upstream.md)):** llama.cpp `-ot` granularity is **per-layer** (fused expert tensor); per-expert control requires the runtime cache (`#20757` hook). **Decided: Option B** — consume the `#20757` mechanism, contribute the policy (Least-Stale + cross-layer-gate), keep calibration/receipt in-product.
 - ✅ **Resolved (wave-4):** recalibration cadence is **drift-gated** (miss-rate detector + histogram divergence), not fixed-interval; trace cost is bounded by the <1% eval-callback probe.
 - Cold-tier energy (feasibility #5) — likely default cold-NVMe experts to **off** unless explicitly opted in.
 
