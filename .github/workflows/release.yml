@@ -118,7 +118,8 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
-          merge-multiple: true
+          pattern: binary-*        # only the PyInstaller binaries — NOT the docker job's
+          merge-multiple: true     # .dockerbuild build-record artifact (which would pollute the release)
 
       - name: Generate checksums
         shell: bash
