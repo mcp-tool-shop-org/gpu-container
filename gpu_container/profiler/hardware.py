@@ -1,13 +1,15 @@
-"""Hardware profiler — detect and (eventually) measure the rig.
+"""Hardware profiler — detect and measure the rig from inside the container.
 
-REAL today: GPU identity/VRAM/driver/compute-cap/PCIe-link via `nvidia-smi`; platform
-(os / WSL2 / container) detection; system RAM. These run wherever `nvidia-smi` is on PATH
-— ideally INSIDE the container, which is the only honest vantage point (docker-knowledge
-lane `hw-measurement`: figures like PCIe link width can differ host-vs-container).
+REAL: GPU identity/VRAM/driver/compute-cap via pynvml (preferred — NVML directly, v2 so
+driver-`reserved` VRAM is not miscounted as `used`) with an nvidia-smi text fallback;
+platform (os / WSL2 / container / nvidia-runtime) detection; system RAM.
 
-STUBBED (wave-2 hardens the methodology, then this fills in): the *measured* bandwidth
-benchmarks — PCIe H2D/D2H via cudaMemcpy timing, NVMe sequential AND random-QD1 — and the
-WSL2 pinnable-RAM ceiling. Until measured they are `None`, never guessed.
+MEASURED (docker-knowledge wave-2 `hw-measurement`, via `cuda_bench` + `nvme_bench`):
+PCIe H2D/D2H (pinned cudaMemcpy timed by cudaEvent), NVMe sequential + random-QD1 (fio
+direct-io on a validated mount), and the WSL2 pinnable-RAM ceiling (cudaHostAlloc probe).
+
+Design rule (wave-1): a measurement we have NOT taken is `None`, never a guessed number —
+honest refusal downstream depends on honest inputs.
 """
 from __future__ import annotations
 
@@ -16,6 +18,7 @@ import platform
 import subprocess
 from typing import List, Optional
 
+from . import cuda_bench, nvme_bench
 from .schema import BandwidthInfo, GpuInfo, HardwareProfile, MemoryInfo, PlatformInfo
 
 _SMI_FIELDS = [
@@ -39,7 +42,7 @@ def _nvidia_smi_query() -> Optional[List[str]]:
     return [c.strip() for c in out.stdout.strip().splitlines()[0].split(",")]
 
 
-def _as_int(s: str) -> Optional[int]:
+def _as_int(s: Optional[str]) -> Optional[int]:
     try:
         return int(float(s))
     except (TypeError, ValueError):
@@ -52,40 +55,128 @@ def _clean(s: Optional[str]) -> Optional[str]:
     return s
 
 
+def _refine_vram_pynvml(gpu: GpuInfo) -> GpuInfo:
+    """Override VRAM total/free with NVML values read directly (pynvml), preferring v2.
+
+    v2 (`nvmlMemory_v2`) reports driver-`reserved` separately; v1 folds it into `used`, so
+    v1 `free` under-reports. If pynvml is absent or NVML init fails (can happen in some
+    Docker-on-WSL2 vintages), we silently keep the nvidia-smi values.
+    """
+    try:
+        import pynvml  # optional [gpu] dependency
+    except Exception:
+        return gpu
+    try:
+        pynvml.nvmlInit()
+    except Exception:
+        return gpu
+    try:
+        h = pynvml.nvmlDeviceGetHandleByIndex(0)
+        mem, src = None, None
+        try:
+            mem = pynvml.nvmlDeviceGetMemoryInfo(h, version=pynvml.nvmlMemory_v2)
+            src = "pynvml-v2"
+        except Exception:
+            try:
+                mem = pynvml.nvmlDeviceGetMemoryInfo(h)
+                src = "pynvml-v1"
+            except Exception:
+                mem = None
+        if mem is not None:
+            gpu.vram_total_mib = int(mem.total // (1024 * 1024))
+            gpu.vram_free_mib = int(mem.free // (1024 * 1024))
+            reserved = getattr(mem, "reserved", None)
+            gpu.vram_reserved_mib = int(reserved // (1024 * 1024)) if reserved else None
+            gpu.vram_source = src
+        # compute capability, if smi left it unknown
+        if gpu.compute_capability is None:
+            try:
+                major, minor = pynvml.nvmlDeviceGetCudaComputeCapability(h)
+                gpu.compute_capability = f"{major}.{minor}"
+            except Exception:
+                pass
+    finally:
+        try:
+            pynvml.nvmlShutdown()
+        except Exception:
+            pass
+    return gpu
+
+
 def detect_gpu() -> GpuInfo:
     vals = _nvidia_smi_query()
     if not vals or len(vals) < 4:
-        return GpuInfo(name="unknown (nvidia-smi unavailable)")
-    g = dict(zip(_SMI_FIELDS, vals + [None] * (len(_SMI_FIELDS) - len(vals))))
-    return GpuInfo(
-        name=_clean(g["name"]) or "unknown",
-        vram_total_mib=_as_int(g["memory.total"]),
-        vram_free_mib=_as_int(g["memory.free"]),
-        driver_version=_clean(g["driver_version"]),
-        compute_capability=_clean(g["compute_cap"]),
-        pcie_gen=_as_int(g["pcie.link.gen.max"]),
-        pcie_width=_as_int(g["pcie.link.width.max"]),
-    )
+        gpu = GpuInfo(name="unknown (nvidia-smi unavailable)")
+    else:
+        g = dict(zip(_SMI_FIELDS, vals + [None] * (len(_SMI_FIELDS) - len(vals))))
+        gpu = GpuInfo(
+            name=_clean(g["name"]) or "unknown",
+            vram_total_mib=_as_int(g["memory.total"]),
+            vram_free_mib=_as_int(g["memory.free"]),
+            driver_version=_clean(g["driver_version"]),
+            compute_capability=_clean(g["compute_cap"]),
+            # NVML pcie.link.* are advisory under WSL2 (often N/A / downclocked) — capture but
+            # the effective link is DERIVED from measured bandwidth, not from these fields.
+            pcie_gen=_as_int(g["pcie.link.gen.max"]),
+            pcie_width=_as_int(g["pcie.link.width.max"]),
+            vram_source="nvidia-smi" if _as_int(g["memory.total"]) is not None else None,
+        )
+    gpu.cuda_version = cuda_bench.runtime_version()
+    return _refine_vram_pynvml(gpu)
+
+
+def _cgroup_container_token() -> Optional[str]:
+    """Return the container engine hinted by /proc/1/cgroup, or None."""
+    try:
+        with open("/proc/1/cgroup", "r", encoding="utf-8", errors="ignore") as f:
+            blob = f.read().lower()
+    except OSError:
+        return None
+    for tok in ("docker", "containerd", "kubepods", "libpod", "podman"):
+        if tok in blob:
+            return "docker" if tok in ("docker", "containerd") else tok
+    return None
+
+
+def _is_wsl2() -> bool:
+    # "microsoft" in the kernel version => WSL2 kernel. NOTE: a container ON the WSL2 backend
+    # inherits this too, so wsl2=True means "running on the WSL2 kernel" regardless of
+    # containerization; combine with in_container to tell the two apart.
+    for path in ("/proc/version", "/proc/sys/kernel/osrelease"):
+        try:
+            with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                if "microsoft" in f.read().lower():
+                    return True
+        except OSError:
+            continue
+    return False
 
 
 def detect_platform() -> PlatformInfo:
     osname = platform.system().lower()  # "windows" | "linux" | "darwin"
-    in_container = os.path.exists("/.dockerenv")
-    wsl2 = False
-    try:
-        with open("/proc/version", "r", encoding="utf-8", errors="ignore") as f:
-            wsl2 = "microsoft" in f.read().lower()
-    except OSError:
-        wsl2 = False
+    dockerenv = os.path.exists("/.dockerenv") or os.path.exists("/run/.containerenv")
+    cgroup_tok = _cgroup_container_token()
+    in_container = dockerenv or cgroup_tok is not None
+    runtime: Optional[str] = "docker" if dockerenv else cgroup_tok
+    wsl2 = _is_wsl2()
+
+    # GPU passthrough device differs by platform: /dev/nvidia* (native-Linux container, via
+    # the NVIDIA Container Toolkit prestart hook) vs /dev/dxg (WSL2 — the GPU rides the
+    # WDDM/DirectX path and NO /dev/nvidia* node exists, so checking only that gives a false
+    # negative even though the GPU is fully usable; verified on this rig).
+    nvidia_runtime: Optional[bool] = None
+    if in_container:
+        nvidia_runtime = any(os.path.exists(p) for p in
+                             ("/dev/nvidia0", "/dev/dxg", "/proc/driver/nvidia/version"))
+
     # UVM oversubscription is unavailable on windows/wsl2 (docker-knowledge container-runtime).
-    # The planner confirms against the KB; we record the platform signal where it's certain.
     uvm = False if (osname == "windows" or wsl2) else None
     return PlatformInfo(
         os=osname,
         in_container=in_container,
         wsl2=wsl2,
-        container_runtime="docker" if in_container else None,
-        nvidia_runtime=None,  # not reliably detectable from inside; left unknown
+        container_runtime=runtime,
+        nvidia_runtime=nvidia_runtime,
         uvm_oversubscription=uvm,
     )
 
@@ -112,20 +203,68 @@ def detect_memory() -> MemoryInfo:
         return MemoryInfo()
 
 
-def measure_bandwidth() -> BandwidthInfo:
-    """STUB — wave-2 (docker-knowledge `hw-measurement`) hardens the in-container method.
+def measure_bandwidth(bench_dir: Optional[str] = None) -> BandwidthInfo:
+    """Run the PCIe (cuda_bench) and NVMe (nvme_bench) measurements -> BandwidthInfo.
 
-    Planned: PCIe H2D/D2H via pinned-buffer cudaMemcpy timing; NVMe sequential via large
-    bypass-cache read; NVMe random-QD1 read IOPS (the figure a sequential assumption gets
-    wrong, and the one the cold-expert / KV-spill path actually hits). Until then: None.
+    Each axis fills in independently; an axis that cannot be measured stays `None` and its
+    reason is recorded in `details`/`method`. Numbers are achieved/measured, never spec-sheet.
     """
-    return BandwidthInfo(method="not-measured: pending docker-knowledge wave-2 in-container methodology")
+    pcie = cuda_bench.measure_pcie()
+    nvme = nvme_bench.measure_nvme(bench_dir=bench_dir)
 
-
-def profile_hardware(created: str) -> HardwareProfile:
-    return HardwareProfile(
-        gpu=detect_gpu(),
-        platform=detect_platform(),
-        bandwidth=measure_bandwidth(),
-        memory=detect_memory(),
+    bw = BandwidthInfo(
+        pcie_h2d_gbps=pcie.get("h2d_gbps"),
+        pcie_d2h_gbps=pcie.get("d2h_gbps"),
+        nvme_seq_read_gbps=nvme.get("seq_read_gbps"),
+        nvme_rand_qd1_read_iops=nvme.get("rand_qd1_iops"),
+        nvme_rand_qd1_read_mbps=nvme.get("rand_qd1_mbps"),
     )
+
+    methods: List[str] = []
+    if bw.pcie_h2d_gbps is not None:
+        methods.append("pcie:cudaMemcpy-pinned-cudaEvent")
+    else:
+        methods.append(f"pcie:none ({pcie.get('error', 'unknown')})")
+    if bw.nvme_seq_read_gbps is not None or bw.nvme_rand_qd1_read_iops is not None:
+        methods.append("nvme:fio-direct-libaio")
+    else:
+        methods.append(f"nvme:none ({nvme.get('error', 'unknown')})")
+    bw.method = "; ".join(methods)
+
+    # Sanity flag: an achieved H2D far below Gen5 expectation points at an x8 link, a
+    # downclocked link, or WSL2 perturbation — flag, don't silently trust (wave-2).
+    if bw.pcie_h2d_gbps is not None and bw.pcie_h2d_gbps < 30:
+        pcie["sanity"] = "H2D below Gen5 expectation (~50 GB/s); check link width / WSL2 perturbation"
+    bw.details = {"pcie": pcie, "nvme": nvme}
+    return bw
+
+
+def _probe_pinnable(mem: MemoryInfo) -> None:
+    """Fill the pinnable-RAM ceiling on `mem` via a cudaHostAlloc probe (in place).
+
+    The probe is capped at ~75% of available RAM (absolute max 24 GiB): pinned memory is
+    page-locked and physically resident, so an unbounded probe could destabilize the host.
+    A `capped` result therefore means "ceiling is at least this" — a safe lower bound.
+    """
+    avail = mem.ram_available_gib or mem.ram_total_gib or 16.0
+    safe_max_mib = max(512, min(int(avail * 1024 * 0.75), 24576))
+    pin = cuda_bench.measure_pinnable_ceiling(max_mib=safe_max_mib)
+    if pin.get("ceiling_gib") is not None:
+        mem.pinnable_ceiling_gib = pin["ceiling_gib"]
+        mem.pinnable_capped = pin.get("capped")
+        mem.pinnable_method = pin.get("method")
+    else:
+        mem.pinnable_method = f"not-measured: {pin.get('error', 'unknown')}"
+
+
+def profile_hardware(created: str, run_benches: bool = True,
+                     bench_dir: Optional[str] = None) -> HardwareProfile:
+    gpu = detect_gpu()
+    plat = detect_platform()
+    mem = detect_memory()
+    if run_benches:
+        bw = measure_bandwidth(bench_dir=bench_dir)
+        _probe_pinnable(mem)
+    else:
+        bw = BandwidthInfo(method="not-measured (--no-bench): identity detection only")
+    return HardwareProfile(gpu=gpu, platform=plat, bandwidth=bw, memory=mem)

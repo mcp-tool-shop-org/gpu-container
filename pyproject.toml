@@ -14,8 +14,9 @@ keywords = ["llm", "inference", "gpu", "moe", "offload", "vram", "placement", "p
 dependencies = []
 
 [project.optional-dependencies]
-# Richer GPU introspection; the profiler falls back to nvidia-smi parsing if absent.
-gpu = ["pynvml>=11.5.0"]
+# Richer GPU introspection (NVML v2); the profiler falls back to nvidia-smi if absent.
+# nvidia-ml-py is NVIDIA's maintained binding and provides `import pynvml`.
+gpu = ["nvidia-ml-py>=12.535.0"]
 host = ["psutil>=5.9.0"]
 dev = ["pytest>=8.0"]
 

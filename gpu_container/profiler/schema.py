@@ -21,11 +21,13 @@ class GpuInfo:
     name: str
     vram_total_mib: Optional[int] = None
     vram_free_mib: Optional[int] = None
+    vram_reserved_mib: Optional[int] = None     # driver-reserved (pynvml v2 only); v1 folds this into 'used'
     driver_version: Optional[str] = None
     cuda_version: Optional[str] = None
     compute_capability: Optional[str] = None   # e.g. "12.0" for sm_120 (desktop Blackwell)
     pcie_gen: Optional[int] = None
     pcie_width: Optional[int] = None            # lanes, e.g. 16
+    vram_source: Optional[str] = None           # "pynvml-v2" | "pynvml-v1" | "nvidia-smi" (provenance)
 
 
 @dataclass
@@ -43,11 +45,13 @@ class PlatformInfo:
 @dataclass
 class BandwidthInfo:
     """Measured, never spec-sheet. None until benchmarked (hardened in docker-knowledge wave-2)."""
-    pcie_h2d_gbps: Optional[float] = None
-    pcie_d2h_gbps: Optional[float] = None
-    nvme_seq_read_gbps: Optional[float] = None
+    pcie_h2d_gbps: Optional[float] = None              # achieved pinned (~50-55 on Gen5; never the 64 theoretical)
+    pcie_d2h_gbps: Optional[float] = None              # measured separately — asymmetry is real
+    nvme_seq_read_gbps: Optional[float] = None         # optimistic ceiling only
     nvme_rand_qd1_read_iops: Optional[float] = None   # the one a sequential assumption gets wrong
-    method: Optional[str] = None                       # how it was measured (provenance)
+    nvme_rand_qd1_read_mbps: Optional[float] = None   # what cold-expert / KV-spill streaming math keys off
+    method: Optional[str] = None                       # how it was measured (provenance summary)
+    details: Optional[dict] = None                     # structured provenance: buffer sizes, fs, samples, flags
 
 
 @dataclass
@@ -55,6 +59,8 @@ class MemoryInfo:
     ram_total_gib: Optional[float] = None
     ram_available_gib: Optional[float] = None
     pinnable_ceiling_gib: Optional[float] = None       # WSL2 limits this (docker-knowledge container-runtime)
+    pinnable_method: Optional[str] = None              # how the ceiling was probed (provenance)
+    pinnable_capped: Optional[bool] = None             # True => probe hit its max; ceiling is a lower bound
 
 
 @dataclass

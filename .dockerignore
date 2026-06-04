@@ -1,0 +1,10 @@
+.git
+.gitignore
+.pytest_cache
+**/__pycache__
+*.pyc
+docs
+tests
+KICKOFF-*.md
+*.egg-info
+profile*.json
