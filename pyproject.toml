@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gpu-container"
+version = "0.1.0"
+description = "Model-aware inference memory-placement planner for single-GPU rigs — profile, plan, prove."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "mcp-tool-shop", email = "64996768+mcp-tool-shop@users.noreply.github.com" }]
+keywords = ["llm", "inference", "gpu", "moe", "offload", "vram", "placement", "profiler"]
+dependencies = []
+
+[project.optional-dependencies]
+# Richer GPU introspection; the profiler falls back to nvidia-smi parsing if absent.
+gpu = ["pynvml>=11.5.0"]
+host = ["psutil>=5.9.0"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+gpu-container-profile = "gpu_container.profiler.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["gpu_container"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
