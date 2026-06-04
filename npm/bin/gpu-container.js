@@ -5,14 +5,14 @@
 // the release-asset names from convention, downloads the platform binary from the gpu-container
 // GitHub Release, verifies its SHA256 against checksums-<version>.txt, caches it, and runs it with
 // full arg passthrough.
-//   binary:    gpu-container-0.1.2-linux-x64
-//   checksums: checksums-0.1.2.txt
+//   binary:    gpu-container-0.1.3-linux-x64
+//   checksums: checksums-0.1.3.txt
 process.env.MCPTOOLSHOP_LAUNCH_CONFIG = JSON.stringify({
   toolName: "gpu-container",
   owner: "mcp-tool-shop-org",
   repo: "gpu-container",
-  version: "0.1.2",
-  tag: "v0.1.2",
+  version: "0.1.3",
+  tag: "v0.1.3",
 });
 
 require("@mcptoolshop/npm-launcher/bin/mcptoolshop-launch.js");

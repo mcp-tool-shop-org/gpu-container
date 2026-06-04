@@ -5,10 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.3] - 2026-06-04
+
+### Fixed
+- **Release pipeline:** `release-binaries` downloaded *all* run artifacts, which since the Docker job emits a `.dockerbuild` build-record meant it tried (and reliably failed) to download that artifact — blocking the binary upload + the npm publish in 0.1.2. Now scoped to `pattern: binary-*`. First release on the fixed pipeline; carries the first-class npm README from 0.1.2.
+
+### Changed
+- **npm package README** is now first-class — logo, badges, full content, and 8-language translations (it was a thin stub through 0.1.1).
+
 ## [0.1.2] - 2026-06-04
 
 ### Changed
-- **npm package README** is now first-class — logo, badges, full content, and 8-language translations (it was a thin stub). No code change from 0.1.1; this release exists to publish the corrected npm page (npm only updates the page on a new version, and the launcher version must match a release that carries the binaries).
+- **npm package README** rewritten (logo, badges, content, translations). *Pipeline note: PyPI + Docker published, but the binary-upload + npm jobs were blocked by the `.dockerbuild` artifact-download bug above; superseded by 0.1.3.*
 
 ## [0.1.1] - 2026-06-04
 
