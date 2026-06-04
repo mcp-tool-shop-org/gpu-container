@@ -5,9 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.1.1] - 2026-06-04
 
-The full feature set below is built and tested; it becomes `[1.0.0]` at the first release.
+First **complete** beta (all four channels: PyPI · npm · Docker/ghcr · GitHub Release binaries).
+
+### Fixed
+- Standalone PyInstaller binary + npm launcher: the unified `gpu-container` entry used a relative import (`from . import …`) that raises *"attempted relative import with no known parent package"* in a frozen binary (it works under `python -m`, the trap). Switched to an absolute import so `gpu-container <command>` runs from the binary. 0.1.0 shipped to PyPI + Docker, but the binary smoke test correctly gated out the binaries + npm launcher; 0.1.1 ships them.
+
+## [0.1.0] - 2026-06-04
+
+Initial public beta — PyPI + Docker (the binaries + npm launcher land in 0.1.1).
 
 ### Added
 - **Hardware + model profiler** (`gpu-container-profile`) — measured PCIe H2D/D2H, NVMe sequential + random-QD1, pinnable-RAM ceiling, CPU RAM bandwidth (all measured in-container, `None`-not-guess); closed-form model param-split (expert vs always-resident) and KV growth.

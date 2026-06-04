@@ -16,7 +16,10 @@ from __future__ import annotations
 import sys
 from typing import List, Optional
 
-from . import __version__
+# Absolute (not `from . import`): this module is the PyInstaller --onefile entry, run as a top-level
+# `__main__` with no parent package — a relative import raises "attempted relative import with no
+# known parent package" in the frozen binary (it works under `python -m`, which is the trap).
+from gpu_container import __version__
 
 _SUB = {
     "profile": "gpu_container.profiler.cli",

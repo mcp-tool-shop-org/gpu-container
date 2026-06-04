@@ -1,6 +1,6 @@
 {
   "name": "gpu-container",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "gpu-container — model-aware inference memory-placement planner for single-GPU rigs. Zero-prerequisite npx install via a verified binary launcher.",
   "type": "commonjs",
   "license": "MIT",
