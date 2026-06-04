@@ -38,7 +38,7 @@ Per-token latency floor ≈ (expert bytes touched ÷ tier bandwidth). Because ba
 ## 2. Adaptive calibration *(the load-bearing correction)*
 - Run **workload-representative** traces — not a generic corpus. Request-level skew aggregates to uniform across diverse prompts (feasibility #6); support per-workload activation-pattern profiles.
 - Emit an **initial** hot/warm/cold assignment from the activation histogram, then **refine online** from the receipt's measured routing.
-- **Trace capture (wave-4):** llama.cpp has no built-in per-expert trace; an `eval-callback` (`cb_eval`) on the top-k/argsort routing node accumulates an **L×E activation matrix at <1% overhead** — the calibration input. SGLang/vLLM expert-distribution recorders are the cross-engine fallback.
+- **Trace capture (wave-4):** llama.cpp has no built-in per-expert trace; in practice **`llama-imatrix` per-expert `.counts`** give the **L×E activation matrix** (the `eval-callback` route needs headers absent from the prebuilt image). SGLang/vLLM expert-distribution recorders are the cross-engine fallback.
 - **Cadence (wave-4):** recalibrate on **drift, not a timer** — a warm-tier miss-rate change detector (ADWIN/DDM) confirmed by JS/χ² divergence between calibrated and live expert histograms; EWMA/ghost-list self-tuning between re-traces; an anti-thrash guard (tiered-JIT pattern).
 - Persist the calibration as a **pinned artifact** (replayable).
 
@@ -81,7 +81,7 @@ Per-token latency floor ≈ (expert bytes touched ÷ tier bandwidth). Because ba
 The flagship's deep half, grounded by docker-knowledge **wave-4** (moe-placement lane; 12 findings, 3-lens verified, 0 fabrications). The design that survived verification:
 
 - **Placement atom = the runtime expert-slot cache, not `-ot`.** A layer's experts are one fused tensor (`blk.N.ffn_*_exps.weight {n_embd, n_ff, n_expert}`), so `-ot` is per-layer. Per-expert hot/warm/cold tiering is a persistent GPU-slot cache (`expert_id→slot` map) built at llama.cpp's [`#20757`](https://github.com/ggml-org/llama.cpp/issues/20757) hook (the byte-offset expert copy that today has *no* persistence). **Decision ([ADR-0001](decisions/0001-per-expert-cache-build-vs-upstream.md), 2026-06-04): Option B — consume `#20757`'s cache *mechanism*, contribute the *policy*** (Least-Stale + cross-layer-gate); keep calibration/trace/receipt in-product. The near-term trace + per-layer-calibration work is unblocked and decoupled from this.
-- **Trace = `eval-callback` → L×E matrix** at <1% overhead (MoE-Infinity EAM budget); SGLang/vLLM recorders are the cross-engine fallback.
+- **Trace = `llama-imatrix` per-expert `.counts` → L×E matrix** (the prebuilt, working path; `eval-callback` was the original plan but needs llama.cpp headers absent from the image). SGLang/vLLM recorders are the cross-engine fallback. **Shipped as `gpu-container-concentration --trace|--imatrix`** — scores routing concentration → whether the cache is worth building (ADR-0001's empirical run used it: Qwen3 → near-uniform → hold).
 - **Eviction = Least-Stale** (stale/current queue, key `(stale-flag, layer-index)`) — stock model, no surgery.
 - **Prefetch = cross-layer gate** (next layer's existing router on the current hidden state; Fate ~99% hit, AdapMoE 1.35×) — stock model, no retrain. Pre-gated excluded (needs fine-tune); MoE-Beyond deferred (needs a trained predictor).
 - **Cadence = drift-gated** (miss-rate detector + histogram divergence; EWMA/ghost-list self-tuning between; anti-thrash guard).

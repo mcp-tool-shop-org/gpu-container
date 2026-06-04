@@ -55,6 +55,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--created", default=date.today().isoformat(), help="ISO date stamp (default: today)")
     ap.add_argument("--rig", help="rig provenance for the calibration point")
     ap.add_argument("--source", help="free-text provenance (which run)")
+    ap.add_argument("--trace", help="ActivationTrace JSON — fold the per-expert routing de-risk verdict into the receipt")
+    ap.add_argument("--coverage", type=float, default=0.90, help="routing-coverage target for --trace (default 0.90)")
+    ap.add_argument("--threshold", type=float, default=0.50, help="cache_helps threshold for --trace (default 0.50)")
     ap.add_argument("-o", "--out", help="write the receipt JSON here (default: stdout)")
     args = ap.parse_args(argv)
 
@@ -73,8 +76,20 @@ def main(argv: Optional[List[str]] = None) -> int:
         print("ERROR: need a measured decode rate (--bench with a tg row, or --decode-tok-s).", file=sys.stderr)
         return 2
 
+    # Optional per-expert routing de-risk: fold the concentration verdict into the receipt (--trace).
+    concentration = None
+    if args.trace:
+        from .activation import analyze_concentration, load_trace
+        tr = load_trace(args.trace)
+        if tr is None:
+            print(f"WARN: --trace {args.trace} could not be loaded; omitting the routing de-risk.", file=sys.stderr)
+        else:
+            concentration = analyze_concentration(tr, coverage_target=args.coverage,
+                                                   cache_helps_threshold=args.threshold)
+
     receipt = build_receipt(plan, decode_tok_s=decode, prefill_tok_s=prefill,
-                            vram_used_mib=args.vram_used_mib, method=args.source or "llama-bench")
+                            vram_used_mib=args.vram_used_mib, method=args.source or "llama-bench",
+                            concentration=concentration)
 
     # The write-back: append this measurement to the calibration store so the next plan is calibrated.
     if args.calibration_dir and args.model_name:

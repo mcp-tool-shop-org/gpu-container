@@ -31,6 +31,7 @@ Inference engine = execution
 3. **Runtime planner** — Generate launch plans for llama.cpp, vLLM, Accelerate, TensorRT-LLM, or DeepSpeed-style offload
 4. **Placement receipt** — Show what is in VRAM, what is in RAM, what is on disk, expected bottleneck, measured tokens/sec
 5. **MoE-specialized path** — Keep always-active layers on GPU, route experts to CPU/RAM, NVMe for cold fallback
+6. **Routing de-risk** — Measure whether a model's MoE routing is skewed enough that a per-expert cache would help, before building for it (`gpu-container-concentration`)
 
 ## Key Constraint
 

@@ -13,6 +13,7 @@ import json
 from typing import List, Optional
 
 from ..profiler.schema import PlacementPlan, Receipt
+from .activation import ConcentrationReport
 from .calibration import CalibrationPoint
 
 
@@ -55,6 +56,7 @@ def build_receipt(
     prefill_tok_s: Optional[float] = None,
     vram_used_mib: Optional[float] = None,
     method: Optional[str] = None,
+    concentration: Optional[ConcentrationReport] = None,
 ) -> Receipt:
     """Pair a measured run with the plan's forecast(s) -> a Receipt.
 
@@ -85,6 +87,12 @@ def build_receipt(
     if plan.vram_used_mib and vram_used_mib:
         dv = 100.0 * (vram_used_mib - plan.vram_used_mib) / plan.vram_used_mib
         notes.append(f"VRAM predicted {plan.vram_used_mib:.0f} MiB vs measured {vram_used_mib:.0f} MiB ({dv:+.0f}%).")
+    if concentration is not None:
+        helps = ("a per-expert cache COULD help this workload" if concentration.cache_helps
+                 else "routing is near-uniform — a per-expert cache would NOT help this workload")
+        notes.append(f"routing de-risk: {helps} (need {concentration.hot_frac_for_coverage:.0%} of experts for "
+                     f"{concentration.coverage_target:.0%} coverage; concentration {concentration.concentration_score:.2f}, "
+                     f"top expert {concentration.top1_share:.1%}).")
     return Receipt(
         runtime=plan.runtime, n_cpu_moe=plan.n_cpu_moe,
         measured_decode_tok_s=round(decode_tok_s, 2) if decode_tok_s else None,
@@ -93,6 +101,9 @@ def build_receipt(
         predicted_decode_tok_s=pred, ceiling_decode_tok_s=round(ceiling, 2) if ceiling else None,
         decode_error_pct=err, realized_efficiency_pct=eff_pct, within_band=within,
         cleared_floor=(decode_tok_s >= plan.floor_tok_s) if decode_tok_s else None,
+        routing_cache_helps=concentration.cache_helps if concentration else None,
+        routing_hot_frac_for_coverage=round(concentration.hot_frac_for_coverage, 3) if concentration else None,
+        routing_concentration=round(concentration.concentration_score, 3) if concentration else None,
         method=method, notes=notes,
     )
 

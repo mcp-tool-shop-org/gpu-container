@@ -185,6 +185,10 @@ class Receipt:
     realized_efficiency_pct: Optional[float] = None   # 100*measured/ceiling — the calibration seed
     within_band: Optional[bool] = None           # did measured land inside the calibrated band? (the proof)
     cleared_floor: Optional[bool] = None
+    # Optional per-expert routing de-risk (set when the receipt is built with --trace; activation.py gate):
+    routing_cache_helps: Optional[bool] = None        # would a hot-expert cache help THIS workload?
+    routing_hot_frac_for_coverage: Optional[float] = None  # fraction of experts for the routing-coverage target
+    routing_concentration: Optional[float] = None     # 1 - normalized entropy (0 uniform, 1 peaked)
     method: Optional[str] = None                 # how it was measured (provenance)
     notes: List[str] = field(default_factory=list)
 
