@@ -40,13 +40,17 @@ On Windows/WSL, CUDA Unified Memory oversubscription is **not the path**. CUDA t
 
 ## Status
 
-Phase 1 — the MoE memory-placement lane is in active development; the Phase 0 design is validated. See the docs below.
+Built and working today: `gpu-container-profile`, `gpu-container-plan`, `gpu-container-receipt` (with the recalibration loop), `gpu-container-concentration` (routing de-risk), and `gpu-container-watchdog` (supervise a GPU job safely). llama.cpp is the integrated backend; the placement math is backend-agnostic. Start with the [quickstart](docs/quickstart.md).
 
 ## Documentation
 
-- [`docs/architecture.md`](docs/architecture.md) — memory-tier model, data flow, MoE expert routing, container strategy
-- [`docs/features.md`](docs/features.md) — the five core features in depth
+- [`docs/quickstart.md`](docs/quickstart.md) — end-to-end walkthrough: profile → plan → launch under the watchdog → receipt → recalibrate
+- [`docs/cli.md`](docs/cli.md) — the five commands: synopsis, flags, exit codes, worked examples
+- [`docs/architecture.md`](docs/architecture.md) — memory-tier model, data flow, MoE expert routing, the recalibration loop
+- [`docs/features.md`](docs/features.md) — the seven core features in depth
+- [`docs/moe-lane-architecture.md`](docs/moe-lane-architecture.md) — the flagship MoE lane in depth
+- [`docs/derisk-concentration.md`](docs/derisk-concentration.md) — the per-expert-cache de-risk gate (routing concentration)
+- [`docs/decisions/0001-per-expert-cache-build-vs-upstream.md`](docs/decisions/0001-per-expert-cache-build-vs-upstream.md) — ADR-0001: consume the cache mechanism, contribute the policy
 - [`docs/constraints.md`](docs/constraints.md) — non-goals + the Windows/WSL CUDA Unified-Memory correction
 - [`docs/prior-art.md`](docs/prior-art.md) — runtimes we orchestrate, and the gap this product fills
-- [`docs/feasibility.md`](docs/feasibility.md) — feasibility assessment and the design calibrations it surfaced
-- [`docs/moe-lane-architecture.md`](docs/moe-lane-architecture.md) — Phase 1 architecture for the MoE lane
+- [`docs/feasibility.md`](docs/feasibility.md) — feasibility assessment, research grounding, and what's confirmed live

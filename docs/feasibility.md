@@ -7,6 +7,12 @@
 
 > **Verdict:** technically sound and well-positioned. The evidence *strengthens* the three most distinctive choices — explicit placement over CUDA Unified Memory, the `>1 tok/s` refusal floor, and the measured receipt — and the flagship MoE lane is already shipping in adjacent tools (Fiddler, KTransformers, llama.cpp `--n-cpu-moe`). The product's contribution is the **planner + profiler + receipt** wrapper those tools lack. Three calibrations are required before Phase 1; one corrects a line in `architecture.md`.
 
+> **Update (Phase 1–3.5, 2026-06-04) — the predictions held, live.** This is a Phase-0 forward-looking study; the calibrations below are now **implemented** and the load-bearing predictions are **confirmed on the dev rig**:
+> - **±10% receipt, in-VRAM (Calibration #2):** confirmed. Qwen3-30B-A3B Q4_K_M at N=0 measured **302 tok/s decode**, landing **inside** the calibrated band (loop closed). Realized efficiency is regime-split as predicted — ~41% in-VRAM (overhead-bound), ~56–61% under offload (CPU-bandwidth-bound). The recalibration loop (`gpu-container-receipt` write-back) is built.
+> - **Adaptive routing calibration / the de-risk on skew (#6, #8):** the concentration gate is built and was run on real Qwen3-30B-A3B routing — **near-uniform** (~45–51% of experts for 90% coverage), so the per-expert cache is on hold *with evidence*. This **confirms #6 live**: request-level skew is modest and workload-dependent. See [derisk-concentration.md](derisk-concentration.md) + [ADR-0001](decisions/0001-per-expert-cache-build-vs-upstream.md).
+> - **Profiler honesty (#4, #11):** PCIe is measured (H2D 48.2 / D2H 37.05 GB/s — asymmetric under WSL2, never the 64 theoretical); the pinnable-RAM ceiling probed ≥22.5 GiB on driver 610.47 (the historical ~300–500 MB WSL2 collapse did **not** reproduce). Measured, not spec-sheet — exactly the #4 implication.
+> - **Refusal floor (#12):** the planner refuses below >1 tok/s and validates must-offload models on paper (e.g. N=21 for gpt-oss-120b) without running them live on this rig.
+
 ## Verdict by load-bearing claim
 
 | Claim | Status | One-line basis |

@@ -59,6 +59,8 @@ The planner pre-computes expert activation frequency from **workload-representat
 
 See [feasibility.md](feasibility.md) findings #6 and #8 for the evidence.
 
+> **Per-expert tiering is gated on a measurement.** "Hot/warm/cold *experts*" (within a layer) needs a runtime expert-slot cache — stock llama.cpp fuses a layer's experts into one tensor, so `-ot` places per-layer only. Before building that cache for a model, the **concentration gate** ([derisk-concentration.md](derisk-concentration.md), `gpu-container-concentration`) measures whether the routing is skewed enough to be worth it. On Qwen3-30B-A3B it isn't (near-uniform) — so the per-layer hot tier ships now and the per-expert cache waits for a model that passes the gate ([ADR-0001](decisions/0001-per-expert-cache-build-vs-upstream.md)).
+
 ## Throughput calibration — the recalibration loop
 
 The planner's closed-form decode estimate is a **roofline ceiling**: peak bandwidth, zero kernel/launch/attention overhead — a true *upper bound*, but real decode runs at a fraction of it. Rather than ship the ceiling as if it were a point prediction (it is not), the planner emits a **calibrated forecast with a band**, learned from past receipts:
@@ -89,6 +91,10 @@ This is distinct from the per-expert **routing** calibration above (which expert
 | **Hardware profiler** | Detect capabilities, measure bandwidth | **Yes — core** |
 | **Model profiler** | Analyze architecture, estimate memory | **Yes — core** |
 | **Receipt system** | Measure and report actual placement | **Yes — core** |
+| **Routing de-risk gate** | Measure expert-routing concentration before building per-expert caching | **Yes — core** |
+| **Rig-safety watchdog** | Supervise a GPU job; abort on a host-memory/power/VRAM breach | **Yes — core** |
+
+The last two are why the planner can be trusted on a single personal rig: the **de-risk gate** ([derisk-concentration.md](derisk-concentration.md)) keeps the flagship lane honest about what's worth building, and the **watchdog** ([cli.md](cli.md#gpu-container-watchdog)) makes every live run self-monitoring so a bad plan can't take the machine down with it.
 
 ## Container Strategy
 
