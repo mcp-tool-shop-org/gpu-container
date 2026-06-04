@@ -59,6 +59,25 @@ The planner pre-computes expert activation frequency from **workload-representat
 
 See [feasibility.md](feasibility.md) findings #6 and #8 for the evidence.
 
+## Throughput calibration — the recalibration loop
+
+The planner's closed-form decode estimate is a **roofline ceiling**: peak bandwidth, zero kernel/launch/attention overhead — a true *upper bound*, but real decode runs at a fraction of it. Rather than ship the ceiling as if it were a point prediction (it is not), the planner emits a **calibrated forecast with a band**, learned from past receipts:
+
+```
+ceiling (closed form)  ×  realized efficiency (measured)  =  calibrated forecast  ± band
+```
+
+Realized efficiency is **regime-dependent**, because the two regimes are bound by different things (measured on the RTX 5090, Qwen3-30B-A3B Q4_K_M live receipt):
+
+| Regime | Bound by | Realized efficiency |
+|---|---|---|
+| **in-VRAM** (N = 0) | kernel/launch overhead (small-active MoE moves few bytes) | ~41% |
+| **offload** (N > 0) | CPU-RAM bandwidth (the roofline fits better) | ~56–61% |
+
+The loop: a receipt records `measured ÷ ceiling` as a **calibration point**; the planner fits efficiency = f(regime, offload-fraction) and scales the next plan's ceiling by it. The band never narrows below ±25% (we cannot claim more confidence than the receipts support) and always contains every observed point. With **no** calibration data for a shape's regime, the planner falls back to the raw ceiling — the honest "uncalibrated" path. The ceiling is retained as the upper bound **and** the >1 tok/s refusal floor: refusal fires only when even the optimistic ceiling cannot clear the floor (never refuse a model that might be usable).
+
+This is distinct from the per-expert **routing** calibration above (which expert is hot/warm/cold): one calibrates *how fast a placement runs*, the other calibrates *what to place where*. Both feed off the same receipts; the model never grades its own forecast — the verifier is a real `llama-bench` run (a different mechanism), per the EXTERNAL_VERIFIER standard. Code: `gpu_container/planner/calibration.py`; the write-back is the `gpu-container-receipt` CLI.
+
 ## Product Boundaries
 
 | Layer | Responsibility | This project owns? |

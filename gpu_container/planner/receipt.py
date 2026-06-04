@@ -13,6 +13,7 @@ import json
 from typing import List, Optional
 
 from ..profiler.schema import PlacementPlan, Receipt
+from .calibration import CalibrationPoint
 
 
 def parse_llama_bench(stdout: str) -> List[dict]:
@@ -55,17 +56,32 @@ def build_receipt(
     vram_used_mib: Optional[float] = None,
     method: Optional[str] = None,
 ) -> Receipt:
-    """Pair a measured run with the plan's forecast -> a Receipt (error, efficiency, floor)."""
-    pred = plan.predicted_decode_tok_s
+    """Pair a measured run with the plan's forecast(s) -> a Receipt.
+
+    The plan now carries two forecasts, so the receipt makes two comparisons:
+      - realized efficiency = measured / CEILING  -> the calibration seed for the next plan,
+      - decode error        = (measured - CALIBRATED) / CALIBRATED -> was the calibrated forecast right?,
+      - within_band         = measured inside the plan's calibrated band -> the loop's proof.
+    `ceiling` falls back to the calibrated field for plans predating the ceiling split.
+    """
+    pred = plan.predicted_decode_tok_s                                    # calibrated forecast
+    ceiling = plan.ceiling_decode_tok_s or plan.predicted_decode_tok_s    # roofline upper bound
     err = round(100.0 * (decode_tok_s - pred) / pred, 1) if (decode_tok_s and pred) else None
+    eff_pct = round(100.0 * decode_tok_s / ceiling, 1) if (decode_tok_s and ceiling) else None
+    lo, hi = plan.predicted_band_low_tok_s, plan.predicted_band_high_tok_s
+    within = (lo <= decode_tok_s <= hi) if (decode_tok_s and lo is not None and hi is not None) else None
+
     notes: List[str] = []
-    if decode_tok_s and pred:
-        eff = 100.0 * decode_tok_s / pred
-        notes.append(f"realized {eff:.0f}% of the roofline ceiling ({decode_tok_s:.1f} of {pred:.0f} tok/s) "
+    if eff_pct is not None:
+        notes.append(f"realized {eff_pct:.0f}% of the roofline ceiling ({decode_tok_s:.1f} of {ceiling:.0f} tok/s) "
                      f"— this efficiency is the calibration seed for the next plan.")
-        if decode_tok_s > pred:
+        if decode_tok_s > ceiling:
             notes.append("ANDON: measured EXCEEDS the ceiling — the bandwidth model is wrong (check "
                          "vram_bw / bytes_per_weight assumptions), not just inefficient.")
+    if within is not None:
+        notes.append(f"calibrated forecast {pred:.1f} tok/s, band [{lo:.1f}, {hi:.1f}] — measured "
+                     f"{decode_tok_s:.1f} {'LANDED INSIDE' if within else 'FELL OUTSIDE'} the band "
+                     f"({'loop closed' if within else 'recalibrate: ingest this receipt and refit'}).")
     if plan.vram_used_mib and vram_used_mib:
         dv = 100.0 * (vram_used_mib - plan.vram_used_mib) / plan.vram_used_mib
         notes.append(f"VRAM predicted {plan.vram_used_mib:.0f} MiB vs measured {vram_used_mib:.0f} MiB ({dv:+.0f}%).")
@@ -74,7 +90,31 @@ def build_receipt(
         measured_decode_tok_s=round(decode_tok_s, 2) if decode_tok_s else None,
         measured_prefill_tok_s=round(prefill_tok_s, 2) if prefill_tok_s else None,
         measured_vram_used_mib=round(vram_used_mib, 1) if vram_used_mib else None,
-        predicted_decode_tok_s=pred, decode_error_pct=err,
+        predicted_decode_tok_s=pred, ceiling_decode_tok_s=round(ceiling, 2) if ceiling else None,
+        decode_error_pct=err, realized_efficiency_pct=eff_pct, within_band=within,
         cleared_floor=(decode_tok_s >= plan.floor_tok_s) if decode_tok_s else None,
         method=method, notes=notes,
+    )
+
+
+def plan_to_calibration_point(
+    plan: PlacementPlan,
+    measured_decode_tok_s: float,
+    model_name: str,
+    quant: Optional[str] = None,
+    created: Optional[str] = None,
+    rig: Optional[str] = None,
+    source: Optional[str] = None,
+) -> CalibrationPoint:
+    """Distill a (plan, measured-decode) pair into a CalibrationPoint for the store — the loop's
+    write-back. The ceiling comes from the plan (so efficiency is measured/ceiling); the bandwidth
+    assumptions ride along as provenance so the point stays auditable."""
+    a = plan.assumptions or {}
+    return CalibrationPoint(
+        model=model_name, quant=quant,
+        n_cpu_moe=plan.n_cpu_moe or 0, n_moe_layers=plan.n_moe_layers or 0,
+        ceiling_tok_s=plan.ceiling_decode_tok_s or plan.predicted_decode_tok_s or 0.0,
+        measured_tok_s=measured_decode_tok_s,
+        cpu_bw_gbps=a.get("cpu_mem_bw_gbps"), vram_bw_gbps=a.get("vram_bw_gbps"),
+        ctx_len=a.get("ctx_len"), created=created, rig=rig, source=source,
     )

@@ -14,6 +14,7 @@ from typing import List, Optional
 
 from ..profiler import model as model_mod
 from ..profiler.schema import Profile
+from .calibration import CalibrationModel, CalibrationStore
 from .placement import plan_llama_cpp
 
 
@@ -35,8 +36,13 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--ctx", type=int, default=4096, help="context length for the KV-cache budget")
     ap.add_argument("--batch", type=int, default=1)
     ap.add_argument("--cpu-bw", type=float, help="override CPU RAM bandwidth (GB/s)")
+    ap.add_argument("--non-expert-bpw", type=float,
+                    help="bytes/weight for always-resident weights (auto: f16 for mxfp4, else the quant bpw)")
     ap.add_argument("--floor", type=float, default=1.0, help="refuse below this decode tok/s")
     ap.add_argument("--hf", help="model ref for the launch command, e.g. unsloth/Qwen3-30B-A3B-GGUF:Q4_K_M")
+    ap.add_argument("--calibration-dir", help="extra calibration receipts to fold in (atop the bundled seed)")
+    ap.add_argument("--no-calibration", action="store_true",
+                    help="forecast the raw roofline ceiling only (skip the calibrated band)")
     ap.add_argument("-o", "--out", help="write the plan JSON here (default: stdout)")
     args = ap.parse_args(argv)
 
@@ -50,9 +56,17 @@ def main(argv: Optional[List[str]] = None) -> int:
     elif args.quant and prof.model is not None:
         prof.model.quant = args.quant
 
+    # Calibration: bundled seed + any extra receipts, unless disabled. With no data for the shape's
+    # regime the planner falls back to the raw ceiling on its own.
+    calibration = None
+    if not args.no_calibration:
+        extra = CalibrationStore(args.calibration_dir).points() if args.calibration_dir else None
+        calibration = CalibrationModel.from_seed(extra=extra)
+
     plan = plan_llama_cpp(
         prof, ctx_len=args.ctx, batch=args.batch,
-        cpu_mem_bw_gbps=args.cpu_bw, floor_tok_s=args.floor, model_ref=args.hf,
+        cpu_mem_bw_gbps=args.cpu_bw, non_expert_bpw=args.non_expert_bpw,
+        floor_tok_s=args.floor, model_ref=args.hf, calibration=calibration,
     )
 
     js = plan.to_json()

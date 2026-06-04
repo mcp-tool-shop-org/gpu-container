@@ -1,0 +1,44 @@
+[
+  {
+    "model": "Qwen3-30B-A3B",
+    "n_cpu_moe": 0,
+    "n_moe_layers": 48,
+    "ceiling_tok_s": 737.56,
+    "measured_tok_s": 302.4,
+    "quant": "gguf-q4_k_m",
+    "cpu_bw_gbps": 40.7,
+    "vram_bw_gbps": 1790.0,
+    "ctx_len": 4096,
+    "created": "2026-06-04",
+    "rig": "RTX 5090 (sm_120) WSL2 Docker, driver 610.47, CUDA 12.8",
+    "source": "milestone 2-3 live receipt: Qwen3-30B-A3B Q4_K_M, llama-bench -p 512 -n 128"
+  },
+  {
+    "model": "Qwen3-30B-A3B",
+    "n_cpu_moe": 24,
+    "n_moe_layers": 48,
+    "ceiling_tok_s": 69.02,
+    "measured_tok_s": 41.9,
+    "quant": "gguf-q4_k_m",
+    "cpu_bw_gbps": 40.7,
+    "vram_bw_gbps": 1790.0,
+    "ctx_len": 4096,
+    "created": "2026-06-04",
+    "rig": "RTX 5090 (sm_120) WSL2 Docker, driver 610.47, CUDA 12.8",
+    "source": "milestone 2-3 live receipt: Qwen3-30B-A3B Q4_K_M, llama-bench -p 512 -n 128"
+  },
+  {
+    "model": "Qwen3-30B-A3B",
+    "n_cpu_moe": 48,
+    "n_moe_layers": 48,
+    "ceiling_tok_s": 36.2,
+    "measured_tok_s": 20.4,
+    "quant": "gguf-q4_k_m",
+    "cpu_bw_gbps": 40.7,
+    "vram_bw_gbps": 1790.0,
+    "ctx_len": 4096,
+    "created": "2026-06-04",
+    "rig": "RTX 5090 (sm_120) WSL2 Docker, driver 610.47, CUDA 12.8",
+    "source": "milestone 2-3 live receipt: Qwen3-30B-A3B Q4_K_M, llama-bench -p 512 -n 128"
+  }
+]

@@ -145,8 +145,13 @@ class PlacementPlan:
     vram_budget_mib: Optional[float] = None
     vram_used_mib: Optional[float] = None
     ram_used_mib: Optional[float] = None         # CPU-resident expert bytes (regular host RAM)
-    predicted_decode_tok_s: Optional[float] = None
+    predicted_decode_tok_s: Optional[float] = None   # the CALIBRATED forecast (== ceiling when uncalibrated)
+    ceiling_decode_tok_s: Optional[float] = None     # the roofline upper bound (real decode is a fraction of it)
+    predicted_band_low_tok_s: Optional[float] = None   # calibrated band low (None when uncalibrated)
+    predicted_band_high_tok_s: Optional[float] = None  # calibrated band high
     throughput_basis: Optional[str] = None       # "in-VRAM (±10%)" | "cpu-offload estimate — confirmed by receipt"
+    calibration_basis: Optional[str] = None      # how the forecast was derived (calibrated vs raw ceiling)
+    calibration_n_samples: Optional[int] = None  # receipts informing the forecast (None/0 = uncalibrated)
     floor_tok_s: float = 1.0
     message: Optional[str] = None                # plan summary / contrastive refusal frame
     assumptions: Optional[dict] = None           # cpu_mem_bw_gbps, vram_bw_gbps, bpw, ctx, overhead_mib
@@ -157,6 +162,14 @@ class PlacementPlan:
     def to_json(self, indent: int = 2) -> str:
         return json.dumps(self.to_dict(), indent=indent, ensure_ascii=False)
 
+    @classmethod
+    def from_dict(cls, d: dict) -> "PlacementPlan":
+        return _build(cls, d)
+
+    @classmethod
+    def from_json(cls, s: str) -> "PlacementPlan":
+        return cls.from_dict(json.loads(s))
+
 
 @dataclass
 class Receipt:
@@ -166,8 +179,11 @@ class Receipt:
     measured_decode_tok_s: Optional[float] = None
     measured_prefill_tok_s: Optional[float] = None
     measured_vram_used_mib: Optional[float] = None
-    predicted_decode_tok_s: Optional[float] = None
-    decode_error_pct: Optional[float] = None     # 100*(measured-predicted)/measured
+    predicted_decode_tok_s: Optional[float] = None    # the plan's CALIBRATED forecast
+    ceiling_decode_tok_s: Optional[float] = None      # the plan's roofline upper bound
+    decode_error_pct: Optional[float] = None     # 100*(measured-predicted)/predicted vs the calibrated forecast
+    realized_efficiency_pct: Optional[float] = None   # 100*measured/ceiling — the calibration seed
+    within_band: Optional[bool] = None           # did measured land inside the calibrated band? (the proof)
     cleared_floor: Optional[bool] = None
     method: Optional[str] = None                 # how it was measured (provenance)
     notes: List[str] = field(default_factory=list)

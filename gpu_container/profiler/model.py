@@ -60,6 +60,27 @@ def bytes_per_weight(quant: Optional[str], dtype_bytes: float = 2.0) -> float:
     return dtype_bytes
 
 
+# Quants that quantize ONLY the routed experts, leaving attention/router/embeddings/head near f16
+# (notably MXFP4 / gpt-oss). For these the always-resident non-expert weights are far heavier per
+# parameter than the headline quant implies, so budgeting the GPU floor at the expert bpw would
+# UNDER-count VRAM (the optimistic, OOM-prone direction). The split keeps None-not-guess honest.
+_EXPERT_ONLY_QUANTS = {"mxfp4"}
+
+
+def non_expert_bytes_per_weight(quant: Optional[str], dtype_bytes: float = 2.0) -> float:
+    """Bytes/weight for the ALWAYS-RESIDENT (non-expert) tensors.
+
+    Equal to the expert bpw for whole-model quants (Q4_K_M, Q8_0, ...). For expert-only quants
+    (MXFP4) the non-expert tensors stay near f16, so this returns 2.0 — a conservative upper bound
+    on the GPU floor (slightly over-budgets VRAM, which is the SAFE side for a must-offload plan).
+    """
+    if quant:
+        k = quant.lower().replace("gguf-", "").replace("-", "_").strip()
+        if k in _EXPERT_ONLY_QUANTS:
+            return max(2.0, _BPW.get(k, 8.0) / 8.0)
+    return bytes_per_weight(quant, dtype_bytes)
+
+
 def estimate_param_split(cfg: dict, num_experts: Optional[int]) -> Optional[dict]:
     """Closed-form param split from a HF config — no safetensors needed.
 

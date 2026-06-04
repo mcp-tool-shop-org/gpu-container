@@ -65,11 +65,13 @@ Per-token latency floor ≈ (expert bytes touched ÷ tier bandwidth). Because ba
 - **EXTERNAL_VERIFIER** — the **measured receipt** is a *different mechanism* (measurement) verifying the **planner's prediction**; the model never grades its own forecast.
 
 ## Phase-1 milestones
-1. Profiler emits a hardware+model profile JSON (incl. measured PCIe + NVMe random QD1–4).
-2. Calibrator produces an initial placement + a per-workload activation trace.
-3. Planner emits a llama.cpp `--n-cpu-moe` launch plan + predicted memory/throughput.
-4. Receipt captures measured placement + tok/s + routing; refusal fires correctly on an over-large model.
-5. Recalibration: a second run consumes the receipt's routing and demonstrates a warm-tier hit-rate improvement.
+1. ✅ Profiler emits a hardware+model profile JSON (incl. measured PCIe + NVMe random QD1–4).
+2. Calibrator produces an initial placement + a per-workload activation trace. *(per-expert; see Phase-2 study-swarm)*
+3. ✅ Planner emits a llama.cpp `--n-cpu-moe` launch plan + predicted memory/throughput.
+4. ✅ Receipt captures measured placement + tok/s; refusal fires correctly on an over-large model.
+5. **Recalibration — two halves:**
+   - ✅ **Throughput** (built): the receipt's `measured ÷ ceiling` efficiency feeds a regime-keyed model; the next plan emits a calibrated tok/s **band** instead of the raw ceiling. Proven: a second plan for a measured shape predicts within the band (Qwen3-30B-A3B, in-sample + leave-one-out). See [architecture.md § Throughput calibration](architecture.md#throughput-calibration--the-recalibration-loop).
+   - ◻ **Routing** (Phase-2, per-expert): a second run consumes the receipt's per-expert routing and demonstrates a warm-tier hit-rate improvement — needs finer-than-layer placement (`-ot`/`--override-tensor`) + activation traces; gated on the study-swarm.
 
 ## Risks / open questions
 - Prefetch hit-rate on *your* workloads vs the papers' benchmarks — the ~5–12% miss tail still pays full NVMe latency.
