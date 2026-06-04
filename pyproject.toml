@@ -25,6 +25,7 @@ gpu-container-profile = "gpu_container.profiler.cli:main"
 gpu-container-plan = "gpu_container.planner.cli:main"
 gpu-container-receipt = "gpu_container.planner.receipt_cli:main"
 gpu-container-concentration = "gpu_container.planner.concentration_cli:main"
+gpu-container-watchdog = "gpu_container.watchdog:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["gpu_container"]

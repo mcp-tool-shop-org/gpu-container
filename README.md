@@ -32,6 +32,7 @@ Inference engine = execution
 4. **Placement receipt** — Show what is in VRAM, what is in RAM, what is on disk, expected bottleneck, measured tokens/sec
 5. **MoE-specialized path** — Keep always-active layers on GPU, route experts to CPU/RAM, NVMe for cold fallback
 6. **Routing de-risk** — Measure whether a model's MoE routing is skewed enough that a per-expert cache would help, before building for it (`gpu-container-concentration`)
+7. **Rig-safety watchdog** — Poll GPU power/temperature/VRAM + host memory against configurable thresholds; an AI agent or an autonomous loop aborts a run before it endangers the machine (`gpu-container-watchdog`)
 
 ## Key Constraint
 
