@@ -38,4 +38,13 @@ On Windows/WSL, CUDA Unified Memory oversubscription is **not the path**. CUDA t
 
 ## Status
 
-Phase 0 — product definition and research.
+Phase 1 — the MoE memory-placement lane is in active development; the Phase 0 design is validated. See the docs below.
+
+## Documentation
+
+- [`docs/architecture.md`](docs/architecture.md) — memory-tier model, data flow, MoE expert routing, container strategy
+- [`docs/features.md`](docs/features.md) — the five core features in depth
+- [`docs/constraints.md`](docs/constraints.md) — non-goals + the Windows/WSL CUDA Unified-Memory correction
+- [`docs/prior-art.md`](docs/prior-art.md) — runtimes we orchestrate, and the gap this product fills
+- [`docs/feasibility.md`](docs/feasibility.md) — feasibility assessment and the design calibrations it surfaced
+- [`docs/moe-lane-architecture.md`](docs/moe-lane-architecture.md) — Phase 1 architecture for the MoE lane
