@@ -21,6 +21,7 @@ host = ["psutil>=5.9.0", "numpy>=1.24"]
 dev = ["pytest>=8.0"]
 
 [project.scripts]
+gpu-container = "gpu_container.__main__:main"
 gpu-container-profile = "gpu_container.profiler.cli:main"
 gpu-container-plan = "gpu_container.planner.cli:main"
 gpu-container-receipt = "gpu_container.planner.receipt_cli:main"

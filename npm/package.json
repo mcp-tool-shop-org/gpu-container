@@ -1,0 +1,38 @@
+{
+  "name": "gpu-container",
+  "version": "0.1.0",
+  "description": "gpu-container — model-aware inference memory-placement planner for single-GPU rigs. Zero-prerequisite npx install via a verified binary launcher.",
+  "type": "commonjs",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "gpu-container": "bin/gpu-container.js"
+  },
+  "files": [
+    "bin/",
+    "README.md",
+    "README.*.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "llm",
+    "inference",
+    "gpu",
+    "moe",
+    "offload",
+    "vram",
+    "placement",
+    "llama-cpp"
+  ],
+  "dependencies": {
+    "@mcptoolshop/npm-launcher": "^1.0.0"
+  },
+  "author": "mcp-tool-shop",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcp-tool-shop-org/gpu-container.git"
+  },
+  "homepage": "https://github.com/mcp-tool-shop-org/gpu-container"
+}
