@@ -16,6 +16,7 @@ bandwidth model itself is wrong — halt and fix assumptions, don't just recalib
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from datetime import date
 from typing import List, Optional
@@ -58,6 +59,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--trace", help="ActivationTrace JSON — fold the per-expert routing de-risk verdict into the receipt")
     ap.add_argument("--coverage", type=float, default=0.90, help="routing-coverage target for --trace (default 0.90)")
     ap.add_argument("--threshold", type=float, default=0.50, help="cache_helps threshold for --trace (default 0.50)")
+    ap.add_argument("--peaks", help="peak-metrics JSON from `gpu-container-watchdog run --peaks-out` — "
+                                    "fold the run's safety envelope (peak power/host-mem/VRAM) into the receipt")
     ap.add_argument("-o", "--out", help="write the receipt JSON here (default: stdout)")
     args = ap.parse_args(argv)
 
@@ -87,9 +90,19 @@ def main(argv: Optional[List[str]] = None) -> int:
             concentration = analyze_concentration(tr, coverage_target=args.coverage,
                                                    cache_helps_threshold=args.threshold)
 
+    # Optional safety envelope: fold the supervised run's peak metrics into the receipt (--peaks).
+    peaks = None
+    if args.peaks:
+        try:
+            with open(args.peaks, "r", encoding="utf-8") as f:
+                peaks = json.load(f)
+        except (OSError, ValueError) as e:
+            print(f"WARN: --peaks {args.peaks} could not be loaded ({e}); omitting the safety envelope.",
+                  file=sys.stderr)
+
     receipt = build_receipt(plan, decode_tok_s=decode, prefill_tok_s=prefill,
                             vram_used_mib=args.vram_used_mib, method=args.source or "llama-bench",
-                            concentration=concentration)
+                            concentration=concentration, peaks=peaks)
 
     # The write-back: append this measurement to the calibration store so the next plan is calibrated.
     if args.calibration_dir and args.model_name:

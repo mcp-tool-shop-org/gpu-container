@@ -189,6 +189,14 @@ class Receipt:
     routing_cache_helps: Optional[bool] = None        # would a hot-expert cache help THIS workload?
     routing_hot_frac_for_coverage: Optional[float] = None  # fraction of experts for the routing-coverage target
     routing_concentration: Optional[float] = None     # 1 - normalized entropy (0 uniform, 1 peaked)
+    # Optional safety envelope (set when the receipt is built with --peaks from a supervised run; watchdog.py):
+    peak_gpu_power_pct: Optional[float] = None         # worst GPU power draw % observed during the run
+    peak_gpu_temp_c: Optional[float] = None
+    peak_gpu_vram_used_mib: Optional[float] = None
+    peak_host_mem_pct: Optional[float] = None          # THE incident metric — worst host memory % during the run
+    min_host_avail_mib: Optional[float] = None         # lowest free host RAM seen
+    safety_samples: Optional[int] = None               # how many watchdog polls backed the envelope
+    stayed_within_envelope: Optional[bool] = None      # True => no watchdog abort fired across the run
     method: Optional[str] = None                 # how it was measured (provenance)
     notes: List[str] = field(default_factory=list)
 

@@ -1,0 +1,9 @@
+{
+  "_comment": "gpu-container-watchdog threshold config. Pass with --config. These are the DEFAULTS, tuned for the Robot rig (RTX 5090 / 64 GB / WSL2 28 GB cap) and the 2026-06-04 incident (host memory hit 92-98%). Copy + tighten for a tighter rig. Any key the watchdog does not recognize (like this _comment) is ignored. A breach of a *_max (or going under host_avail_mib_min) => ABORT (exit 7); within warn_fraction of a limit => WARN (exit 5).",
+  "power_pct_max": 95.0,
+  "gpu_temp_c_max": 87.0,
+  "vram_pct_max": 98.0,
+  "host_mem_pct_max": 90.0,
+  "host_avail_mib_min": 2000.0,
+  "warn_fraction": 0.9
+}

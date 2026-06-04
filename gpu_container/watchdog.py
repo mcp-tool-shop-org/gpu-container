@@ -1,25 +1,43 @@
 """gpu-container-watchdog — a rig-safety control plane for GPU workloads.
 
-Poll GPU + host metrics, compare against configurable thresholds, and emit an ok/warn/ABORT verdict
-that an AI agent (one-shot) or an autonomous `--watch` loop uses to halt a workload before it
-endangers the rig.
+Two ways to use it:
+
+  1. **Monitor** (one-shot or `--watch`) — poll GPU + host metrics, compare against thresholds, emit
+     an ok/warn/ABORT verdict (exit 0/5/7) that an AI agent or a `--watch` loop reads to halt a job.
+
+  2. **Supervisor** (`run -- <command...>`) — launch a GPU job AS A CHILD, poll metrics in parallel
+     while it runs, and on a hard breach act: `kill-job` terminates just the child (a soft abort);
+     `wsl-shutdown` nukes the whole VM (the catastrophic case). This makes "run a GPU job safely" one
+     command, and records the run's PEAK envelope for the receipt (proof it stayed inside the limits).
 
 Born from the 2026-06-04 incident: a too-large MoE drove host memory to 92-98% and throttled the
 machine for over a minute. The lesson, institutionalized — size + WATCH every GPU run, and abort the
 instant a hard threshold is crossed. On a WSL2 rig the abort of record is `wsl --shutdown` (instant;
-frees all VM RAM in ~5s). But the DEFAULT action here is `alert` — surface the breach loudly and let
-a human/AI pull the trigger; an auto-kill is strictly opt-in (`--on-breach wsl-shutdown`).
+frees all VM RAM in ~5s). The monitor's DEFAULT action is `alert` (surface, never auto-kill); the
+supervisor's default is `kill-job` (stop just the job it launched).
 
 Metrics (None when unavailable — never guessed):
   - GPU via `nvidia-smi`: power draw vs board limit (%), temperature, VRAM used/total (%), utilization.
-  - Host via `psutil` (optional dep): memory % used, available MiB — THE incident metric.
+    Multi-GPU rigs are folded WORST-CASE (the hottest/fullest/most-drawing GPU drives the verdict).
+  - Host via `psutil` (optional dep): memory % used, available MiB — THE incident metric. `mem_source`
+    tags whether psutil is reading the WINDOWS HOST (run the watchdog on Windows — the incident metric
+    is the host) or a WSL2 VM / Linux container (run in-container — host coverage is then partial).
+
+VRAM source note: the watchdog reads VRAM via `nvidia-smi memory.used`, which INCLUDES driver-reserved
+memory; the profiler (`gpu_container.profiler.hardware`) prefers pynvml v2, which separates `reserved`
+from `used`. They agree on `total`; the watchdog's `used` runs a touch higher. That is deliberate — a
+safety monitor should read conservative (over-, not under-count), and `nvidia-smi` is always present
+on the host where pynvml may not be installed.
 
 Exit code (ANDON, scriptable): 0 = ok, 5 = warn (approaching a limit), 7 = ABORT (a hard limit crossed).
+For `run`: 7 = a breach aborted the job; 0 = the job finished with no breach; otherwise the job's own
+non-zero exit code (a job that failed on its own, no watchdog involvement).
 """
 from __future__ import annotations
 
 import argparse
 import json
+import platform
 import subprocess
 import sys
 import time
@@ -52,8 +70,10 @@ class Sample:
     gpu_vram_total_mib: Optional[float] = None
     gpu_vram_pct: Optional[float] = None
     gpu_util_pct: Optional[float] = None
+    gpu_count: Optional[int] = None      # GPUs seen; metrics above are the WORST-CASE across them
     host_mem_pct: Optional[float] = None
     host_avail_mib: Optional[float] = None
+    mem_source: Optional[str] = None     # "windows-host" | "wsl2-vm" | "linux" — what psutil read
     notes: List[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
@@ -89,8 +109,29 @@ def _num(s: str) -> Optional[float]:
         return None   # "[N/A]" and friends -> unknown, never 0
 
 
+def _max(a: Optional[float], b: Optional[float]) -> Optional[float]:
+    """None-safe max: a missing reading never lowers (or raises) a peak."""
+    if b is None:
+        return a
+    if a is None:
+        return b
+    return max(a, b)
+
+
+def _min(a: Optional[float], b: Optional[float]) -> Optional[float]:
+    if b is None:
+        return a
+    if a is None:
+        return b
+    return min(a, b)
+
+
 def sample_nvidia_smi(run=subprocess.run) -> Sample:
-    """GPU metrics via nvidia-smi. Returns an all-None Sample (+ a note) if nvidia-smi is unavailable."""
+    """GPU metrics via nvidia-smi, folded WORST-CASE across all GPUs (the safety-relevant view).
+
+    Each reported percentage keeps its own GPU's absolute pair (power_w/limit, vram_used/total) so the
+    numbers stay coherent. Returns an all-None Sample (+ a note) if nvidia-smi is unavailable.
+    """
     s = Sample()
     q = "power.draw,power.limit,temperature.gpu,memory.used,memory.total,utilization.gpu"
     try:
@@ -106,20 +147,64 @@ def sample_nvidia_smi(run=subprocess.run) -> Sample:
     if not rows:
         s.notes.append("nvidia-smi returned no rows")
         return s
-    p = [x.strip() for x in rows[0].split(",")]
-    if len(p) >= 6:
-        (s.gpu_power_w, s.gpu_power_limit_w, s.gpu_temp_c,
-         s.gpu_vram_used_mib, s.gpu_vram_total_mib, s.gpu_util_pct) = (
-            _num(p[0]), _num(p[1]), _num(p[2]), _num(p[3]), _num(p[4]), _num(p[5]))
-        if s.gpu_power_w and s.gpu_power_limit_w:
-            s.gpu_power_pct = round(100.0 * s.gpu_power_w / s.gpu_power_limit_w, 1)
-        if s.gpu_vram_used_mib and s.gpu_vram_total_mib:
-            s.gpu_vram_pct = round(100.0 * s.gpu_vram_used_mib / s.gpu_vram_total_mib, 1)
+
+    gpus = []
+    for line in rows:
+        p = [x.strip() for x in line.split(",")]
+        if len(p) < 6:
+            continue
+        pw, lim, temp, used, total, util = (_num(p[0]), _num(p[1]), _num(p[2]),
+                                            _num(p[3]), _num(p[4]), _num(p[5]))
+        gpus.append({
+            "power_w": pw, "limit_w": lim, "temp_c": temp,
+            "vram_used": used, "vram_total": total, "util": util,
+            "power_pct": round(100.0 * pw / lim, 1) if (pw and lim) else None,
+            "vram_pct": round(100.0 * used / total, 1) if (used and total) else None,
+        })
+    if not gpus:
+        s.notes.append("nvidia-smi rows had too few fields — GPU metrics unknown")
+        return s
+
+    s.gpu_count = len(gpus)
+    # power: the GPU drawing the highest % of its limit (carry its absolute w + limit for a coherent pair)
+    pw_gpus = [g for g in gpus if g["power_pct"] is not None]
+    if pw_gpus:
+        g = max(pw_gpus, key=lambda g: g["power_pct"])
+        s.gpu_power_w, s.gpu_power_limit_w, s.gpu_power_pct = g["power_w"], g["limit_w"], g["power_pct"]
+    # vram: the fullest GPU (carry its used + total)
+    vr_gpus = [g for g in gpus if g["vram_pct"] is not None]
+    if vr_gpus:
+        g = max(vr_gpus, key=lambda g: g["vram_pct"])
+        s.gpu_vram_used_mib, s.gpu_vram_total_mib, s.gpu_vram_pct = g["vram_used"], g["vram_total"], g["vram_pct"]
+    temps = [g["temp_c"] for g in gpus if g["temp_c"] is not None]
+    utils = [g["util"] for g in gpus if g["util"] is not None]
+    s.gpu_temp_c = max(temps) if temps else None
+    s.gpu_util_pct = max(utils) if utils else None
+    if s.gpu_count > 1:
+        s.notes.append(f"worst-case across {s.gpu_count} GPUs")
     return s
 
 
+def _host_source() -> str:
+    """Tag what psutil is actually reading. The 2026-06-04 incident metric is WINDOWS HOST memory;
+    run the watchdog on the Windows host for true coverage. In a WSL2/Linux container psutil only
+    sees the VM, which can sit calm while the host is starved."""
+    if platform.system() == "Windows":
+        return "windows-host"
+    for path in ("/proc/version", "/proc/sys/kernel/osrelease"):
+        try:
+            with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                if "microsoft" in f.read().lower():
+                    return "wsl2-vm"
+        except OSError:
+            continue
+    return "linux"
+
+
 def sample_host(into: Sample) -> Sample:
-    """Host memory via psutil (optional dep). Leaves host metrics None (+ a note) if psutil is absent."""
+    """Host memory via psutil (optional dep). Leaves host metrics None (+ a note) if psutil is absent,
+    and tags `mem_source` so the reading's vantage (host vs VM) is never ambiguous."""
+    into.mem_source = _host_source()
     try:
         import psutil
     except ImportError:
@@ -129,6 +214,10 @@ def sample_host(into: Sample) -> Sample:
     vm = psutil.virtual_memory()
     into.host_mem_pct = round(vm.percent, 1)
     into.host_avail_mib = round(vm.available / (1024 * 1024), 1)
+    if into.mem_source != "windows-host":
+        into.notes.append(f"psutil is reading the {into.mem_source}, NOT the Windows host — the "
+                          "2026-06-04 incident metric is HOST memory; run the watchdog on Windows "
+                          "for true host coverage")
     return into
 
 
@@ -175,8 +264,40 @@ def evaluate(s: Sample, t: Thresholds) -> WatchdogReport:
 _EXIT = {"ok": 0, "warn": 5, "abort": 7}
 
 
+@dataclass
+class PeakTracker:
+    """Running worst-case envelope over a supervised run — the proof a job stayed inside the limits.
+    Fed to the Receipt (A2) so a receipt can say 'decode 302 tok/s; peak host-mem 31%, peak power 41%
+    — within envelope.' None-safe: a missing reading never moves a peak."""
+    samples: int = 0
+    peak_gpu_power_pct: Optional[float] = None
+    peak_gpu_power_w: Optional[float] = None
+    peak_gpu_temp_c: Optional[float] = None
+    peak_gpu_vram_used_mib: Optional[float] = None
+    peak_gpu_vram_pct: Optional[float] = None
+    peak_gpu_util_pct: Optional[float] = None
+    peak_host_mem_pct: Optional[float] = None
+    min_host_avail_mib: Optional[float] = None
+
+    def update(self, s: Sample) -> "PeakTracker":
+        self.samples += 1
+        self.peak_gpu_power_pct = _max(self.peak_gpu_power_pct, s.gpu_power_pct)
+        self.peak_gpu_power_w = _max(self.peak_gpu_power_w, s.gpu_power_w)
+        self.peak_gpu_temp_c = _max(self.peak_gpu_temp_c, s.gpu_temp_c)
+        self.peak_gpu_vram_used_mib = _max(self.peak_gpu_vram_used_mib, s.gpu_vram_used_mib)
+        self.peak_gpu_vram_pct = _max(self.peak_gpu_vram_pct, s.gpu_vram_pct)
+        self.peak_gpu_util_pct = _max(self.peak_gpu_util_pct, s.gpu_util_pct)
+        self.peak_host_mem_pct = _max(self.peak_host_mem_pct, s.host_mem_pct)
+        self.min_host_avail_mib = _min(self.min_host_avail_mib, s.host_avail_mib)
+        return self
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
 def execute_action(action: str, report: WatchdogReport, run=subprocess.run) -> str:
-    """Perform the configured on-breach action. Default 'alert' never kills — it only surfaces."""
+    """Perform a configured on-breach action that does NOT need the supervised process handle.
+    (`kill-job` is handled by the supervisor, which owns the child.) Default 'alert' never kills."""
     if not action or action == "alert":
         return "alert only (no kill) — abort surfaced; a human/AI decides the next move"
     try:
@@ -197,7 +318,81 @@ def execute_action(action: str, report: WatchdogReport, run=subprocess.run) -> s
             return f"ran `{cmd}`"
     except (OSError, subprocess.SubprocessError) as e:
         return f"action '{action}' FAILED: {e} — INTERVENE MANUALLY"
-    return f"unknown action '{action}' — did nothing (use alert | wsl-shutdown | docker-stop:NAME | kill:PID | command:CMD)"
+    return (f"unknown action '{action}' — did nothing "
+            "(use alert | kill-job | wsl-shutdown | docker-stop:NAME | kill:PID | command:CMD)")
+
+
+def _terminate_job(proc, grace: float = 5.0) -> str:
+    """Stop a supervised child: terminate() (polite), then kill() if it ignores the grace window.
+
+    On Windows both map to TerminateProcess; this stops the direct child. For a containerized job
+    (e.g. `docker run ...`) the child is the docker client — prefer `--on-breach docker-stop:NAME`
+    or `wsl-shutdown` when you need the whole container/VM gone, not just the launcher.
+    """
+    if proc.poll() is not None:
+        return f"job already exited (rc={proc.poll()})"
+    try:
+        proc.terminate()
+    except OSError as e:
+        return f"terminate failed: {e} — INTERVENE MANUALLY"
+    try:
+        proc.wait(timeout=grace)
+        return f"terminated the job (rc={proc.poll()})"
+    except subprocess.TimeoutExpired:
+        try:
+            proc.kill()
+            proc.wait(timeout=grace)
+            return f"job ignored terminate; killed it (rc={proc.poll()})"
+        except (OSError, subprocess.SubprocessError) as e:
+            return f"kill failed: {e} — INTERVENE MANUALLY"
+
+
+@dataclass
+class SuperviseResult:
+    job_rc: Optional[int]
+    verdict: str                 # "ok" | "abort"
+    peaks: PeakTracker
+    breached: bool = False
+    breach: Optional[WatchdogReport] = None
+
+
+def supervise(command: List[str], t: Thresholds, *, interval: float = 5.0,
+              on_breach: str = "kill-job", popen=subprocess.Popen, sampler=sample,
+              run=subprocess.run, sleep=time.sleep, emit=None,
+              max_polls: Optional[int] = None) -> SuperviseResult:
+    """Launch `command`, poll metrics every `interval`s WHILE IT RUNS, and on a hard breach act:
+    'kill-job' terminates the child (soft abort); anything else goes through execute_action
+    (wsl-shutdown / docker-stop / ...) AND still stops the child. Tracks the run's peak envelope.
+
+    Every external dependency (popen, sampler, run, sleep) is injectable, so the whole loop is
+    unit-testable with a fake process and no real GPU.
+    """
+    proc = popen(command)
+    peaks = PeakTracker()
+    breach_report: Optional[WatchdogReport] = None
+    while True:
+        if proc.poll() is not None:
+            break                                       # job finished on its own
+        rep = evaluate(sampler(), t)
+        peaks.update(rep.sample)
+        if emit:
+            emit(rep)
+        if rep.verdict == "abort":
+            breach_report = rep
+            if on_breach == "kill-job":
+                rep.action_taken = _terminate_job(proc)
+            else:
+                rep.action_taken = execute_action(on_breach, rep, run=run)
+                _terminate_job(proc)                    # aborting => always stop the job too
+            break
+        if max_polls and peaks.samples >= max_polls:
+            break
+        sleep(max(0.5, interval))
+    _terminate_job(proc)                                # never leave the child running
+    return SuperviseResult(
+        job_rc=proc.poll(), verdict=("abort" if breach_report else "ok"),
+        peaks=peaks, breached=breach_report is not None, breach=breach_report,
+    )
 
 
 def _human(r: WatchdogReport) -> str:
@@ -208,8 +403,89 @@ def _human(r: WatchdogReport) -> str:
     if s.gpu_vram_pct is not None: bits.append(f"vram {s.gpu_vram_pct:.0f}%")
     if s.host_mem_pct is not None: bits.append(f"host-mem {s.host_mem_pct:.0f}%")
     if s.host_avail_mib is not None: bits.append(f"host-free {s.host_avail_mib / 1024:.1f}GiB")
+    tag = f" [{s.mem_source}]" if s.mem_source else ""
+    if s.gpu_count and s.gpu_count > 1:
+        tag += f" [{s.gpu_count}GPU worst-case]"
     br = "; ".join(f"{b.metric}={b.value} vs {b.threshold} ({b.level})" for b in r.breaches)
-    return f"[{r.verdict.upper()}] {', '.join(bits) or 'no metrics'}" + (f" — {br}" if br else "")
+    return f"[{r.verdict.upper()}]{tag} {', '.join(bits) or 'no metrics'}" + (f" — {br}" if br else "")
+
+
+def _append_log(path: str, rep: WatchdogReport, elapsed_s: float) -> None:
+    """Append one poll to a JSONL trajectory log — so an AI reads the TREND, not just the instant."""
+    entry = {
+        "elapsed_s": elapsed_s, "t": time.time(), "verdict": rep.verdict,
+        "sample": rep.sample.to_dict(),
+        "breaches": [asdict(b) for b in rep.breaches],
+    }
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+
+def _add_threshold_args(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--config", help="JSON file of threshold overrides (see watchdog.example.json)")
+    p.add_argument("--power-max", type=float, help="abort over this %% of the GPU power limit (default 95)")
+    p.add_argument("--temp-max", type=float, help="abort over this GPU temperature in C (default 87)")
+    p.add_argument("--vram-max", type=float, help="abort over this %% VRAM (default 98)")
+    p.add_argument("--host-mem-max", type=float, help="abort over this %% host memory (default 90)")
+    p.add_argument("--host-avail-min", type=float, help="abort under this host free MiB (default 2000)")
+    p.add_argument("--warn-fraction", type=float, help="warn at this fraction of a limit (default 0.9)")
+
+
+def _thresholds_from_args(args: argparse.Namespace) -> Thresholds:
+    t = Thresholds()
+    if getattr(args, "config", None):
+        with open(args.config, "r", encoding="utf-8") as f:
+            for k, v in json.load(f).items():
+                if hasattr(t, k):
+                    setattr(t, k, float(v))   # unknown keys (e.g. "_comment") are ignored
+    for attr, val in [("power_pct_max", args.power_max), ("gpu_temp_c_max", args.temp_max),
+                      ("vram_pct_max", args.vram_max), ("host_mem_pct_max", args.host_mem_max),
+                      ("host_avail_mib_min", args.host_avail_min), ("warn_fraction", args.warn_fraction)]:
+        if val is not None:
+            setattr(t, attr, val)
+    return t
+
+
+def _run_supervise(args: argparse.Namespace) -> int:
+    command = list(args.command or [])
+    if command and command[0] == "--":     # tolerate the `--` separator argparse may keep
+        command = command[1:]
+    if not command:
+        print("ERROR: no command to supervise. Usage: gpu-container-watchdog run [opts] -- <command...>",
+              file=sys.stderr)
+        return 2
+    t = _thresholds_from_args(args)
+    t0 = time.monotonic()
+
+    def emit(rep: WatchdogReport) -> None:
+        if args.json:
+            print(rep.to_json())
+        else:
+            print(_human(rep), file=sys.stderr)
+        for n in rep.sample.notes:
+            print(f"  note: {n}", file=sys.stderr)
+        if args.log:
+            _append_log(args.log, rep, round(time.monotonic() - t0, 2))
+
+    print(f"supervising (on-breach={args.on_breach}): {' '.join(command)}", file=sys.stderr)
+    res = supervise(command, t, interval=args.interval, on_breach=args.on_breach, emit=emit)
+
+    if args.peaks_out:
+        payload = res.peaks.to_dict()
+        payload.update({"breached": res.breached, "stayed_within_envelope": not res.breached,
+                        "on_breach": args.on_breach, "thresholds": t.to_dict()})
+        with open(args.peaks_out, "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+        print(f"wrote peaks -> {args.peaks_out} "
+              f"(feed it to `gpu-container-receipt --peaks {args.peaks_out}`)", file=sys.stderr)
+
+    if res.breached:
+        print(f"ABORT: {res.breach.action_taken}", file=sys.stderr)
+        return _EXIT["abort"]                         # 7 — the safety verdict dominates
+    if res.job_rc:                                    # job's own non-zero exit (no watchdog breach)
+        print(f"job exited {res.job_rc} (no watchdog breach)", file=sys.stderr)
+        return res.job_rc
+    return 0
 
 
 def main(argv: Optional[List[str]] = None) -> int:
@@ -223,38 +499,41 @@ def main(argv: Optional[List[str]] = None) -> int:
         prog="gpu-container-watchdog",
         description="Rig-safety control plane: watch GPU+host metrics, abort on a hard-threshold breach.",
     )
-    ap.add_argument("--config", help="JSON file of threshold overrides")
-    ap.add_argument("--power-max", type=float, help="abort over this %% of the GPU power limit (default 95)")
-    ap.add_argument("--temp-max", type=float, help="abort over this GPU temperature in C (default 87)")
-    ap.add_argument("--vram-max", type=float, help="abort over this %% VRAM (default 98)")
-    ap.add_argument("--host-mem-max", type=float, help="abort over this %% host memory (default 90)")
-    ap.add_argument("--host-avail-min", type=float, help="abort under this host free MiB (default 2000)")
-    ap.add_argument("--warn-fraction", type=float, help="warn at this fraction of a limit (default 0.9)")
+    _add_threshold_args(ap)
     ap.add_argument("--watch", action="store_true", help="loop until a breach (else a single one-shot reading)")
     ap.add_argument("--interval", type=float, default=5.0, help="--watch poll seconds (default 5)")
     ap.add_argument("--max-polls", type=int, help="--watch: stop after N polls (default: until breach/interrupt)")
     ap.add_argument("--on-breach", default="alert",
                     help="alert | wsl-shutdown | docker-stop:NAME | kill:PID | command:CMD (default alert — no kill)")
     ap.add_argument("--json", action="store_true", help="emit the JSON report per poll (else a human line)")
-    args = ap.parse_args(argv)
+    ap.add_argument("--log", help="append each poll as a JSONL line here (the rolling trajectory)")
 
-    t = Thresholds()
-    if args.config:
-        with open(args.config, "r", encoding="utf-8") as f:
-            for k, v in json.load(f).items():
-                if hasattr(t, k):
-                    setattr(t, k, float(v))
-    for attr, val in [("power_pct_max", args.power_max), ("gpu_temp_c_max", args.temp_max),
-                      ("vram_pct_max", args.vram_max), ("host_mem_pct_max", args.host_mem_max),
-                      ("host_avail_mib_min", args.host_avail_min), ("warn_fraction", args.warn_fraction)]:
-        if val is not None:
-            setattr(t, attr, val)
+    sub = ap.add_subparsers(dest="mode")
+    rp = sub.add_parser("run", help="supervise a command: launch it, poll metrics in parallel, act on a breach")
+    _add_threshold_args(rp)
+    rp.add_argument("--interval", type=float, default=5.0, help="poll seconds while the job runs (default 5)")
+    rp.add_argument("--on-breach", default="kill-job",
+                    help="kill-job (terminate the child — default) | wsl-shutdown | docker-stop:NAME | alert | command:CMD")
+    rp.add_argument("--json", action="store_true", help="emit the JSON report per poll")
+    rp.add_argument("--log", help="append each poll as a JSONL line here (the rolling trajectory)")
+    rp.add_argument("--peaks-out", help="write the run's peak-metrics JSON here (feed to gpu-container-receipt --peaks)")
+    rp.add_argument("command", nargs=argparse.REMAINDER, help="the command to supervise, after `--`")
+
+    args = ap.parse_args(argv)
+    if getattr(args, "mode", None) == "run":
+        return _run_supervise(args)
+
+    # --- legacy monitor: one-shot or --watch ---------------------------------
+    t = _thresholds_from_args(args)
+    t0 = time.monotonic()
 
     def one() -> WatchdogReport:
         rep = evaluate(sample(), t)
-        print(rep.to_json() if args.json else _human(rep), file=sys.stderr if not args.json else sys.stdout)
+        print(rep.to_json() if args.json else _human(rep), file=sys.stdout if args.json else sys.stderr)
         for n in rep.sample.notes:
             print(f"  note: {n}", file=sys.stderr)
+        if args.log:
+            _append_log(args.log, rep, round(time.monotonic() - t0, 2))
         return rep
 
     if not args.watch:

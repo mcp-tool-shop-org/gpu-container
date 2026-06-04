@@ -35,3 +35,39 @@ def test_receipt_without_trace_leaves_routing_none():
     assert r.routing_cache_helps is None
     assert r.routing_hot_frac_for_coverage is None
     assert r.routing_concentration is None
+
+
+# --- A2: the safety envelope (watchdog peaks) folds into the receipt ---------------------------
+
+def test_receipt_carries_safety_envelope():
+    peaks = {"samples": 12, "peak_gpu_power_pct": 41.0, "peak_gpu_vram_used_mib": 18988.0,
+             "peak_host_mem_pct": 31.0, "min_host_avail_mib": 44000.0, "stayed_within_envelope": True}
+    r = build_receipt(_plan(), decode_tok_s=302.0, peaks=peaks)
+    assert r.peak_host_mem_pct == 31.0
+    assert r.peak_gpu_power_pct == 41.0
+    assert r.safety_samples == 12
+    assert r.stayed_within_envelope is True
+    assert any("within the safety envelope" in n for n in r.notes)
+
+
+def test_receipt_safety_envelope_breached_note():
+    peaks = {"samples": 3, "peak_host_mem_pct": 95.0, "stayed_within_envelope": False}
+    r = build_receipt(_plan(), decode_tok_s=10.0, peaks=peaks)
+    assert r.stayed_within_envelope is False
+    assert any("BREACHED" in n for n in r.notes)
+
+
+def test_receipt_without_peaks_leaves_envelope_none():
+    r = build_receipt(_plan(), decode_tok_s=300.0)
+    assert r.peak_host_mem_pct is None
+    assert r.stayed_within_envelope is None
+    assert r.safety_samples is None
+
+
+def test_peaks_do_not_clobber_within_band():
+    # Regression: the safety-envelope verdict and the throughput within_band verdict are
+    # independent. A breached envelope must NOT flip within_band (they once shared a variable).
+    peaks = {"samples": 1, "peak_host_mem_pct": 24.5, "stayed_within_envelope": False}
+    r = build_receipt(_plan(), decode_tok_s=300.0, peaks=peaks)   # 300 is inside band [250, 350]
+    assert r.within_band is True
+    assert r.stayed_within_envelope is False

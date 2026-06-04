@@ -57,6 +57,7 @@ def build_receipt(
     vram_used_mib: Optional[float] = None,
     method: Optional[str] = None,
     concentration: Optional[ConcentrationReport] = None,
+    peaks: Optional[dict] = None,
 ) -> Receipt:
     """Pair a measured run with the plan's forecast(s) -> a Receipt.
 
@@ -65,6 +66,9 @@ def build_receipt(
       - decode error        = (measured - CALIBRATED) / CALIBRATED -> was the calibrated forecast right?,
       - within_band         = measured inside the plan's calibrated band -> the loop's proof.
     `ceiling` falls back to the calibrated field for plans predating the ceiling split.
+
+    `peaks` (a dict from `gpu-container-watchdog run --peaks-out`) folds the run's SAFETY ENVELOPE
+    into the receipt — peak power / host-mem / VRAM — proving the run stayed inside the rig's limits.
     """
     pred = plan.predicted_decode_tok_s                                    # calibrated forecast
     ceiling = plan.ceiling_decode_tok_s or plan.predicted_decode_tok_s    # roofline upper bound
@@ -93,6 +97,19 @@ def build_receipt(
         notes.append(f"routing de-risk: {helps} (need {concentration.hot_frac_for_coverage:.0%} of experts for "
                      f"{concentration.coverage_target:.0%} coverage; concentration {concentration.concentration_score:.2f}, "
                      f"top expert {concentration.top1_share:.1%}).")
+    if peaks:
+        env = []
+        if peaks.get("peak_host_mem_pct") is not None:
+            env.append(f"peak host-mem {peaks['peak_host_mem_pct']:.0f}%")
+        if peaks.get("peak_gpu_power_pct") is not None:
+            env.append(f"peak power {peaks['peak_gpu_power_pct']:.0f}%")
+        if peaks.get("peak_gpu_vram_used_mib") is not None:
+            env.append(f"peak VRAM {peaks['peak_gpu_vram_used_mib'] / 1024:.1f} GiB")
+        stayed = peaks.get("stayed_within_envelope")
+        tail = ("stayed within the safety envelope" if stayed else
+                "BREACHED the safety envelope — aborted mid-run") if stayed is not None else "envelope recorded"
+        notes.append(f"safety: {', '.join(env) or 'no peaks'} over {peaks.get('samples', 0)} watchdog polls "
+                     f"— {tail}.")
     return Receipt(
         runtime=plan.runtime, n_cpu_moe=plan.n_cpu_moe,
         measured_decode_tok_s=round(decode_tok_s, 2) if decode_tok_s else None,
@@ -104,6 +121,13 @@ def build_receipt(
         routing_cache_helps=concentration.cache_helps if concentration else None,
         routing_hot_frac_for_coverage=round(concentration.hot_frac_for_coverage, 3) if concentration else None,
         routing_concentration=round(concentration.concentration_score, 3) if concentration else None,
+        peak_gpu_power_pct=(peaks or {}).get("peak_gpu_power_pct"),
+        peak_gpu_temp_c=(peaks or {}).get("peak_gpu_temp_c"),
+        peak_gpu_vram_used_mib=(peaks or {}).get("peak_gpu_vram_used_mib"),
+        peak_host_mem_pct=(peaks or {}).get("peak_host_mem_pct"),
+        min_host_avail_mib=(peaks or {}).get("min_host_avail_mib"),
+        safety_samples=(peaks or {}).get("samples"),
+        stayed_within_envelope=(peaks or {}).get("stayed_within_envelope"),
         method=method, notes=notes,
     )
 
