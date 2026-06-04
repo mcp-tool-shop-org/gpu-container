@@ -31,10 +31,25 @@ Rejected:
 ## Near-term plan (unblocked — needs no cache, no upstream change)
 
 Build and prove against **per-layer** granularity first; the per-expert cache is an increment, not a prerequisite:
-1. `eval-callback` trace harness → L×E activation matrix (<1% overhead).
+1. ✅ **Trace capture (built):** `llama-imatrix` → per-expert `.counts` → L×E `ActivationTrace` (`gpu_container/planner/activation.py`). This is the prebuilt path; the originally-planned `eval-callback` harness needs llama.cpp headers absent from the runtime image.
 2. Per-layer calibrated placement via `-ot` + the shared/attention-in-VRAM hot tier.
 3. The recalibration loop + receipt, against per-layer placement.
 
+## Empirical de-risk result (2026-06-04)
+
+Before building anything, we ran the gate on the real model. Captured a per-expert activation trace from **Qwen3-30B-A3B-Q4_K_M** with `llama-imatrix` (the per-expert `.counts` in `imatrix.gguf`), at **N=0** (all experts in VRAM — the safe config), in-container on the RTX 5090; parsed to an `ActivationTrace`; scored with `analyze_concentration` (90% coverage target).
+
+| workload | tokens | experts for 90% coverage | concentration (1−norm. entropy) | top expert | `cache_helps` |
+|---|---|---|---|---|---|
+| diverse (prose/code/math) | ~1k | 65/128 (51%) | 0.111 | 4.3% | no |
+| narrow (single-domain Python) | ~8k | 58/128 (45%) | 0.154 | 6.3% | barely |
+
+**Verdict: the per-expert cache is NOT worth building for Qwen3-30B-A3B.** Routing is **near-uniform** — even the narrow, single-domain workload needs ~45% of experts resident to cover 90% of routing, with no dominant expert. Request-level skew is real but **modest**: narrow is measurably more concentrated than diverse, and that signal is trustworthy because narrow was *better*-sampled (8k vs 1k tokens) yet *more* concentrated, and more sampling *reduces* concentration bias. The likely cause is by design — modern MoEs train with **load-balancing auxiliary losses** that spread routing evenly, training away the very skew a hot-expert cache would exploit.
+
+This is the gate doing its job: it turns "should we build `#20757`?" into a number, and for this model the number says **hold** — the build would buy ~nothing here. The cache pays off only for a model/workload scoring `cache_helps` with a **low** `hot_frac` (≈ < 0.25), which Qwen3 does not approach.
+
+**Caveats:** one model, two workloads; the diverse trace is under-sampled (but under-sampling can only *exaggerate* concentration, so "diverse is uniform" is robust); 90%/50% are tunable — the *numbers*, not the boolean, are the output. Reproducible: `llama-imatrix -m <gguf> -f <corpus> -ngl 99 --no-ppl -o imatrix.gguf` → per-layer `ffn_down_exps.weight.counts` → `analyze_concentration`.
+
 ## Revisit trigger
 
-Build the per-**expert** tier (engaging `#20757` per this decision) when, for a target model, per-**layer** placement leaves decode **below the calibrated band** or the warm tier **thrashes at layer granularity**. Until then, per-layer is sufficient and the cache is premature.
+Build the per-**expert** tier (engaging `#20757` per this decision) when **both** hold: (a) a target model/workload **passes the concentration gate with a low `hot_frac`** (≈ < 0.25 of experts for 90% coverage) — the routing is actually skewed enough to exploit, which **Qwen3-30B-A3B is not** (see the de-risk above); **and** (b) per-**layer** placement leaves decode **below the calibrated band** or **thrashes the warm tier**. Re-run the gate per target model — it is cheap (one N=0 `imatrix` pass). Until both hold, per-layer is sufficient and the cache is premature.
