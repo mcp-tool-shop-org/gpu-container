@@ -38,16 +38,19 @@ Per-token latency floor ≈ (expert bytes touched ÷ tier bandwidth). Because ba
 ## 2. Adaptive calibration *(the load-bearing correction)*
 - Run **workload-representative** traces — not a generic corpus. Request-level skew aggregates to uniform across diverse prompts (feasibility #6); support per-workload activation-pattern profiles.
 - Emit an **initial** hot/warm/cold assignment from the activation histogram, then **refine online** from the receipt's measured routing.
+- **Trace capture (wave-4):** llama.cpp has no built-in per-expert trace; an `eval-callback` (`cb_eval`) on the top-k/argsort routing node accumulates an **L×E activation matrix at <1% overhead** — the calibration input. SGLang/vLLM expert-distribution recorders are the cross-engine fallback.
+- **Cadence (wave-4):** recalibrate on **drift, not a timer** — a warm-tier miss-rate change detector (ADWIN/DDM) confirmed by JS/χ² divergence between calibrated and live expert histograms; EWMA/ghost-list self-tuning between re-traces; an anti-thrash guard (tiered-JIT pattern).
 - Persist the calibration as a **pinned artifact** (replayable).
 
 ## 3. Placement plan
 - **Hot** = top-N most-activated experts + all shared/attention/router layers (VRAM).
-- **Warm** = next-M experts in pinned RAM with **router-lookahead prefetch**: predict the next layer's experts during current-layer compute and overlap the RAM→VRAM transfer (Pre-gated / Fate — feasibility #7).
+- **Warm** = next-M experts in pinned RAM with **router-lookahead prefetch via a cross-layer gate** — run the *next* layer's existing router on the current layer's hidden state one step early to predict its experts and overlap the RAM→VRAM transfer (Fate ~99% hit / AdapMoE 1.35×, **stock model, no retrain** — wave-4). Pre-gated is **excluded** (needs a fine-tuned model); MoE-Beyond is **deferred** (needs a trained predictor).
 - **Cold** = remaining experts on NVMe, **admitted only** if predicted prefetch hit-rate keeps decode > floor; otherwise demote to RAM or refuse (energy penalty — feasibility #5).
-- **Eviction = staleness/sequence-aware (Least-Stale), NOT LRU for experts** (feasibility #8). (LRU/ARC stays for KV spill.)
+- **Eviction = Least-Stale** (stale/current-queue partition, evict stale first, key `(stale-flag, layer-index)`), NOT LRU for experts (wave-4; feasibility #8). (LRU/ARC stays for KV spill.)
+- ⚠ **Granularity reality (wave-4):** stock llama.cpp stores a layer's experts as **one fused tensor**, so `-ot`/`--override-tensor` places at **per-layer** grain — it **cannot** statically place an individual expert. The **shared/attention-in-VRAM** hot tier ships as `-ot` today; the **per-expert** top-N/next-M split is a **runtime expert-slot cache** built at llama.cpp's [`#20757`](https://github.com/ggml-org/llama.cpp/issues/20757) hook (byte-offset expert copy; no persistence today), **not** a launch flag. See the Phase-2 block below.
 
 ## 4. Launch — runtime targeting
-- **First target: llama.cpp `--n-cpu-moe` / `-ot '…exps=CPU'`** — closest match, shipping, ~12–14 tok/s field-reported (feasibility #3). The planner emits the exact flag set + the predicted memory map.
+- **First target: llama.cpp `--n-cpu-moe` / `-ot '…exps=CPU'`** — closest match, shipping, ~12–14 tok/s field-reported (feasibility #3). The planner emits the exact flag set + the predicted memory map. **Note (wave-4):** these flags place at **per-layer** grain; **per-expert** tiering is the runtime cache (§3 granularity callout), a Phase-2 build.
 - **Later:** vLLM (`--cpu-offload-gb`, expert parallel), HF Accelerate (`device_map`). Cross-runtime config-gen lives behind a thin adapter interface (the volatile module).
 
 ## 5. Receipt + refusal (the verifier)
@@ -71,12 +74,24 @@ Per-token latency floor ≈ (expert bytes touched ÷ tier bandwidth). Because ba
 4. ✅ Receipt captures measured placement + tok/s; refusal fires correctly on an over-large model.
 5. **Recalibration — two halves:**
    - ✅ **Throughput** (built): the receipt's `measured ÷ ceiling` efficiency feeds a regime-keyed model; the next plan emits a calibrated tok/s **band** instead of the raw ceiling. Proven: a second plan for a measured shape predicts within the band (Qwen3-30B-A3B, in-sample + leave-one-out). See [architecture.md § Throughput calibration](architecture.md#throughput-calibration--the-recalibration-loop).
-   - ◻ **Routing** (Phase-2, per-expert): a second run consumes the receipt's per-expert routing and demonstrates a warm-tier hit-rate improvement — needs finer-than-layer placement (`-ot`/`--override-tensor`) + activation traces; gated on the study-swarm.
+   - ◻ **Routing** (Phase-2, per-expert): a second run consumes the receipt's per-expert routing and demonstrates a warm-tier hit-rate improvement. **Study-swarm resolved (wave-4):** `-ot` is per-layer only, so this is **not** a flag — it is a **runtime expert-slot cache** (llama.cpp `#20757` hook) with Least-Stale eviction + cross-layer-gate prefetch, fed by an `eval-callback` L×E trace, recalibrated on drift. See the **Phase-2 block** below + docker-knowledge wave-4 (moe-placement).
+
+## Phase 2 — per-expert tiering (wave-4 study-swarm)
+
+The flagship's deep half, grounded by docker-knowledge **wave-4** (moe-placement lane; 12 findings, 3-lens verified, 0 fabrications). The design that survived verification:
+
+- **Placement atom = the runtime expert-slot cache, not `-ot`.** A layer's experts are one fused tensor (`blk.N.ffn_*_exps.weight {n_embd, n_ff, n_expert}`), so `-ot` is per-layer. Per-expert hot/warm/cold tiering is a persistent GPU-slot cache (`expert_id→slot` map) built at llama.cpp's [`#20757`](https://github.com/ggml-org/llama.cpp/issues/20757) hook (the byte-offset expert copy that today has *no* persistence). **Open decision:** build it in-product vs ride/contribute upstream `#20757` (its PoC already shows 12–14 tok/s vs 0.5–1).
+- **Trace = `eval-callback` → L×E matrix** at <1% overhead (MoE-Infinity EAM budget); SGLang/vLLM recorders are the cross-engine fallback.
+- **Eviction = Least-Stale** (stale/current queue, key `(stale-flag, layer-index)`) — stock model, no surgery.
+- **Prefetch = cross-layer gate** (next layer's existing router on the current hidden state; Fate ~99% hit, AdapMoE 1.35×) — stock model, no retrain. Pre-gated excluded (needs fine-tune); MoE-Beyond deferred (needs a trained predictor).
+- **Cadence = drift-gated** (miss-rate detector + histogram divergence; EWMA/ghost-list self-tuning between; anti-thrash guard).
+
+Sources + per-citation verification: `readouts/docker-knowledge/waves/wave-04-per-expert/`.
 
 ## Risks / open questions
 - Prefetch hit-rate on *your* workloads vs the papers' benchmarks — the ~5–12% miss tail still pays full NVMe latency.
-- llama.cpp expert-tensor placement granularity vs the per-expert control the planner wants.
-- Calibration cost (trace runs) vs benefit; recalibration cadence.
+- ✅ **Resolved (wave-4):** llama.cpp `-ot` granularity is **per-layer** (fused expert tensor); per-expert control requires the runtime cache (`#20757` hook). The one **open decision**: build that cache in-product vs contribute to / ride the upstream `#20757` effort.
+- ✅ **Resolved (wave-4):** recalibration cadence is **drift-gated** (miss-rate detector + histogram divergence), not fixed-interval; trace cost is bounded by the <1% eval-callback probe.
 - Cold-tier energy (feasibility #5) — likely default cold-NVMe experts to **off** unless explicitly opted in.
 
 ## First integration target — why llama.cpp
