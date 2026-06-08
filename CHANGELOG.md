@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.4] - 2026-06-08
+
+### Fixed
+- **npm provenance source link** now resolves to the launcher's `npm/` subdirectory — added `repository.directory: "npm"` to the launcher `package.json`. Cosmetic only: the 0.1.3 attestation was already valid (`npm audit signatures` passes); this points npm's provenance "source" link at the real package folder instead of the repo root.
+
+### Changed
+- **Release pipeline** now verifies the launcher's pinned binary `version` + `tag` (`npm/bin/gpu-container.js`) match the release tag before publishing — closing a gap where bumping the package version alone could publish a launcher that downloads the *previous* release's binaries (CI stayed green because it only gated `pyproject.toml` + `npm/package.json`).
+
 ## [0.1.3] - 2026-06-04
 
 ### Fixed

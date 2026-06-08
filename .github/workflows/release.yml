@@ -152,6 +152,18 @@ jobs:
             echo "::error::release tag ${TAG} does not match npm/package.json version ${PKG}"
             exit 1
           fi
+          # The launcher bin pins the version + tag it downloads binaries for. Gate it too:
+          # without this, a version bump that forgets bin/gpu-container.js would publish a
+          # launcher that fetches the PREVIOUS release's binaries/checksums while every other
+          # gate stays green (npm/package.json already matches the tag). Caught in v0.1.4 preflight.
+          if ! grep -q "version: \"${TAG}\"" npm/bin/gpu-container.js; then
+            echo "::error::npm/bin/gpu-container.js version literal does not match ${TAG}"
+            exit 1
+          fi
+          if ! grep -q "tag: \"v${TAG}\"" npm/bin/gpu-container.js; then
+            echo "::error::npm/bin/gpu-container.js tag literal does not match v${TAG}"
+            exit 1
+          fi
 
       - uses: actions/setup-node@v4
         with:
