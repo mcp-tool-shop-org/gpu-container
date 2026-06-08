@@ -1,0 +1,54 @@
+{
+  "label": "seed1337",
+  "n": 305,
+  "query_errors": 0,
+  "rungs": {
+    "1": {
+      "n": 56,
+      "acc": 0.75,
+      "ci95": [
+        0.643,
+        0.857
+      ],
+      "flip_consistency": 0.071
+    },
+    "2": {
+      "n": 108,
+      "acc": 0.491,
+      "ci95": [
+        0.389,
+        0.583
+      ],
+      "flip_consistency": 0.0
+    },
+    "3": {
+      "n": 58,
+      "acc": 0.603,
+      "ci95": [
+        0.483,
+        0.724
+      ],
+      "flip_consistency": 0.276
+    },
+    "4": {
+      "n": 14,
+      "acc": 0.786,
+      "ci95": [
+        0.571,
+        1.0
+      ],
+      "flip_consistency": 0.571
+    },
+    "5": {
+      "n": 69,
+      "acc": 0.971,
+      "ci95": [
+        0.928,
+        1.0
+      ],
+      "flip_consistency": 0.913
+    }
+  },
+  "overall": 0.682,
+  "flip_consistency_overall": 0.268
+}

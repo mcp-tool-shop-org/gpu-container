@@ -1,0 +1,54 @@
+{
+  "label": "seed42",
+  "n": 305,
+  "query_errors": 0,
+  "rungs": {
+    "1": {
+      "n": 56,
+      "acc": 0.786,
+      "ci95": [
+        0.679,
+        0.893
+      ],
+      "flip_consistency": 0.143
+    },
+    "2": {
+      "n": 108,
+      "acc": 0.509,
+      "ci95": [
+        0.407,
+        0.602
+      ],
+      "flip_consistency": 0.019
+    },
+    "3": {
+      "n": 58,
+      "acc": 0.793,
+      "ci95": [
+        0.69,
+        0.897
+      ],
+      "flip_consistency": 0.655
+    },
+    "4": {
+      "n": 14,
+      "acc": 0.571,
+      "ci95": [
+        0.286,
+        0.786
+      ],
+      "flip_consistency": 0.286
+    },
+    "5": {
+      "n": 69,
+      "acc": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "flip_consistency": 1.0
+    }
+  },
+  "overall": 0.728,
+  "flip_consistency_overall": 0.37
+}

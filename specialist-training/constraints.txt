@@ -1,0 +1,10 @@
+# backpropagate v1.5.0 verified-on-5090 stack — pins (Mike-approved, option A, 2026-06-05).
+# Source: backpropagate's own .venv (trained e2e on this RTX 5090) + the v1.5 dogfood-swarm notes.
+# torch is installed explicitly from the cu128 index (not pinned here, to avoid the +local matching
+# subtlety); this file keeps backpropagate's editable install from bumping the ML libs off the combo.
+transformers==5.5.0
+trl==0.24.0
+peft==0.19.1
+bitsandbytes==0.49.2
+accelerate==1.13.0
+datasets==4.3.0

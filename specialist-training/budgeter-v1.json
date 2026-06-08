@@ -1,0 +1,12 @@
+{
+  "id": "budgeter-14b600-soup-20260605",
+  "adapter_id": "budgeter-14b600-soup",
+  "base_model": "Qwen/Qwen3-14B",
+  "gate_threshold": 0.6,
+  "certified_level": "L5",
+  "exam_hash": "ebc5416a8c327d2783c4873292d7185ae3e04d63d3b6e3526bb2ecddedd3f68d",
+  "field_audit_window": 200,
+  "created_at": "2026-06-05T00:00:00Z",
+  "ood_floor": 0.4,
+  "notes": "Token Budget Analyst — Qwen3-14B QLoRA, model-soup of seeds 42+1337. All 5 rungs earned on the held-out exam: 0.944 acc / 0.866 flip-consistency. Serve via llama.cpp at --lora scale 4 (rsLoRA). Fail open to deterministic baseline max(context*1.5, 50000)."
+}

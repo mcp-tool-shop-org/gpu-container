@@ -30,6 +30,9 @@ out/
 models/
 weights/
 .cache/
+# specialist-training: training output (checkpoints ~200MB) — source scripts ARE tracked
+specialist-training/runs/
+specialist-training/logs/
 
 # --- Runtime outputs (profiles + receipts are generated, not committed) ---
 receipts/
