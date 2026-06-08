@@ -32,7 +32,8 @@
   "author": "mcp-tool-shop",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mcp-tool-shop-org/gpu-container.git"
+    "url": "git+https://github.com/mcp-tool-shop-org/gpu-container.git",
+    "directory": "npm"
   },
   "homepage": "https://github.com/mcp-tool-shop-org/gpu-container"
 }
