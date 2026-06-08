@@ -1,0 +1,639 @@
+{
+  "Read": {
+    "contract": "Read a file from the local filesystem. file_path must be an absolute path. 'limit' is the number of lines to read and must be a positive integer (> 0). 'offset' is the 0-based line to start reading from and must be non-negative (>= 0).",
+    "params": [
+      {
+        "name": "file_path",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "limit",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "offset",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "pages",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "gt",
+        "left": "limit",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "offset",
+        "right": 0
+      }
+    ]
+  },
+  "Edit": {
+    "contract": "Exact string replacement in a file. file_path, old_string, and new_string are all required strings. old_string must be DIFFERENT from new_string (replacing a string with itself is a no-op and is rejected). replace_all is an optional boolean.",
+    "params": [
+      {
+        "name": "file_path",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "old_string",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "new_string",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "replace_all",
+        "type": "boolean",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ne",
+        "left": "old_string",
+        "right": {
+          "field": "new_string"
+        }
+      }
+    ]
+  },
+  "Write": {
+    "contract": "Write (overwrite) a file on the local filesystem. Both file_path (an absolute path) and content are required strings. No computable relational contract beyond the schema floor.",
+    "params": [
+      {
+        "name": "file_path",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "required": true
+      }
+    ],
+    "constraints": []
+  },
+  "Bash": {
+    "contract": "Execute a bash command. 'command' is required. 'timeout' is in milliseconds and must not exceed 600000 (10 minutes); it must also be non-negative. run_in_background and dangerouslyDisableSandbox are optional booleans.",
+    "params": [
+      {
+        "name": "command",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "timeout",
+        "type": "number",
+        "required": false,
+        "max": 600000
+      },
+      {
+        "name": "run_in_background",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "dangerouslyDisableSandbox",
+        "type": "boolean",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "timeout",
+        "right": 0
+      }
+    ]
+  },
+  "PowerShell": {
+    "contract": "Execute a PowerShell command. 'command' is required. 'timeout' is in milliseconds and must not exceed 600000 (10 minutes); it must also be non-negative. run_in_background and dangerouslyDisableSandbox are optional booleans.",
+    "params": [
+      {
+        "name": "command",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "timeout",
+        "type": "number",
+        "required": false,
+        "max": 600000
+      },
+      {
+        "name": "run_in_background",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "dangerouslyDisableSandbox",
+        "type": "boolean",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "timeout",
+        "right": 0
+      }
+    ]
+  },
+  "Grep": {
+    "contract": "ripgrep content search. 'pattern' is required. 'output_mode' must be one of content|files_with_matches|count. The numeric context fields -A, -B, -C, and context are line counts and must be non-negative (>= 0). head_limit and offset are also non-negative integers (>= 0).",
+    "params": [
+      {
+        "name": "pattern",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "glob",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "output_mode",
+        "type": "string",
+        "required": false,
+        "enum": [
+          "content",
+          "files_with_matches",
+          "count"
+        ]
+      },
+      {
+        "name": "-A",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "-B",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "-C",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "-n",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "-i",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "-o",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "multiline",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "head_limit",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "offset",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "context",
+        "type": "number",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "-A",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "-B",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "-C",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "context",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "head_limit",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "offset",
+        "right": 0
+      }
+    ]
+  },
+  "Glob": {
+    "contract": "Fast file pattern matching. 'pattern' is required (e.g. **/*.ts). 'path' is an optional directory to search in. No computable relational contract beyond the schema floor.",
+    "params": [
+      {
+        "name": "pattern",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "constraints": []
+  },
+  "AskUserQuestion": {
+    "contract": "Ask the user between 1 and 4 questions. 'questions' is a required array whose length must be >= 1 and <= 4.",
+    "params": [
+      {
+        "name": "questions",
+        "type": "array",
+        "required": true
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": {
+          "len": "questions"
+        },
+        "right": 1
+      },
+      {
+        "kind": "cmp",
+        "op": "le",
+        "left": {
+          "len": "questions"
+        },
+        "right": 4
+      }
+    ]
+  },
+  "ToolSearch": {
+    "contract": "Fetch deferred tool schemas. 'query' is required. 'max_results' is an optional result-count hint (the real schema enforces no min/integer bound). No computable relational contract beyond the schema floor.",
+    "params": [
+      {
+        "name": "query",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "max_results",
+        "type": "number",
+        "required": false
+      }
+    ],
+    "constraints": []
+  },
+  "Skill": {
+    "contract": "Invoke a skill by exact name. 'skill' is required. 'args' is optional. No computable relational contract beyond the schema floor.",
+    "params": [
+      {
+        "name": "skill",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "args",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "constraints": []
+  },
+  "Agent": {
+    "contract": "Launch a subagent. description, prompt, and subagent_type are required. 'model' (when provided) must be one of sonnet|opus|haiku. 'isolation' (when provided) must be 'worktree'. IMPORTANT: subagent_type is an OPEN set — custom agent types are allowed — so do NOT add a membership constraint on subagent_type; that is genuinely-semantic, not computable.",
+    "params": [
+      {
+        "name": "description",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "prompt",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "subagent_type",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "model",
+        "type": "string",
+        "required": false,
+        "enum": [
+          "sonnet",
+          "opus",
+          "haiku"
+        ]
+      },
+      {
+        "name": "isolation",
+        "type": "string",
+        "required": false,
+        "enum": [
+          "worktree"
+        ]
+      },
+      {
+        "name": "run_in_background",
+        "type": "boolean",
+        "required": false
+      }
+    ],
+    "constraints": []
+  },
+  "mcp__ollama-intern__ollama_chat": {
+    "contract": "Chat with the local model. 'messages' is a required, NON-EMPTY array of {role,content} (length >= 1). model and system are optional strings.",
+    "params": [
+      {
+        "name": "messages",
+        "type": "array",
+        "required": true
+      },
+      {
+        "name": "model",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "system",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": {
+          "len": "messages"
+        },
+        "right": 1
+      }
+    ]
+  },
+  "mcp__ollama-intern__ollama_classify": {
+    "contract": "Single-label classification. 'labels' is required. Provide EXACTLY ONE of 'text', 'source_path', or 'items' (the input source — exactly one must be present). 'threshold' is a confidence floor in [0,1]. 'per_file_max_chars' is in [1000,200000]. allow_none, frame, model are optional.",
+    "params": [
+      {
+        "name": "labels",
+        "required": true
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "source_path",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "items",
+        "type": "array",
+        "required": false
+      },
+      {
+        "name": "threshold",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "allow_none",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "frame",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "model",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "per_file_max_chars",
+        "type": "integer",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "present",
+        "fields": [
+          "text",
+          "source_path",
+          "items"
+        ],
+        "count": 1
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "threshold",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "le",
+        "left": "threshold",
+        "right": 1
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "per_file_max_chars",
+        "right": 1000
+      },
+      {
+        "kind": "cmp",
+        "op": "le",
+        "left": "per_file_max_chars",
+        "right": 200000
+      }
+    ]
+  },
+  "mcp__ollama-intern__ollama_corpus_search": {
+    "contract": "Concept search over a named corpus. 'corpus' and 'query' are required strings. 'mode' (when provided) must be one of semantic|lexical|hybrid|fact|title_path. 'top_k' is an integer in [1,100]. 'preview_chars' is an integer in [0,500].",
+    "params": [
+      {
+        "name": "corpus",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "query",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "mode",
+        "type": "string",
+        "required": false,
+        "enum": [
+          "semantic",
+          "lexical",
+          "hybrid",
+          "fact",
+          "title_path"
+        ]
+      },
+      {
+        "name": "top_k",
+        "type": "integer",
+        "required": false
+      },
+      {
+        "name": "preview_chars",
+        "type": "integer",
+        "required": false
+      },
+      {
+        "name": "explain",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "filter",
+        "type": "object",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "top_k",
+        "right": 1
+      },
+      {
+        "kind": "cmp",
+        "op": "le",
+        "left": "top_k",
+        "right": 100
+      },
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "preview_chars",
+        "right": 0
+      },
+      {
+        "kind": "cmp",
+        "op": "le",
+        "left": "preview_chars",
+        "right": 500
+      }
+    ]
+  },
+  "mcp__ollama-intern__ollama_summarize_fast": {
+    "contract": "Summarize short text. 'text' is required. 'max_words' is the target length and is an integer in [10,400]. frame and model are optional.",
+    "params": [
+      {
+        "name": "text",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "max_words",
+        "type": "integer",
+        "required": false
+      },
+      {
+        "name": "frame",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "model",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "constraints": [
+      {
+        "kind": "cmp",
+        "op": "ge",
+        "left": "max_words",
+        "right": 10
+      },
+      {
+        "kind": "cmp",
+        "op": "le",
+        "left": "max_words",
+        "right": 400
+      }
+    ]
+  }
+}
