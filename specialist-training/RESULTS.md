@@ -83,3 +83,36 @@ load-bearing metric: a shortcutting model scores high accuracy but ~0 flip-consi
 
 Live services (restartable): Docker container `budgeter-serve` (:8090) + `verify_shim.py` (:8000).
 Tear down: `docker rm -f budgeter-serve` and `pkill -f verify_shim.py`.
+
+---
+
+# Cross-training (specialists S4) — first live fusion, 2026-06-12
+
+**Candidate:** `budgeter-x-conformance-add` = budgeter-14b600-soup × conformance-14b-soup-v0.2,
+task-vector addition at r32/α64 (serve scale 4.0 parity). Tooling: `cross_train.py`
+(compatibility readout → merge → report).
+
+**Compatibility readout (the instrument worked):** sign-agreement 0.508 (coin-flip),
+mean cosine 0.005, top-20% overlap 0.115 (random rate) — the parents are ORTHOGONAL.
+The readout steered the method: TIES trim/mask machinery resolves interference we don't
+have and destroys low-rankness (SVD residual 0.479 @ r16, 0.413 @ r32); plain addition
+preserves rank ≤ 32 exactly (residual **0.0022** @ r32).
+
+**Preregistered gate (before any exam):** budgeter acc ≥0.85 ∧ flip ≥0.75;
+conformance acc ≥0.90 ∧ flip ≥0.85 ∧ false-conformant ≤0.05. Both or no birth.
+
+**Result: FAILED — no registration.** Budgeter 0.738/0.441 (L2, the 600-step grokked
+arithmetic rung, collapsed to chance: 0.519/0.111; L1 0.964, L5 1.0 held). Conformance
+0.84/0.681, false-conformant 0.097, cost-weighted error 0.297 (parent 0.0405).
+**The delicate circuits broke; the robust ones held** — functional interference at full
+strength (λ=1), exactly the 4–14B fragile-merging regime the design preregistered for.
+Both exams archived (`certify/exams/`, hashes pinned: budgeter `ebc5416a…` — matches the
+original registry pin, a true re-exam; conformance `cb6de192…` now properly archived).
+Attempt receipts: `certify/x-add-r32-{budgeter,conformance}.json`,
+`runs/cross-train-add-r32.json`, plus `certification-attempt` events in role-os's
+all-attempts ledger.
+
+**Why no λ-tuning followed:** tuning the merge coefficient against the certification exam
+is optimizing the proxy (Goodhart). The literature-correct next protocol is **learned
+concatenation (LoRA Soups CAT)** — per-adapter weights calibrated on TRAIN data, certified
+ONCE on the untouched exams. The λ=1 endpoint is now a measured bracket for that session.

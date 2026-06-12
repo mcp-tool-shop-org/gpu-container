@@ -1,0 +1,54 @@
+{
+  "label": "x-add-r32-budgeter",
+  "n": 305,
+  "query_errors": 0,
+  "rungs": {
+    "1": {
+      "n": 56,
+      "acc": 0.964,
+      "ci95": [
+        0.911,
+        1.0
+      ],
+      "flip_consistency": 0.857
+    },
+    "2": {
+      "n": 108,
+      "acc": 0.519,
+      "ci95": [
+        0.426,
+        0.611
+      ],
+      "flip_consistency": 0.111
+    },
+    "3": {
+      "n": 58,
+      "acc": 0.586,
+      "ci95": [
+        0.466,
+        0.724
+      ],
+      "flip_consistency": 0.345
+    },
+    "4": {
+      "n": 14,
+      "acc": 0.857,
+      "ci95": [
+        0.643,
+        1.0
+      ],
+      "flip_consistency": 0.714
+    },
+    "5": {
+      "n": 69,
+      "acc": 1.0,
+      "ci95": [
+        1.0,
+        1.0
+      ],
+      "flip_consistency": 1.0
+    }
+  },
+  "overall": 0.738,
+  "flip_consistency_overall": 0.441
+}
