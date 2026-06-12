@@ -116,3 +116,38 @@ all-attempts ledger.
 is optimizing the proxy (Goodhart). The literature-correct next protocol is **learned
 concatenation (LoRA Soups CAT)** — per-adapter weights calibrated on TRAIN data, certified
 ONCE on the untouched exams. The λ=1 endpoint is now a measured bracket for that session.
+
+## S4b — CAT calibration (2026-06-12): second preregistered attempt, FAILED, mechanism found
+
+**Calibration** (`calibrate_cat.py`): 2-param CAT — learnable (λ_A, λ_B) over both frozen
+LoRA branches on Qwen3-14B 4-bit, CE on a 50/50 TRAIN interleave (1621 budgeter + 742
+conformance rows; 24 probes held out; exams untouched). Converged in ~25 steps to a stable
+plateau: **λ_A=0.728, λ_B=0.615** (probe CE 0.764 → 0.296) — gradient descent confirming
+the λ=1 over-drive hypothesis. **vector-caliper trajectory captured per checkpoint**
+(last-token hidden-state cloud, native entropy/margin): geometry FLAT throughout (effDim
+4.6–4.8, spread ~59) — no cloud collapse; baseline committed as
+`vector-caliper/baselines/qwen-cat-budgeter-conformance.{json,svg}` (first LLM baseline).
+
+**Single certification shot** (`budgeter-x-conformance-cat`, add-r32 at calibrated λ,
+residual 0.0021): **FAILED the preregistered gate.**
+
+| exam | result | parent | gate |
+|---|---|---|---|
+| budgeter | 0.711 acc / **0.386 flip** (L2 0.546/0.111, L3 0.379/0.069) | 0.944/0.866 | ≥0.85/0.75 ✗ |
+| conformance | 0.951 / 0.903, **fc-rate 0.056**, cwe 0.144 | 0.986/0.972/0.014 | fc ≤0.05 ✗ (hair) |
+
+**The finding (the caliper made it legible):** the TRAIN-CE surface and the
+flip-consistency surface DISAGREE. Calibration achieved fluent answer reproduction on both
+tasks (probe acc 0.92, healthy geometry) while the budgeter's grokked compositional rungs
+stayed broken at every tested λ — and conformance nearly healed at λ_B=0.615. The fragile
+element is specifically the 600-step grokked arithmetic circuit: it survives NO tested
+weight-space superposition with the conformance vector. Probe metrics cannot see circuit
+damage; **exams stay sovereign.**
+
+**Conclusion:** weight-space fusion is exhausted for this pair (ties-r16, add-r32 λ=1,
+CAT-calibrated λ — all receipted in the all-attempts ledger). The buildable path to a
+certified budgeter+conformance specialist is the **joint data-mixed retrain** (S4c): the
+proven train pipeline with `BUDGETER_DATA` = concatenated SFT, 2 seeds, soup, certify both
+exams. **Untraining note:** for linear weight-space merges, task-vector negation is exact
+by construction (subtracting λ_B·ΔW_B recovers λ_A·ΔW_A algebraically) — the experimental
+form of untraining only becomes meaningful on jointly-trained adapters → S4c scope.

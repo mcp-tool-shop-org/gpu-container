@@ -1,0 +1,2256 @@
+{
+ "aggregate": {
+  "parents": {
+   "a": "budgeter-14b600-soup",
+   "b": "conformance-14b-soup-v0.2"
+  },
+  "method": "add-r32-lam(0.7277,0.6149)",
+  "modules": 280,
+  "sign_agreement_on_overlap": 0.5084,
+  "mean_cosine": 0.0048,
+  "mean_overlap_jaccard": 0.1153,
+  "svd_truncation_residual": 0.0021
+ },
+ "per_module": [
+  {
+   "module": "model.layers.0.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5104,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0067,
+   "fro_a": 0.106,
+   "fro_b": 0.123
+  },
+  {
+   "module": "model.layers.0.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5044,
+   "overlap_jaccard": 0.1124,
+   "cosine": 0.0028,
+   "fro_a": 0.183,
+   "fro_b": 0.21
+  },
+  {
+   "module": "model.layers.0.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5061,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.0041,
+   "fro_a": 0.178,
+   "fro_b": 0.208
+  },
+  {
+   "module": "model.layers.0.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5021,
+   "overlap_jaccard": 0.1121,
+   "cosine": 0.0007,
+   "fro_a": 0.042,
+   "fro_b": 0.044
+  },
+  {
+   "module": "model.layers.0.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.502,
+   "overlap_jaccard": 0.1108,
+   "cosine": 0.0014,
+   "fro_a": 0.097,
+   "fro_b": 0.113
+  },
+  {
+   "module": "model.layers.0.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.4997,
+   "overlap_jaccard": 0.117,
+   "cosine": -0.0001,
+   "fro_a": 0.095,
+   "fro_b": 0.098
+  },
+  {
+   "module": "model.layers.0.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5041,
+   "overlap_jaccard": 0.1115,
+   "cosine": 0.0036,
+   "fro_a": 0.042,
+   "fro_b": 0.049
+  },
+  {
+   "module": "model.layers.1.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.503,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0019,
+   "fro_a": 0.11,
+   "fro_b": 0.118
+  },
+  {
+   "module": "model.layers.1.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5042,
+   "overlap_jaccard": 0.1908,
+   "cosine": 0.0034,
+   "fro_a": 0.245,
+   "fro_b": 0.278
+  },
+  {
+   "module": "model.layers.1.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.1464,
+   "cosine": 0.0029,
+   "fro_a": 0.421,
+   "fro_b": 0.331
+  },
+  {
+   "module": "model.layers.1.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5031,
+   "overlap_jaccard": 0.1125,
+   "cosine": 0.002,
+   "fro_a": 0.04,
+   "fro_b": 0.045
+  },
+  {
+   "module": "model.layers.1.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5085,
+   "overlap_jaccard": 0.1113,
+   "cosine": 0.0053,
+   "fro_a": 0.098,
+   "fro_b": 0.118
+  },
+  {
+   "module": "model.layers.1.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.4996,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0001,
+   "fro_a": 0.094,
+   "fro_b": 0.104
+  },
+  {
+   "module": "model.layers.1.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5068,
+   "overlap_jaccard": 0.111,
+   "cosine": 0.0037,
+   "fro_a": 0.047,
+   "fro_b": 0.049
+  },
+  {
+   "module": "model.layers.10.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5049,
+   "overlap_jaccard": 0.1116,
+   "cosine": 0.003,
+   "fro_a": 0.124,
+   "fro_b": 0.142
+  },
+  {
+   "module": "model.layers.10.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5008,
+   "overlap_jaccard": 0.112,
+   "cosine": 0.0006,
+   "fro_a": 0.228,
+   "fro_b": 0.286
+  },
+  {
+   "module": "model.layers.10.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5023,
+   "overlap_jaccard": 0.1117,
+   "cosine": 0.0017,
+   "fro_a": 0.219,
+   "fro_b": 0.249
+  },
+  {
+   "module": "model.layers.10.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4995,
+   "overlap_jaccard": 0.1076,
+   "cosine": -0.0004,
+   "fro_a": 0.053,
+   "fro_b": 0.056
+  },
+  {
+   "module": "model.layers.10.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5036,
+   "overlap_jaccard": 0.1118,
+   "cosine": 0.0023,
+   "fro_a": 0.116,
+   "fro_b": 0.121
+  },
+  {
+   "module": "model.layers.10.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.4998,
+   "overlap_jaccard": 0.1118,
+   "cosine": 0.0001,
+   "fro_a": 0.118,
+   "fro_b": 0.137
+  },
+  {
+   "module": "model.layers.10.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5031,
+   "overlap_jaccard": 0.1114,
+   "cosine": 0.0015,
+   "fro_a": 0.051,
+   "fro_b": 0.055
+  },
+  {
+   "module": "model.layers.11.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5086,
+   "overlap_jaccard": 0.1115,
+   "cosine": 0.0055,
+   "fro_a": 0.118,
+   "fro_b": 0.139
+  },
+  {
+   "module": "model.layers.11.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.0019,
+   "fro_a": 0.244,
+   "fro_b": 0.276
+  },
+  {
+   "module": "model.layers.11.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5032,
+   "overlap_jaccard": 0.11,
+   "cosine": 0.0019,
+   "fro_a": 0.226,
+   "fro_b": 0.248
+  },
+  {
+   "module": "model.layers.11.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4992,
+   "overlap_jaccard": 0.1142,
+   "cosine": 0.0002,
+   "fro_a": 0.046,
+   "fro_b": 0.057
+  },
+  {
+   "module": "model.layers.11.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5032,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.0019,
+   "fro_a": 0.112,
+   "fro_b": 0.127
+  },
+  {
+   "module": "model.layers.11.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5009,
+   "overlap_jaccard": 0.1131,
+   "cosine": 0.0004,
+   "fro_a": 0.124,
+   "fro_b": 0.133
+  },
+  {
+   "module": "model.layers.11.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5018,
+   "overlap_jaccard": 0.1088,
+   "cosine": 0.0005,
+   "fro_a": 0.054,
+   "fro_b": 0.059
+  },
+  {
+   "module": "model.layers.12.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5072,
+   "overlap_jaccard": 0.1114,
+   "cosine": 0.0045,
+   "fro_a": 0.128,
+   "fro_b": 0.151
+  },
+  {
+   "module": "model.layers.12.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5034,
+   "overlap_jaccard": 0.1129,
+   "cosine": 0.0022,
+   "fro_a": 0.256,
+   "fro_b": 0.315
+  },
+  {
+   "module": "model.layers.12.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.1111,
+   "cosine": 0.0017,
+   "fro_a": 0.225,
+   "fro_b": 0.257
+  },
+  {
+   "module": "model.layers.12.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5018,
+   "overlap_jaccard": 0.1137,
+   "cosine": 0.0013,
+   "fro_a": 0.052,
+   "fro_b": 0.059
+  },
+  {
+   "module": "model.layers.12.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5048,
+   "overlap_jaccard": 0.1107,
+   "cosine": 0.0031,
+   "fro_a": 0.118,
+   "fro_b": 0.13
+  },
+  {
+   "module": "model.layers.12.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.4998,
+   "overlap_jaccard": 0.1123,
+   "cosine": -0.0004,
+   "fro_a": 0.118,
+   "fro_b": 0.129
+  },
+  {
+   "module": "model.layers.12.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5026,
+   "overlap_jaccard": 0.1096,
+   "cosine": 0.0015,
+   "fro_a": 0.053,
+   "fro_b": 0.061
+  },
+  {
+   "module": "model.layers.13.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5076,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.0043,
+   "fro_a": 0.138,
+   "fro_b": 0.165
+  },
+  {
+   "module": "model.layers.13.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5014,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.0011,
+   "fro_a": 0.268,
+   "fro_b": 0.33
+  },
+  {
+   "module": "model.layers.13.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5015,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.0012,
+   "fro_a": 0.239,
+   "fro_b": 0.257
+  },
+  {
+   "module": "model.layers.13.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5022,
+   "overlap_jaccard": 0.1133,
+   "cosine": 0.0006,
+   "fro_a": 0.052,
+   "fro_b": 0.056
+  },
+  {
+   "module": "model.layers.13.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5027,
+   "overlap_jaccard": 0.111,
+   "cosine": 0.0022,
+   "fro_a": 0.116,
+   "fro_b": 0.127
+  },
+  {
+   "module": "model.layers.13.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5009,
+   "overlap_jaccard": 0.1139,
+   "cosine": 0.0007,
+   "fro_a": 0.119,
+   "fro_b": 0.125
+  },
+  {
+   "module": "model.layers.13.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.4987,
+   "overlap_jaccard": 0.1154,
+   "cosine": -0.0007,
+   "fro_a": 0.051,
+   "fro_b": 0.06
+  },
+  {
+   "module": "model.layers.14.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5111,
+   "overlap_jaccard": 0.1104,
+   "cosine": 0.0065,
+   "fro_a": 0.142,
+   "fro_b": 0.159
+  },
+  {
+   "module": "model.layers.14.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.1116,
+   "cosine": 0.0018,
+   "fro_a": 0.261,
+   "fro_b": 0.344
+  },
+  {
+   "module": "model.layers.14.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5023,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0013,
+   "fro_a": 0.236,
+   "fro_b": 0.26
+  },
+  {
+   "module": "model.layers.14.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5017,
+   "overlap_jaccard": 0.1107,
+   "cosine": 0.0004,
+   "fro_a": 0.055,
+   "fro_b": 0.059
+  },
+  {
+   "module": "model.layers.14.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5049,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0034,
+   "fro_a": 0.124,
+   "fro_b": 0.134
+  },
+  {
+   "module": "model.layers.14.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5005,
+   "overlap_jaccard": 0.1131,
+   "cosine": 0.0003,
+   "fro_a": 0.124,
+   "fro_b": 0.145
+  },
+  {
+   "module": "model.layers.14.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5046,
+   "overlap_jaccard": 0.1102,
+   "cosine": 0.0015,
+   "fro_a": 0.058,
+   "fro_b": 0.066
+  },
+  {
+   "module": "model.layers.15.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5117,
+   "overlap_jaccard": 0.1138,
+   "cosine": 0.0069,
+   "fro_a": 0.144,
+   "fro_b": 0.154
+  },
+  {
+   "module": "model.layers.15.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.114,
+   "cosine": 0.0018,
+   "fro_a": 0.282,
+   "fro_b": 0.311
+  },
+  {
+   "module": "model.layers.15.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.1112,
+   "cosine": 0.0017,
+   "fro_a": 0.252,
+   "fro_b": 0.263
+  },
+  {
+   "module": "model.layers.15.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4987,
+   "overlap_jaccard": 0.1118,
+   "cosine": -0.0001,
+   "fro_a": 0.059,
+   "fro_b": 0.061
+  },
+  {
+   "module": "model.layers.15.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5056,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0031,
+   "fro_a": 0.13,
+   "fro_b": 0.13
+  },
+  {
+   "module": "model.layers.15.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5033,
+   "overlap_jaccard": 0.1148,
+   "cosine": 0.0019,
+   "fro_a": 0.138,
+   "fro_b": 0.143
+  },
+  {
+   "module": "model.layers.15.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5043,
+   "overlap_jaccard": 0.1117,
+   "cosine": 0.0028,
+   "fro_a": 0.063,
+   "fro_b": 0.061
+  },
+  {
+   "module": "model.layers.16.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5147,
+   "overlap_jaccard": 0.1116,
+   "cosine": 0.0089,
+   "fro_a": 0.138,
+   "fro_b": 0.156
+  },
+  {
+   "module": "model.layers.16.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5027,
+   "overlap_jaccard": 0.113,
+   "cosine": 0.0016,
+   "fro_a": 0.28,
+   "fro_b": 0.319
+  },
+  {
+   "module": "model.layers.16.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5037,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0023,
+   "fro_a": 0.256,
+   "fro_b": 0.257
+  },
+  {
+   "module": "model.layers.16.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5046,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.0028,
+   "fro_a": 0.057,
+   "fro_b": 0.066
+  },
+  {
+   "module": "model.layers.16.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.1114,
+   "cosine": 0.0018,
+   "fro_a": 0.13,
+   "fro_b": 0.141
+  },
+  {
+   "module": "model.layers.16.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5031,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0016,
+   "fro_a": 0.127,
+   "fro_b": 0.144
+  },
+  {
+   "module": "model.layers.16.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5029,
+   "overlap_jaccard": 0.1113,
+   "cosine": 0.0005,
+   "fro_a": 0.058,
+   "fro_b": 0.062
+  },
+  {
+   "module": "model.layers.17.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.514,
+   "overlap_jaccard": 0.1114,
+   "cosine": 0.0077,
+   "fro_a": 0.148,
+   "fro_b": 0.17
+  },
+  {
+   "module": "model.layers.17.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5035,
+   "overlap_jaccard": 0.1134,
+   "cosine": 0.0022,
+   "fro_a": 0.302,
+   "fro_b": 0.308
+  },
+  {
+   "module": "model.layers.17.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5042,
+   "overlap_jaccard": 0.1119,
+   "cosine": 0.0026,
+   "fro_a": 0.258,
+   "fro_b": 0.268
+  },
+  {
+   "module": "model.layers.17.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5051,
+   "overlap_jaccard": 0.1118,
+   "cosine": 0.0019,
+   "fro_a": 0.065,
+   "fro_b": 0.06
+  },
+  {
+   "module": "model.layers.17.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5061,
+   "overlap_jaccard": 0.1116,
+   "cosine": 0.0036,
+   "fro_a": 0.128,
+   "fro_b": 0.138
+  },
+  {
+   "module": "model.layers.17.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5009,
+   "overlap_jaccard": 0.1115,
+   "cosine": 0.0012,
+   "fro_a": 0.131,
+   "fro_b": 0.143
+  },
+  {
+   "module": "model.layers.17.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.51,
+   "overlap_jaccard": 0.1135,
+   "cosine": 0.0051,
+   "fro_a": 0.058,
+   "fro_b": 0.059
+  },
+  {
+   "module": "model.layers.18.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5154,
+   "overlap_jaccard": 0.1119,
+   "cosine": 0.0089,
+   "fro_a": 0.146,
+   "fro_b": 0.162
+  },
+  {
+   "module": "model.layers.18.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5019,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0015,
+   "fro_a": 0.309,
+   "fro_b": 0.316
+  },
+  {
+   "module": "model.layers.18.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5059,
+   "overlap_jaccard": 0.1132,
+   "cosine": 0.0033,
+   "fro_a": 0.27,
+   "fro_b": 0.274
+  },
+  {
+   "module": "model.layers.18.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5006,
+   "overlap_jaccard": 0.1141,
+   "cosine": 0.0002,
+   "fro_a": 0.058,
+   "fro_b": 0.062
+  },
+  {
+   "module": "model.layers.18.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.509,
+   "overlap_jaccard": 0.1136,
+   "cosine": 0.0059,
+   "fro_a": 0.136,
+   "fro_b": 0.137
+  },
+  {
+   "module": "model.layers.18.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5017,
+   "overlap_jaccard": 0.1113,
+   "cosine": 0.001,
+   "fro_a": 0.138,
+   "fro_b": 0.141
+  },
+  {
+   "module": "model.layers.18.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.507,
+   "overlap_jaccard": 0.1168,
+   "cosine": 0.0041,
+   "fro_a": 0.056,
+   "fro_b": 0.06
+  },
+  {
+   "module": "model.layers.19.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5143,
+   "overlap_jaccard": 0.1197,
+   "cosine": 0.0078,
+   "fro_a": 0.18,
+   "fro_b": 0.161
+  },
+  {
+   "module": "model.layers.19.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5053,
+   "overlap_jaccard": 0.1139,
+   "cosine": 0.0033,
+   "fro_a": 0.305,
+   "fro_b": 0.301
+  },
+  {
+   "module": "model.layers.19.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.504,
+   "overlap_jaccard": 0.1131,
+   "cosine": 0.0024,
+   "fro_a": 0.257,
+   "fro_b": 0.258
+  },
+  {
+   "module": "model.layers.19.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4994,
+   "overlap_jaccard": 0.1121,
+   "cosine": -0.0001,
+   "fro_a": 0.06,
+   "fro_b": 0.063
+  },
+  {
+   "module": "model.layers.19.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5171,
+   "overlap_jaccard": 0.1131,
+   "cosine": 0.0095,
+   "fro_a": 0.133,
+   "fro_b": 0.138
+  },
+  {
+   "module": "model.layers.19.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5002,
+   "overlap_jaccard": 0.1132,
+   "cosine": 0.0003,
+   "fro_a": 0.132,
+   "fro_b": 0.139
+  },
+  {
+   "module": "model.layers.19.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5044,
+   "overlap_jaccard": 0.1133,
+   "cosine": 0.0027,
+   "fro_a": 0.057,
+   "fro_b": 0.06
+  },
+  {
+   "module": "model.layers.2.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5018,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0011,
+   "fro_a": 0.121,
+   "fro_b": 0.119
+  },
+  {
+   "module": "model.layers.2.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5084,
+   "overlap_jaccard": 0.234,
+   "cosine": 0.0071,
+   "fro_a": 0.233,
+   "fro_b": 0.235
+  },
+  {
+   "module": "model.layers.2.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.499,
+   "overlap_jaccard": 0.1374,
+   "cosine": 0.0,
+   "fro_a": 0.407,
+   "fro_b": 0.276
+  },
+  {
+   "module": "model.layers.2.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4995,
+   "overlap_jaccard": 0.1133,
+   "cosine": -0.0001,
+   "fro_a": 0.044,
+   "fro_b": 0.049
+  },
+  {
+   "module": "model.layers.2.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5049,
+   "overlap_jaccard": 0.1115,
+   "cosine": 0.0032,
+   "fro_a": 0.106,
+   "fro_b": 0.121
+  },
+  {
+   "module": "model.layers.2.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.4996,
+   "overlap_jaccard": 0.1128,
+   "cosine": -0.0002,
+   "fro_a": 0.099,
+   "fro_b": 0.117
+  },
+  {
+   "module": "model.layers.2.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5129,
+   "overlap_jaccard": 0.1113,
+   "cosine": 0.0072,
+   "fro_a": 0.05,
+   "fro_b": 0.054
+  },
+  {
+   "module": "model.layers.20.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5175,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.0105,
+   "fro_a": 0.155,
+   "fro_b": 0.162
+  },
+  {
+   "module": "model.layers.20.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5024,
+   "overlap_jaccard": 0.1139,
+   "cosine": 0.0018,
+   "fro_a": 0.327,
+   "fro_b": 0.32
+  },
+  {
+   "module": "model.layers.20.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5058,
+   "overlap_jaccard": 0.1128,
+   "cosine": 0.0034,
+   "fro_a": 0.282,
+   "fro_b": 0.295
+  },
+  {
+   "module": "model.layers.20.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5027,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.001,
+   "fro_a": 0.059,
+   "fro_b": 0.058
+  },
+  {
+   "module": "model.layers.20.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5032,
+   "overlap_jaccard": 0.1135,
+   "cosine": 0.0015,
+   "fro_a": 0.134,
+   "fro_b": 0.138
+  },
+  {
+   "module": "model.layers.20.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5015,
+   "overlap_jaccard": 0.116,
+   "cosine": 0.001,
+   "fro_a": 0.137,
+   "fro_b": 0.139
+  },
+  {
+   "module": "model.layers.20.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.505,
+   "overlap_jaccard": 0.1144,
+   "cosine": 0.0038,
+   "fro_a": 0.062,
+   "fro_b": 0.06
+  },
+  {
+   "module": "model.layers.21.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5141,
+   "overlap_jaccard": 0.1132,
+   "cosine": 0.0089,
+   "fro_a": 0.153,
+   "fro_b": 0.167
+  },
+  {
+   "module": "model.layers.21.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5031,
+   "overlap_jaccard": 0.113,
+   "cosine": 0.0019,
+   "fro_a": 0.315,
+   "fro_b": 0.366
+  },
+  {
+   "module": "model.layers.21.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5067,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.004,
+   "fro_a": 0.29,
+   "fro_b": 0.291
+  },
+  {
+   "module": "model.layers.21.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4991,
+   "overlap_jaccard": 0.1133,
+   "cosine": -0.0,
+   "fro_a": 0.061,
+   "fro_b": 0.061
+  },
+  {
+   "module": "model.layers.21.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.508,
+   "overlap_jaccard": 0.114,
+   "cosine": 0.0051,
+   "fro_a": 0.138,
+   "fro_b": 0.146
+  },
+  {
+   "module": "model.layers.21.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5016,
+   "overlap_jaccard": 0.1145,
+   "cosine": 0.0009,
+   "fro_a": 0.141,
+   "fro_b": 0.147
+  },
+  {
+   "module": "model.layers.21.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5078,
+   "overlap_jaccard": 0.1138,
+   "cosine": 0.0046,
+   "fro_a": 0.064,
+   "fro_b": 0.061
+  },
+  {
+   "module": "model.layers.22.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5153,
+   "overlap_jaccard": 0.1135,
+   "cosine": 0.0089,
+   "fro_a": 0.164,
+   "fro_b": 0.165
+  },
+  {
+   "module": "model.layers.22.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5059,
+   "overlap_jaccard": 0.1152,
+   "cosine": 0.004,
+   "fro_a": 0.353,
+   "fro_b": 0.388
+  },
+  {
+   "module": "model.layers.22.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5088,
+   "overlap_jaccard": 0.1139,
+   "cosine": 0.0055,
+   "fro_a": 0.306,
+   "fro_b": 0.292
+  },
+  {
+   "module": "model.layers.22.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5039,
+   "overlap_jaccard": 0.1105,
+   "cosine": 0.0019,
+   "fro_a": 0.067,
+   "fro_b": 0.062
+  },
+  {
+   "module": "model.layers.22.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5155,
+   "overlap_jaccard": 0.1141,
+   "cosine": 0.0095,
+   "fro_a": 0.141,
+   "fro_b": 0.154
+  },
+  {
+   "module": "model.layers.22.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.502,
+   "overlap_jaccard": 0.1135,
+   "cosine": 0.0012,
+   "fro_a": 0.155,
+   "fro_b": 0.147
+  },
+  {
+   "module": "model.layers.22.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5097,
+   "overlap_jaccard": 0.1157,
+   "cosine": 0.0057,
+   "fro_a": 0.062,
+   "fro_b": 0.065
+  },
+  {
+   "module": "model.layers.23.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5208,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0124,
+   "fro_a": 0.162,
+   "fro_b": 0.167
+  },
+  {
+   "module": "model.layers.23.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5056,
+   "overlap_jaccard": 0.1174,
+   "cosine": 0.0035,
+   "fro_a": 0.391,
+   "fro_b": 0.376
+  },
+  {
+   "module": "model.layers.23.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5085,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.0051,
+   "fro_a": 0.303,
+   "fro_b": 0.286
+  },
+  {
+   "module": "model.layers.23.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5013,
+   "overlap_jaccard": 0.1156,
+   "cosine": 0.0014,
+   "fro_a": 0.061,
+   "fro_b": 0.061
+  },
+  {
+   "module": "model.layers.23.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5146,
+   "overlap_jaccard": 0.1144,
+   "cosine": 0.0091,
+   "fro_a": 0.148,
+   "fro_b": 0.145
+  },
+  {
+   "module": "model.layers.23.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5007,
+   "overlap_jaccard": 0.1146,
+   "cosine": 0.0003,
+   "fro_a": 0.137,
+   "fro_b": 0.146
+  },
+  {
+   "module": "model.layers.23.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5116,
+   "overlap_jaccard": 0.1135,
+   "cosine": 0.0068,
+   "fro_a": 0.066,
+   "fro_b": 0.062
+  },
+  {
+   "module": "model.layers.24.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5192,
+   "overlap_jaccard": 0.1141,
+   "cosine": 0.0114,
+   "fro_a": 0.175,
+   "fro_b": 0.184
+  },
+  {
+   "module": "model.layers.24.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5019,
+   "overlap_jaccard": 0.1132,
+   "cosine": 0.0017,
+   "fro_a": 0.423,
+   "fro_b": 0.423
+  },
+  {
+   "module": "model.layers.24.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.507,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.004,
+   "fro_a": 0.314,
+   "fro_b": 0.324
+  },
+  {
+   "module": "model.layers.24.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5033,
+   "overlap_jaccard": 0.1117,
+   "cosine": 0.002,
+   "fro_a": 0.066,
+   "fro_b": 0.064
+  },
+  {
+   "module": "model.layers.24.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5114,
+   "overlap_jaccard": 0.1124,
+   "cosine": 0.0064,
+   "fro_a": 0.143,
+   "fro_b": 0.149
+  },
+  {
+   "module": "model.layers.24.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5074,
+   "overlap_jaccard": 0.1145,
+   "cosine": 0.0041,
+   "fro_a": 0.158,
+   "fro_b": 0.157
+  },
+  {
+   "module": "model.layers.24.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5044,
+   "overlap_jaccard": 0.1137,
+   "cosine": 0.0031,
+   "fro_a": 0.063,
+   "fro_b": 0.067
+  },
+  {
+   "module": "model.layers.25.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5185,
+   "overlap_jaccard": 0.1118,
+   "cosine": 0.0112,
+   "fro_a": 0.18,
+   "fro_b": 0.173
+  },
+  {
+   "module": "model.layers.25.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5041,
+   "overlap_jaccard": 0.115,
+   "cosine": 0.0028,
+   "fro_a": 0.447,
+   "fro_b": 0.421
+  },
+  {
+   "module": "model.layers.25.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5092,
+   "overlap_jaccard": 0.1134,
+   "cosine": 0.0055,
+   "fro_a": 0.339,
+   "fro_b": 0.336
+  },
+  {
+   "module": "model.layers.25.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5026,
+   "overlap_jaccard": 0.1133,
+   "cosine": 0.001,
+   "fro_a": 0.072,
+   "fro_b": 0.072
+  },
+  {
+   "module": "model.layers.25.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5246,
+   "overlap_jaccard": 0.112,
+   "cosine": 0.0143,
+   "fro_a": 0.152,
+   "fro_b": 0.157
+  },
+  {
+   "module": "model.layers.25.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.503,
+   "overlap_jaccard": 0.113,
+   "cosine": 0.0024,
+   "fro_a": 0.153,
+   "fro_b": 0.161
+  },
+  {
+   "module": "model.layers.25.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5105,
+   "overlap_jaccard": 0.1167,
+   "cosine": 0.0073,
+   "fro_a": 0.067,
+   "fro_b": 0.064
+  },
+  {
+   "module": "model.layers.26.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5188,
+   "overlap_jaccard": 0.1111,
+   "cosine": 0.0111,
+   "fro_a": 0.183,
+   "fro_b": 0.17
+  },
+  {
+   "module": "model.layers.26.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5056,
+   "overlap_jaccard": 0.1174,
+   "cosine": 0.0029,
+   "fro_a": 0.472,
+   "fro_b": 0.467
+  },
+  {
+   "module": "model.layers.26.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5153,
+   "overlap_jaccard": 0.1149,
+   "cosine": 0.009,
+   "fro_a": 0.385,
+   "fro_b": 0.366
+  },
+  {
+   "module": "model.layers.26.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5045,
+   "overlap_jaccard": 0.1115,
+   "cosine": 0.0019,
+   "fro_a": 0.072,
+   "fro_b": 0.065
+  },
+  {
+   "module": "model.layers.26.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.514,
+   "overlap_jaccard": 0.1124,
+   "cosine": 0.0082,
+   "fro_a": 0.162,
+   "fro_b": 0.151
+  },
+  {
+   "module": "model.layers.26.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5006,
+   "overlap_jaccard": 0.1151,
+   "cosine": 0.0007,
+   "fro_a": 0.174,
+   "fro_b": 0.157
+  },
+  {
+   "module": "model.layers.26.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5156,
+   "overlap_jaccard": 0.1155,
+   "cosine": 0.0096,
+   "fro_a": 0.073,
+   "fro_b": 0.068
+  },
+  {
+   "module": "model.layers.27.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5122,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.0079,
+   "fro_a": 0.178,
+   "fro_b": 0.164
+  },
+  {
+   "module": "model.layers.27.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5072,
+   "overlap_jaccard": 0.1175,
+   "cosine": 0.0044,
+   "fro_a": 0.467,
+   "fro_b": 0.451
+  },
+  {
+   "module": "model.layers.27.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5143,
+   "overlap_jaccard": 0.1136,
+   "cosine": 0.0085,
+   "fro_a": 0.393,
+   "fro_b": 0.363
+  },
+  {
+   "module": "model.layers.27.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5,
+   "overlap_jaccard": 0.116,
+   "cosine": 0.0007,
+   "fro_a": 0.082,
+   "fro_b": 0.068
+  },
+  {
+   "module": "model.layers.27.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5088,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0051,
+   "fro_a": 0.165,
+   "fro_b": 0.151
+  },
+  {
+   "module": "model.layers.27.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5025,
+   "overlap_jaccard": 0.1159,
+   "cosine": 0.0013,
+   "fro_a": 0.167,
+   "fro_b": 0.163
+  },
+  {
+   "module": "model.layers.27.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5169,
+   "overlap_jaccard": 0.1134,
+   "cosine": 0.0099,
+   "fro_a": 0.076,
+   "fro_b": 0.07
+  },
+  {
+   "module": "model.layers.28.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5335,
+   "overlap_jaccard": 0.1152,
+   "cosine": 0.0197,
+   "fro_a": 0.205,
+   "fro_b": 0.183
+  },
+  {
+   "module": "model.layers.28.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5039,
+   "overlap_jaccard": 0.1183,
+   "cosine": 0.0032,
+   "fro_a": 0.519,
+   "fro_b": 0.469
+  },
+  {
+   "module": "model.layers.28.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5071,
+   "overlap_jaccard": 0.1124,
+   "cosine": 0.0047,
+   "fro_a": 0.413,
+   "fro_b": 0.342
+  },
+  {
+   "module": "model.layers.28.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5004,
+   "overlap_jaccard": 0.1175,
+   "cosine": 0.0004,
+   "fro_a": 0.077,
+   "fro_b": 0.072
+  },
+  {
+   "module": "model.layers.28.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5076,
+   "overlap_jaccard": 0.1118,
+   "cosine": 0.0047,
+   "fro_a": 0.17,
+   "fro_b": 0.154
+  },
+  {
+   "module": "model.layers.28.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.503,
+   "overlap_jaccard": 0.1152,
+   "cosine": 0.002,
+   "fro_a": 0.187,
+   "fro_b": 0.176
+  },
+  {
+   "module": "model.layers.28.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5121,
+   "overlap_jaccard": 0.1145,
+   "cosine": 0.0075,
+   "fro_a": 0.074,
+   "fro_b": 0.068
+  },
+  {
+   "module": "model.layers.29.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5188,
+   "overlap_jaccard": 0.111,
+   "cosine": 0.0115,
+   "fro_a": 0.203,
+   "fro_b": 0.184
+  },
+  {
+   "module": "model.layers.29.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5124,
+   "overlap_jaccard": 0.1159,
+   "cosine": 0.0076,
+   "fro_a": 0.517,
+   "fro_b": 0.49
+  },
+  {
+   "module": "model.layers.29.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5128,
+   "overlap_jaccard": 0.1153,
+   "cosine": 0.0082,
+   "fro_a": 0.401,
+   "fro_b": 0.365
+  },
+  {
+   "module": "model.layers.29.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5003,
+   "overlap_jaccard": 0.1146,
+   "cosine": 0.0007,
+   "fro_a": 0.082,
+   "fro_b": 0.077
+  },
+  {
+   "module": "model.layers.29.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5187,
+   "overlap_jaccard": 0.1138,
+   "cosine": 0.0116,
+   "fro_a": 0.18,
+   "fro_b": 0.165
+  },
+  {
+   "module": "model.layers.29.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5025,
+   "overlap_jaccard": 0.1165,
+   "cosine": 0.0018,
+   "fro_a": 0.181,
+   "fro_b": 0.176
+  },
+  {
+   "module": "model.layers.29.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5132,
+   "overlap_jaccard": 0.1195,
+   "cosine": 0.0096,
+   "fro_a": 0.08,
+   "fro_b": 0.067
+  },
+  {
+   "module": "model.layers.3.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5,
+   "overlap_jaccard": 0.113,
+   "cosine": 0.0002,
+   "fro_a": 0.127,
+   "fro_b": 0.123
+  },
+  {
+   "module": "model.layers.3.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5046,
+   "overlap_jaccard": 0.1594,
+   "cosine": 0.0045,
+   "fro_a": 0.251,
+   "fro_b": 0.315
+  },
+  {
+   "module": "model.layers.3.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5014,
+   "overlap_jaccard": 0.1418,
+   "cosine": 0.0009,
+   "fro_a": 0.45,
+   "fro_b": 0.326
+  },
+  {
+   "module": "model.layers.3.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5023,
+   "overlap_jaccard": 0.1131,
+   "cosine": 0.0014,
+   "fro_a": 0.043,
+   "fro_b": 0.049
+  },
+  {
+   "module": "model.layers.3.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5033,
+   "overlap_jaccard": 0.111,
+   "cosine": 0.0019,
+   "fro_a": 0.108,
+   "fro_b": 0.118
+  },
+  {
+   "module": "model.layers.3.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5028,
+   "overlap_jaccard": 0.1113,
+   "cosine": 0.0016,
+   "fro_a": 0.1,
+   "fro_b": 0.111
+  },
+  {
+   "module": "model.layers.3.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5054,
+   "overlap_jaccard": 0.1103,
+   "cosine": 0.0025,
+   "fro_a": 0.051,
+   "fro_b": 0.051
+  },
+  {
+   "module": "model.layers.30.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5222,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0135,
+   "fro_a": 0.207,
+   "fro_b": 0.184
+  },
+  {
+   "module": "model.layers.30.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5155,
+   "overlap_jaccard": 0.1161,
+   "cosine": 0.0095,
+   "fro_a": 0.561,
+   "fro_b": 0.5
+  },
+  {
+   "module": "model.layers.30.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5126,
+   "overlap_jaccard": 0.1136,
+   "cosine": 0.0076,
+   "fro_a": 0.414,
+   "fro_b": 0.415
+  },
+  {
+   "module": "model.layers.30.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4992,
+   "overlap_jaccard": 0.1156,
+   "cosine": -0.0002,
+   "fro_a": 0.093,
+   "fro_b": 0.073
+  },
+  {
+   "module": "model.layers.30.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5101,
+   "overlap_jaccard": 0.112,
+   "cosine": 0.0062,
+   "fro_a": 0.17,
+   "fro_b": 0.147
+  },
+  {
+   "module": "model.layers.30.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5036,
+   "overlap_jaccard": 0.1155,
+   "cosine": 0.0025,
+   "fro_a": 0.194,
+   "fro_b": 0.179
+  },
+  {
+   "module": "model.layers.30.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.506,
+   "overlap_jaccard": 0.1147,
+   "cosine": 0.0032,
+   "fro_a": 0.082,
+   "fro_b": 0.068
+  },
+  {
+   "module": "model.layers.31.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.517,
+   "overlap_jaccard": 0.1121,
+   "cosine": 0.0104,
+   "fro_a": 0.203,
+   "fro_b": 0.179
+  },
+  {
+   "module": "model.layers.31.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.498,
+   "overlap_jaccard": 0.1179,
+   "cosine": -0.002,
+   "fro_a": 0.569,
+   "fro_b": 0.51
+  },
+  {
+   "module": "model.layers.31.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5109,
+   "overlap_jaccard": 0.1139,
+   "cosine": 0.0068,
+   "fro_a": 0.441,
+   "fro_b": 0.444
+  },
+  {
+   "module": "model.layers.31.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5047,
+   "overlap_jaccard": 0.1153,
+   "cosine": 0.0036,
+   "fro_a": 0.083,
+   "fro_b": 0.071
+  },
+  {
+   "module": "model.layers.31.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.513,
+   "overlap_jaccard": 0.1128,
+   "cosine": 0.0074,
+   "fro_a": 0.172,
+   "fro_b": 0.152
+  },
+  {
+   "module": "model.layers.31.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5068,
+   "overlap_jaccard": 0.1151,
+   "cosine": 0.0046,
+   "fro_a": 0.175,
+   "fro_b": 0.182
+  },
+  {
+   "module": "model.layers.31.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5183,
+   "overlap_jaccard": 0.1183,
+   "cosine": 0.0116,
+   "fro_a": 0.077,
+   "fro_b": 0.067
+  },
+  {
+   "module": "model.layers.32.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5166,
+   "overlap_jaccard": 0.1138,
+   "cosine": 0.0106,
+   "fro_a": 0.228,
+   "fro_b": 0.2
+  },
+  {
+   "module": "model.layers.32.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5041,
+   "overlap_jaccard": 0.1194,
+   "cosine": 0.0024,
+   "fro_a": 0.559,
+   "fro_b": 0.529
+  },
+  {
+   "module": "model.layers.32.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5081,
+   "overlap_jaccard": 0.1164,
+   "cosine": 0.0058,
+   "fro_a": 0.496,
+   "fro_b": 0.418
+  },
+  {
+   "module": "model.layers.32.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5176,
+   "overlap_jaccard": 0.1151,
+   "cosine": 0.0106,
+   "fro_a": 0.082,
+   "fro_b": 0.079
+  },
+  {
+   "module": "model.layers.32.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5083,
+   "overlap_jaccard": 0.113,
+   "cosine": 0.0051,
+   "fro_a": 0.181,
+   "fro_b": 0.157
+  },
+  {
+   "module": "model.layers.32.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.506,
+   "overlap_jaccard": 0.1146,
+   "cosine": 0.0035,
+   "fro_a": 0.199,
+   "fro_b": 0.189
+  },
+  {
+   "module": "model.layers.32.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5268,
+   "overlap_jaccard": 0.1148,
+   "cosine": 0.0165,
+   "fro_a": 0.083,
+   "fro_b": 0.072
+  },
+  {
+   "module": "model.layers.33.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5124,
+   "overlap_jaccard": 0.1131,
+   "cosine": 0.0079,
+   "fro_a": 0.209,
+   "fro_b": 0.186
+  },
+  {
+   "module": "model.layers.33.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5017,
+   "overlap_jaccard": 0.1151,
+   "cosine": 0.0009,
+   "fro_a": 0.521,
+   "fro_b": 0.511
+  },
+  {
+   "module": "model.layers.33.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5104,
+   "overlap_jaccard": 0.114,
+   "cosine": 0.0068,
+   "fro_a": 0.478,
+   "fro_b": 0.419
+  },
+  {
+   "module": "model.layers.33.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5143,
+   "overlap_jaccard": 0.1095,
+   "cosine": 0.0081,
+   "fro_a": 0.083,
+   "fro_b": 0.072
+  },
+  {
+   "module": "model.layers.33.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5056,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.0034,
+   "fro_a": 0.169,
+   "fro_b": 0.147
+  },
+  {
+   "module": "model.layers.33.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5215,
+   "overlap_jaccard": 0.114,
+   "cosine": 0.0135,
+   "fro_a": 0.205,
+   "fro_b": 0.2
+  },
+  {
+   "module": "model.layers.33.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5065,
+   "overlap_jaccard": 0.1149,
+   "cosine": 0.0058,
+   "fro_a": 0.079,
+   "fro_b": 0.071
+  },
+  {
+   "module": "model.layers.34.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5116,
+   "overlap_jaccard": 0.1132,
+   "cosine": 0.0071,
+   "fro_a": 0.225,
+   "fro_b": 0.19
+  },
+  {
+   "module": "model.layers.34.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5063,
+   "overlap_jaccard": 0.1171,
+   "cosine": 0.0024,
+   "fro_a": 0.594,
+   "fro_b": 0.529
+  },
+  {
+   "module": "model.layers.34.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5099,
+   "overlap_jaccard": 0.1168,
+   "cosine": 0.0061,
+   "fro_a": 0.468,
+   "fro_b": 0.465
+  },
+  {
+   "module": "model.layers.34.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5105,
+   "overlap_jaccard": 0.1145,
+   "cosine": 0.0061,
+   "fro_a": 0.081,
+   "fro_b": 0.072
+  },
+  {
+   "module": "model.layers.34.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5168,
+   "overlap_jaccard": 0.1118,
+   "cosine": 0.01,
+   "fro_a": 0.176,
+   "fro_b": 0.145
+  },
+  {
+   "module": "model.layers.34.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5079,
+   "overlap_jaccard": 0.1171,
+   "cosine": 0.0046,
+   "fro_a": 0.198,
+   "fro_b": 0.175
+  },
+  {
+   "module": "model.layers.34.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5233,
+   "overlap_jaccard": 0.1162,
+   "cosine": 0.0158,
+   "fro_a": 0.08,
+   "fro_b": 0.07
+  },
+  {
+   "module": "model.layers.35.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5126,
+   "overlap_jaccard": 0.1143,
+   "cosine": 0.0081,
+   "fro_a": 0.239,
+   "fro_b": 0.201
+  },
+  {
+   "module": "model.layers.35.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5093,
+   "overlap_jaccard": 0.1173,
+   "cosine": 0.0061,
+   "fro_a": 0.554,
+   "fro_b": 0.599
+  },
+  {
+   "module": "model.layers.35.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5044,
+   "overlap_jaccard": 0.1146,
+   "cosine": 0.0025,
+   "fro_a": 0.501,
+   "fro_b": 0.422
+  },
+  {
+   "module": "model.layers.35.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5086,
+   "overlap_jaccard": 0.1132,
+   "cosine": 0.0052,
+   "fro_a": 0.083,
+   "fro_b": 0.072
+  },
+  {
+   "module": "model.layers.35.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5085,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0053,
+   "fro_a": 0.186,
+   "fro_b": 0.152
+  },
+  {
+   "module": "model.layers.35.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.505,
+   "overlap_jaccard": 0.1148,
+   "cosine": 0.0035,
+   "fro_a": 0.187,
+   "fro_b": 0.165
+  },
+  {
+   "module": "model.layers.35.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5135,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0077,
+   "fro_a": 0.084,
+   "fro_b": 0.07
+  },
+  {
+   "module": "model.layers.36.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5089,
+   "overlap_jaccard": 0.1121,
+   "cosine": 0.0055,
+   "fro_a": 0.222,
+   "fro_b": 0.177
+  },
+  {
+   "module": "model.layers.36.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5038,
+   "overlap_jaccard": 0.1188,
+   "cosine": 0.0028,
+   "fro_a": 0.618,
+   "fro_b": 0.504
+  },
+  {
+   "module": "model.layers.36.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5109,
+   "overlap_jaccard": 0.1141,
+   "cosine": 0.0075,
+   "fro_a": 0.554,
+   "fro_b": 0.42
+  },
+  {
+   "module": "model.layers.36.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.506,
+   "overlap_jaccard": 0.1157,
+   "cosine": 0.0048,
+   "fro_a": 0.084,
+   "fro_b": 0.072
+  },
+  {
+   "module": "model.layers.36.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5106,
+   "overlap_jaccard": 0.1145,
+   "cosine": 0.0067,
+   "fro_a": 0.196,
+   "fro_b": 0.151
+  },
+  {
+   "module": "model.layers.36.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5081,
+   "overlap_jaccard": 0.1165,
+   "cosine": 0.0054,
+   "fro_a": 0.184,
+   "fro_b": 0.162
+  },
+  {
+   "module": "model.layers.36.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5132,
+   "overlap_jaccard": 0.1154,
+   "cosine": 0.008,
+   "fro_a": 0.084,
+   "fro_b": 0.066
+  },
+  {
+   "module": "model.layers.37.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5114,
+   "overlap_jaccard": 0.1128,
+   "cosine": 0.007,
+   "fro_a": 0.227,
+   "fro_b": 0.179
+  },
+  {
+   "module": "model.layers.37.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5133,
+   "overlap_jaccard": 0.1188,
+   "cosine": 0.0085,
+   "fro_a": 0.658,
+   "fro_b": 0.508
+  },
+  {
+   "module": "model.layers.37.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5132,
+   "overlap_jaccard": 0.1199,
+   "cosine": 0.0086,
+   "fro_a": 0.58,
+   "fro_b": 0.453
+  },
+  {
+   "module": "model.layers.37.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.505,
+   "overlap_jaccard": 0.1221,
+   "cosine": 0.0023,
+   "fro_a": 0.084,
+   "fro_b": 0.067
+  },
+  {
+   "module": "model.layers.37.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5108,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.007,
+   "fro_a": 0.191,
+   "fro_b": 0.147
+  },
+  {
+   "module": "model.layers.37.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5027,
+   "overlap_jaccard": 0.1185,
+   "cosine": 0.0018,
+   "fro_a": 0.192,
+   "fro_b": 0.148
+  },
+  {
+   "module": "model.layers.37.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5239,
+   "overlap_jaccard": 0.1196,
+   "cosine": 0.0155,
+   "fro_a": 0.09,
+   "fro_b": 0.07
+  },
+  {
+   "module": "model.layers.38.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5423,
+   "overlap_jaccard": 0.1163,
+   "cosine": 0.0258,
+   "fro_a": 0.277,
+   "fro_b": 0.228
+  },
+  {
+   "module": "model.layers.38.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.513,
+   "overlap_jaccard": 0.1188,
+   "cosine": 0.0071,
+   "fro_a": 0.701,
+   "fro_b": 0.568
+  },
+  {
+   "module": "model.layers.38.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5169,
+   "overlap_jaccard": 0.1215,
+   "cosine": 0.0093,
+   "fro_a": 0.582,
+   "fro_b": 0.487
+  },
+  {
+   "module": "model.layers.38.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5047,
+   "overlap_jaccard": 0.1191,
+   "cosine": 0.0042,
+   "fro_a": 0.095,
+   "fro_b": 0.063
+  },
+  {
+   "module": "model.layers.38.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5297,
+   "overlap_jaccard": 0.1143,
+   "cosine": 0.019,
+   "fro_a": 0.168,
+   "fro_b": 0.148
+  },
+  {
+   "module": "model.layers.38.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5027,
+   "overlap_jaccard": 0.1203,
+   "cosine": 0.002,
+   "fro_a": 0.203,
+   "fro_b": 0.156
+  },
+  {
+   "module": "model.layers.38.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5272,
+   "overlap_jaccard": 0.1199,
+   "cosine": 0.0184,
+   "fro_a": 0.078,
+   "fro_b": 0.06
+  },
+  {
+   "module": "model.layers.39.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5217,
+   "overlap_jaccard": 0.1363,
+   "cosine": 0.0117,
+   "fro_a": 0.375,
+   "fro_b": 0.244
+  },
+  {
+   "module": "model.layers.39.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5099,
+   "overlap_jaccard": 0.1205,
+   "cosine": 0.0085,
+   "fro_a": 0.617,
+   "fro_b": 0.565
+  },
+  {
+   "module": "model.layers.39.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5129,
+   "overlap_jaccard": 0.1311,
+   "cosine": 0.0046,
+   "fro_a": 0.613,
+   "fro_b": 0.533
+  },
+  {
+   "module": "model.layers.39.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5042,
+   "overlap_jaccard": 0.1194,
+   "cosine": 0.0044,
+   "fro_a": 0.082,
+   "fro_b": 0.058
+  },
+  {
+   "module": "model.layers.39.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.6807,
+   "overlap_jaccard": 0.1458,
+   "cosine": 0.131,
+   "fro_a": 0.22,
+   "fro_b": 0.189
+  },
+  {
+   "module": "model.layers.39.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5074,
+   "overlap_jaccard": 0.1205,
+   "cosine": 0.0053,
+   "fro_a": 0.187,
+   "fro_b": 0.178
+  },
+  {
+   "module": "model.layers.39.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5113,
+   "overlap_jaccard": 0.1216,
+   "cosine": 0.0084,
+   "fro_a": 0.078,
+   "fro_b": 0.062
+  },
+  {
+   "module": "model.layers.4.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5034,
+   "overlap_jaccard": 0.1121,
+   "cosine": 0.0021,
+   "fro_a": 0.12,
+   "fro_b": 0.122
+  },
+  {
+   "module": "model.layers.4.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5213,
+   "overlap_jaccard": 0.112,
+   "cosine": 0.0152,
+   "fro_a": 0.44,
+   "fro_b": 0.363
+  },
+  {
+   "module": "model.layers.4.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5009,
+   "overlap_jaccard": 0.1421,
+   "cosine": 0.0018,
+   "fro_a": 0.383,
+   "fro_b": 0.337
+  },
+  {
+   "module": "model.layers.4.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5031,
+   "overlap_jaccard": 0.1148,
+   "cosine": 0.0033,
+   "fro_a": 0.062,
+   "fro_b": 0.052
+  },
+  {
+   "module": "model.layers.4.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.502,
+   "overlap_jaccard": 0.1115,
+   "cosine": 0.0014,
+   "fro_a": 0.102,
+   "fro_b": 0.118
+  },
+  {
+   "module": "model.layers.4.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5025,
+   "overlap_jaccard": 0.1121,
+   "cosine": 0.0015,
+   "fro_a": 0.143,
+   "fro_b": 0.124
+  },
+  {
+   "module": "model.layers.4.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5009,
+   "overlap_jaccard": 0.1124,
+   "cosine": 0.0007,
+   "fro_a": 0.068,
+   "fro_b": 0.053
+  },
+  {
+   "module": "model.layers.5.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5012,
+   "overlap_jaccard": 0.1113,
+   "cosine": 0.0009,
+   "fro_a": 0.141,
+   "fro_b": 0.125
+  },
+  {
+   "module": "model.layers.5.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5009,
+   "overlap_jaccard": 0.1178,
+   "cosine": 0.0005,
+   "fro_a": 0.345,
+   "fro_b": 0.362
+  },
+  {
+   "module": "model.layers.5.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5004,
+   "overlap_jaccard": 0.1254,
+   "cosine": 0.0003,
+   "fro_a": 0.346,
+   "fro_b": 0.274
+  },
+  {
+   "module": "model.layers.5.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5001,
+   "overlap_jaccard": 0.1108,
+   "cosine": -0.0001,
+   "fro_a": 0.044,
+   "fro_b": 0.049
+  },
+  {
+   "module": "model.layers.5.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5035,
+   "overlap_jaccard": 0.112,
+   "cosine": 0.0024,
+   "fro_a": 0.106,
+   "fro_b": 0.12
+  },
+  {
+   "module": "model.layers.5.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.501,
+   "overlap_jaccard": 0.1134,
+   "cosine": 0.0007,
+   "fro_a": 0.109,
+   "fro_b": 0.117
+  },
+  {
+   "module": "model.layers.5.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.4998,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.001,
+   "fro_a": 0.051,
+   "fro_b": 0.052
+  },
+  {
+   "module": "model.layers.6.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5367,
+   "overlap_jaccard": 0.1494,
+   "cosine": 0.0377,
+   "fro_a": 0.502,
+   "fro_b": 0.355
+  },
+  {
+   "module": "model.layers.6.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5054,
+   "overlap_jaccard": 0.1142,
+   "cosine": 0.0036,
+   "fro_a": 0.301,
+   "fro_b": 0.41
+  },
+  {
+   "module": "model.layers.6.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5056,
+   "overlap_jaccard": 0.1113,
+   "cosine": 0.0035,
+   "fro_a": 0.22,
+   "fro_b": 0.275
+  },
+  {
+   "module": "model.layers.6.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5016,
+   "overlap_jaccard": 0.1116,
+   "cosine": 0.0006,
+   "fro_a": 0.045,
+   "fro_b": 0.05
+  },
+  {
+   "module": "model.layers.6.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5017,
+   "overlap_jaccard": 0.1107,
+   "cosine": 0.0011,
+   "fro_a": 0.107,
+   "fro_b": 0.126
+  },
+  {
+   "module": "model.layers.6.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5008,
+   "overlap_jaccard": 0.1116,
+   "cosine": 0.0005,
+   "fro_a": 0.104,
+   "fro_b": 0.122
+  },
+  {
+   "module": "model.layers.6.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5034,
+   "overlap_jaccard": 0.1074,
+   "cosine": 0.0017,
+   "fro_a": 0.047,
+   "fro_b": 0.056
+  },
+  {
+   "module": "model.layers.7.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.505,
+   "overlap_jaccard": 0.1111,
+   "cosine": 0.003,
+   "fro_a": 0.131,
+   "fro_b": 0.153
+  },
+  {
+   "module": "model.layers.7.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.5048,
+   "overlap_jaccard": 0.1132,
+   "cosine": 0.0029,
+   "fro_a": 0.325,
+   "fro_b": 0.416
+  },
+  {
+   "module": "model.layers.7.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5035,
+   "overlap_jaccard": 0.1125,
+   "cosine": 0.0021,
+   "fro_a": 0.244,
+   "fro_b": 0.258
+  },
+  {
+   "module": "model.layers.7.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5,
+   "overlap_jaccard": 0.114,
+   "cosine": 0.0,
+   "fro_a": 0.051,
+   "fro_b": 0.054
+  },
+  {
+   "module": "model.layers.7.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5008,
+   "overlap_jaccard": 0.1122,
+   "cosine": 0.0007,
+   "fro_a": 0.107,
+   "fro_b": 0.132
+  },
+  {
+   "module": "model.layers.7.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5008,
+   "overlap_jaccard": 0.1141,
+   "cosine": 0.0003,
+   "fro_a": 0.114,
+   "fro_b": 0.124
+  },
+  {
+   "module": "model.layers.7.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5036,
+   "overlap_jaccard": 0.1121,
+   "cosine": 0.0015,
+   "fro_a": 0.051,
+   "fro_b": 0.057
+  },
+  {
+   "module": "model.layers.8.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5035,
+   "overlap_jaccard": 0.1117,
+   "cosine": 0.0022,
+   "fro_a": 0.123,
+   "fro_b": 0.151
+  },
+  {
+   "module": "model.layers.8.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.502,
+   "overlap_jaccard": 0.1138,
+   "cosine": 0.0013,
+   "fro_a": 0.277,
+   "fro_b": 0.323
+  },
+  {
+   "module": "model.layers.8.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5019,
+   "overlap_jaccard": 0.1117,
+   "cosine": 0.0013,
+   "fro_a": 0.229,
+   "fro_b": 0.265
+  },
+  {
+   "module": "model.layers.8.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.5003,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0,
+   "fro_a": 0.046,
+   "fro_b": 0.066
+  },
+  {
+   "module": "model.layers.8.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5047,
+   "overlap_jaccard": 0.1111,
+   "cosine": 0.0029,
+   "fro_a": 0.11,
+   "fro_b": 0.137
+  },
+  {
+   "module": "model.layers.8.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5031,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.0021,
+   "fro_a": 0.122,
+   "fro_b": 0.145
+  },
+  {
+   "module": "model.layers.8.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5014,
+   "overlap_jaccard": 0.1123,
+   "cosine": 0.0006,
+   "fro_a": 0.05,
+   "fro_b": 0.062
+  },
+  {
+   "module": "model.layers.9.mlp.down_proj",
+   "sign_agreement_on_overlap": 0.5054,
+   "overlap_jaccard": 0.1105,
+   "cosine": 0.0033,
+   "fro_a": 0.123,
+   "fro_b": 0.15
+  },
+  {
+   "module": "model.layers.9.mlp.gate_proj",
+   "sign_agreement_on_overlap": 0.4998,
+   "overlap_jaccard": 0.1134,
+   "cosine": 0.0001,
+   "fro_a": 0.249,
+   "fro_b": 0.314
+  },
+  {
+   "module": "model.layers.9.mlp.up_proj",
+   "sign_agreement_on_overlap": 0.5025,
+   "overlap_jaccard": 0.1128,
+   "cosine": 0.0014,
+   "fro_a": 0.22,
+   "fro_b": 0.263
+  },
+  {
+   "module": "model.layers.9.self_attn.k_proj",
+   "sign_agreement_on_overlap": 0.4988,
+   "overlap_jaccard": 0.1127,
+   "cosine": 0.0004,
+   "fro_a": 0.056,
+   "fro_b": 0.058
+  },
+  {
+   "module": "model.layers.9.self_attn.o_proj",
+   "sign_agreement_on_overlap": 0.5013,
+   "overlap_jaccard": 0.1125,
+   "cosine": 0.0009,
+   "fro_a": 0.117,
+   "fro_b": 0.131
+  },
+  {
+   "module": "model.layers.9.self_attn.q_proj",
+   "sign_agreement_on_overlap": 0.5012,
+   "overlap_jaccard": 0.1097,
+   "cosine": 0.0012,
+   "fro_a": 0.123,
+   "fro_b": 0.126
+  },
+  {
+   "module": "model.layers.9.self_attn.v_proj",
+   "sign_agreement_on_overlap": 0.5015,
+   "overlap_jaccard": 0.1126,
+   "cosine": 0.0022,
+   "fro_a": 0.052,
+   "fro_b": 0.059
+  }
+ ]
+}

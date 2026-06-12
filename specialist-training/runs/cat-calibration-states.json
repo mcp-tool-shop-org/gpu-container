@@ -1,0 +1,212 @@
+[
+ {
+  "id": "cat-step-0",
+  "time": 0,
+  "geometry": {
+   "effectiveDimension": 4.381641441771304,
+   "anisotropy": 1012.7632084733906,
+   "spread": 62.7005615234375,
+   "density": 0.8638848121727666
+  },
+  "uncertainty": {
+   "entropy": 4.851349658234009e-05,
+   "margin": 0.9999954079588255,
+   "calibration": 0.0527900907359791
+  },
+  "performance": {
+   "accuracy": 0.9014920393625895,
+   "loss": 0.7639565728604794
+  },
+  "metadata": {
+   "source": "budgeter x conformance CAT calibration (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "lam_A=1.0000",
+    "lam_B=1.0000"
+   ]
+  }
+ },
+ {
+  "id": "cat-step-25",
+  "time": 25,
+  "geometry": {
+   "effectiveDimension": 4.817125466455815,
+   "anisotropy": 1175.0773729680197,
+   "spread": 59.099952697753906,
+   "density": 0.9321147028666026
+  },
+  "uncertainty": {
+   "entropy": 0.3035951699906339,
+   "margin": 0.865839459002018,
+   "calibration": 0.044571564016453194
+  },
+  "performance": {
+   "accuracy": 0.9286569183071455,
+   "loss": 0.30974741908721626
+  },
+  "metadata": {
+   "source": "budgeter x conformance CAT calibration (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "lam_A=0.7007",
+    "lam_B=0.5686"
+   ]
+  }
+ },
+ {
+  "id": "cat-step-50",
+  "time": 50,
+  "geometry": {
+   "effectiveDimension": 4.695887545398441,
+   "anisotropy": 1583.9514909389404,
+   "spread": 59.23055648803711,
+   "density": 0.9321635691224371
+  },
+  "uncertainty": {
+   "entropy": 0.4903244408778846,
+   "margin": 0.7152376336356004,
+   "calibration": 0.047590258915578075
+  },
+  "performance": {
+   "accuracy": 0.9213826109965643,
+   "loss": 0.30211120296735317
+  },
+  "metadata": {
+   "source": "budgeter x conformance CAT calibration (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "lam_A=0.7090",
+    "lam_B=0.6045"
+   ]
+  }
+ },
+ {
+  "id": "cat-step-75",
+  "time": 75,
+  "geometry": {
+   "effectiveDimension": 4.642539976671663,
+   "anisotropy": 1395.67994815386,
+   "spread": 59.321571350097656,
+   "density": 0.9455280505681452
+  },
+  "uncertainty": {
+   "entropy": 0.5609152497102817,
+   "margin": 0.6472456653912863,
+   "calibration": 0.049182836216631394
+  },
+  "performance": {
+   "accuracy": 0.9179037759701411,
+   "loss": 0.29624600273867446
+  },
+  "metadata": {
+   "source": "budgeter x conformance CAT calibration (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "lam_A=0.7148",
+    "lam_B=0.6157"
+   ]
+  }
+ },
+ {
+  "id": "cat-step-100",
+  "time": 100,
+  "geometry": {
+   "effectiveDimension": 4.728446306357978,
+   "anisotropy": 1209.6885452179747,
+   "spread": 58.9046516418457,
+   "density": 0.9327247472230717
+  },
+  "uncertainty": {
+   "entropy": 0.4528934841121857,
+   "margin": 0.7473577807346979,
+   "calibration": 0.049477008698992575
+  },
+  "performance": {
+   "accuracy": 0.9260386998454729,
+   "loss": 0.3015758876378338
+  },
+  "metadata": {
+   "source": "budgeter x conformance CAT calibration (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "lam_A=0.7091",
+    "lam_B=0.5916"
+   ]
+  }
+ },
+ {
+  "id": "cat-step-125",
+  "time": 125,
+  "geometry": {
+   "effectiveDimension": 4.701343987362695,
+   "anisotropy": 1229.47714219569,
+   "spread": 59.12031555175781,
+   "density": 0.9257852809328574
+  },
+  "uncertainty": {
+   "entropy": 0.5338646137776474,
+   "margin": 0.6654319725930691,
+   "calibration": 0.046671601693959834
+  },
+  "performance": {
+   "accuracy": 0.9173879052201906,
+   "loss": 0.30513320257887244
+  },
+  "metadata": {
+   "source": "budgeter x conformance CAT calibration (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "lam_A=0.7030",
+    "lam_B=0.6227"
+   ]
+  }
+ },
+ {
+  "id": "cat-step-150",
+  "time": 150,
+  "geometry": {
+   "effectiveDimension": 4.731451493671196,
+   "anisotropy": 1406.9354815315912,
+   "spread": 59.46649932861328,
+   "density": 0.9256333474545421
+  },
+  "uncertainty": {
+   "entropy": 0.5800354736857116,
+   "margin": 0.6136988264818987,
+   "calibration": 0.0503888317679733
+  },
+  "performance": {
+   "accuracy": 0.9166080554326376,
+   "loss": 0.296217766435196
+  },
+  "metadata": {
+   "source": "budgeter x conformance CAT calibration (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "lam_A=0.7277",
+    "lam_B=0.6149"
+   ]
+  }
+ }
+]

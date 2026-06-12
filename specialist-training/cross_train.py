@@ -35,6 +35,8 @@ ap.add_argument("--method", choices=["ties", "add"], default="ties",
                 help="'add' = plain task-vector addition (Ilharco) — the right operation in the "
                      "orthogonal/low-interference regime the readout detects; preserves rank<=2r "
                      "exactly. 'ties' = trim/sign-elect/disjoint-mean — for high-interference pairs.")
+ap.add_argument("--lam-a", type=float, default=1.0, help="parent-A mixing weight (CAT-calibrated)")
+ap.add_argument("--lam-b", type=float, default=1.0, help="parent-B mixing weight (CAT-calibrated)")
 ap.add_argument("--alpha", type=float, default=None,
                 help="lora_alpha to write into the output adapter_config (serving-scale parity); "
                      "default keeps parent config untouched")
@@ -87,9 +89,10 @@ for p in prefixes:
 
     if not args.readout_only:
         if args.method == "add":
-            # Task-vector addition: both updates at trained strength. Exact union for
-            # orthogonal pairs; rank(merged) <= rank_a + rank_b, so SVD at that rank is lossless.
-            merged = dA + dB
+            # (Weighted) task-vector addition. lam defaults 1.0 = both at trained strength;
+            # CAT calibration learns the weights on TRAIN data (calibrate_cat.py). Exact union
+            # for orthogonal pairs; rank(merged) <= rank_a + rank_b, so SVD there is lossless.
+            merged = args.lam_a * dA + args.lam_b * dB
         else:
             # TIES: elected sign = sign of summed trimmed values; disjoint mean over matching values.
             total = tA + tB
@@ -114,7 +117,8 @@ for p in prefixes:
 
 aggregate = {
     "parents": {"a": os.path.basename(args.adapter_a.rstrip("/\\")), "b": os.path.basename(args.adapter_b.rstrip("/\\"))},
-    "method": (f"add-r{args.rank}" if args.method == "add" else f"ties-trim{int(args.trim * 100)}-r{args.rank}"),
+    "method": (f"add-r{args.rank}" + (f"-lam({args.lam_a:.4f},{args.lam_b:.4f})" if (args.lam_a, args.lam_b) != (1.0, 1.0) else "")
+               if args.method == "add" else f"ties-trim{int(args.trim * 100)}-r{args.rank}"),
     "modules": len(prefixes),
     "sign_agreement_on_overlap": round(agree_hit / agree_n, 4) if agree_n else None,
     "mean_cosine": round(sum(m["cosine"] for m in per_module) / len(per_module), 4),
