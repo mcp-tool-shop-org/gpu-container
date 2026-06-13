@@ -189,7 +189,54 @@ soup) — **PASS**. flip trajectory across attempts: 0.441 → 0.386 → 0.669 �
   (`runs/s4c2-lineage-states.json` → vector-caliper). Exams archived + hash-pinned
   (ebc5416a… / cb6de192…).
 
-**Open follow-ups:** untraining experiment on the jointly-trained adapter (subtract the
-conformance task vector, re-proxy L2 + conformance — the meaningful form, now that a joint
-substrate exists); training-knowledge wave candidates: warm-start-preserves-grokking,
-CE-vs-flip divergence, allocator-creep VRAM lesson.
+**Open follow-ups:** untraining experiment — **DONE, see S4d below** (result: monotonic
+collapse, not recovery); training-knowledge wave candidates: warm-start-preserves-grokking,
+CE-vs-flip divergence, allocator-creep VRAM lesson, **joint-SFT-is-not-task-vector-addition (S4d)**.
+
+---
+
+# S4d — untraining: are joint task vectors linearly recoverable? (2026-06-12)
+
+**No.** Subtracting the conformance task vector from the jointly-trained adapter does not
+recover budgeter L2 — it monotonically destroys it, reaching total collapse at full
+subtraction. After joint SFT the parent vectors are **not** linearly separable.
+
+Design A (preregistered, `RUN-PLAN-s4d.md`): on the only from-scratch joint substrate
+(`budgeter-conformance-joint-soup`, attempt #3), evaluate `ΔW(joint) − λ·ΔW(conformance-soup-v0.2)`
+at λ ∈ {0.5, 1.0} on the L2 TRAIN proxy (30 contrast pairs, thinking enabled, sealed exam
+untouched). Merges at r32 (sum-of-parent-ranks → SVD truncation lossless: residual 0.0025 /
+0.0019); serving-scale parity held (α = 8·√32 = 45.254834, `use_rslora` → effective scale
+8.0, verified from the written config before any eval).
+
+| adapter | L2-train acc | flip | Δflip vs base |
+|---|---|---|---|
+| ref — budgeter-14b600-soup (ceiling) | 0.967 | 0.933 | ANDON ✓ (= S4c 0.933 exactly) |
+| base — joint-soup (un-negated) | 0.733 | 0.467 | — |
+| neg05 — λ=0.5 | 0.650 | 0.300 | −0.167 |
+| neg10 — λ=1.0 | 0.500 | **0.000** | **−0.467** |
+
+**Preregistered verdict: COLLAPSE** (neg10 0.000 ≤ base−0.10; monotonic; acc → chance 0.500).
+H1 (recovery, neg_best ≥ 0.567) and H0 (no-change, both in [0.367, 0.567]) both rejected. No
+exam fired (neg_best 0.300 ≪ the 0.80 trigger) — held at the scoped ~1 GPU-hour.
+
+**What it means:**
+- **Joint SFT ≠ task-vector addition.** If the joint adapter were budgeter_solo + conformance_solo
+  in weight space, `joint − conformance` would recover *toward* the budgeter parent (0.933). It
+  goes to **zero**. Joint training wove the conformance update into the subspace the L2 budgeter
+  circuit occupies; the conformance direction is load-bearing for L2, not a separable add-on.
+- **The entanglement is local, not global.** Mean task-vector cosine is 0.074 (near-orthogonal
+  overall), yet removing conformance destroys the fragile L2 rung — the shared structure is
+  concentrated in the grokked circuit, invisible to the global overlap statistic.
+- **Extends S4b.** L2's grokked circuit survives no weight-space superposition (S4b, fusion) and
+  no weight-space subtraction (S4d) — subtraction is monotonically destructive. Task-vector
+  negation (Ilharco et al., arXiv:2212.04089) assumes a separable removable direction; the joint
+  substrate has none for this pair.
+- **Honest-prior note:** the preregistered expectation was H0 (entanglement as a no-op handle).
+  The data is stronger — active, monotonic collapse — and that is the finding, not a softer one.
+
+**Receipts:** `runs/untrain-neg05.json`, `runs/untrain-neg10.json` (merge reports + residuals),
+`runs/untrain-proxy-results.json` (4-adapter flip table + verdict), `logs/s4d_proxy.log` (full
+proxy, tee'd), `logs/neg10_merge.log`. Merged adapters at
+`E:/AI-Models/adapters/joint-soup-neg-conf-l{05,10}`. role-os ledger: one `untraining-experiment`
+event (Token Budget Analyst; no conformance mirror — no exam ran). Sealed exams untouched
+(budgeter ebc5416a…).

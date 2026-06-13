@@ -1,0 +1,28 @@
+{
+  "experiment": "S4d-untraining-design-A",
+  "ts": "2026-06-13T03:51:03.342Z",
+  "preregistered": "RUN-PLAN-s4d.md",
+  "question": "After joint SFT, are parent task vectors linearly recoverable? Subtract the conformance task vector from the from-scratch joint adapter, re-proxy budgeter L2.",
+  "substrate": "budgeter-conformance-joint-soup (attempt #3, scratch-joint 50/50)",
+  "method": "dW(joint) - lambda*dW(conformance-14b-soup-v0.2) via cross_train.py --method add --lam-a 1.0 --lam-b -lambda, rank 32, alpha 45.254834, use_rslora (effective scale 8.0)",
+  "lambda_sweep": [0.5, 1.0],
+  "merge_residuals": { "neg05": 0.0025, "neg10": 0.0019 },
+  "compatibility": { "sign_agreement_on_overlap": 0.6404, "mean_cosine": 0.0741, "mean_overlap_jaccard": 0.1305 },
+  "proxy": { "harness": "l2_proxy.py", "n_pairs": 30, "n_items": 60, "split": "TRAIN", "thinking": true, "base_quant": "nf4-4bit", "determinism": "random.Random(7) pair shuffle, greedy decode" },
+  "results": {
+    "ref":   { "adapter": "budgeter-14b600-soup",           "acc": 0.967, "flip": 0.933, "role": "ANDON harness ceiling (= S4c 0.933 exactly)" },
+    "base":  { "adapter": "budgeter-conformance-joint-soup", "acc": 0.733, "flip": 0.467, "role": "un-negated baseline" },
+    "neg05": { "adapter": "joint-soup-neg-conf-l05",         "acc": 0.650, "flip": 0.300, "lambda": 0.5 },
+    "neg10": { "adapter": "joint-soup-neg-conf-l10",         "acc": 0.500, "flip": 0.000, "lambda": 1.0 }
+  },
+  "decision_rules": {
+    "andon":        "ref flip >= 0.867 -> PASS (0.933)",
+    "H1_recovery":  "neg_best >= base+0.10 = 0.567 -> REJECTED (best 0.300)",
+    "H0_no_change": "both within [0.367, 0.567] -> REJECTED (both below)",
+    "collapse":     "neg10 <= base-0.10 = 0.367 -> CONFIRMED (0.000), monotonic",
+    "exam_trigger": "neg_best >= 0.80 AND recovery -> NOT MET, no exam fired"
+  },
+  "verdict": "COLLAPSE (monotonic). Joint SFT is not task-vector addition: subtracting the conformance direction does not recover the budgeter parent (0.933), it destroys L2 to chance (0.500/0.000). The conformance update is load-bearing for the grokked L2 circuit despite near-orthogonal global task vectors (cosine 0.074) -- entanglement local to the circuit. Extends S4b: L2 survives neither weight-space superposition nor subtraction.",
+  "exam_hash_unopened": { "budgeter": "ebc5416a8c327d2783c4873292d7185ae3e04d63d3b6e3526bb2ecddedd3f68d" },
+  "grounding": "Ilharco et al., arXiv:2212.04089 (task arithmetic / negation assumes separable removable directions)"
+}
