@@ -1,0 +1,17 @@
+{
+  "id": "budgeter-conformance-s4c2-soup-20260612",
+  "adapter_id": "budgeter-conformance-s4c2-soup",
+  "base_model": "Qwen/Qwen3-14B",
+  "gate_threshold": 0.6,
+  "certified_level": "L5",
+  "exam_hash": "ebc5416a8c327d2783c4873292d7185ae3e04d63d3b6e3526bb2ecddedd3f68d",
+  "exam_artifact": "tools/token-budget-dataset/dataset/v0.1/puzzles/puzzles_exam.jsonl (archived copy: gpu-container/specialist-training/certify/exams/ebc5416a8c32-puzzles_exam.jsonl)",
+  "field_audit_window": 200,
+  "created_at": "2026-06-12T22:30:00Z",
+  "ood_floor": 0.4,
+  "lineage": {
+    "parents": ["budgeter-14b600-soup-20260605", "conformance-14b-soup-20260606"],
+    "method": "warm-start-joint-sft (init from budgeter-14b600-soup, conformance+20%-replay 800 steps x 2 seeds, soup)"
+  },
+  "notes": "First certified cross-trained specialist (S4c-2, RUN-PLAN-s4c2.md). Budgeter exam 0.918 acc / 0.803 flip (L1 1.0/1.0, L2 0.861/0.722, L3 0.845/0.690, L4 0.929/0.857, L5 1.0/1.0) against the preregistered gate acc>=0.85 AND flip>=0.75 — single shot, attempt #4 on the all-attempts ledger. Also holds Tool-Call Conformance at 0.972/0.944 (fc 0.014). Serve via llama.cpp --lora scale 4 (rsLoRA r16 a32). Design grounded in study-swarm wf_3010a824-e2f (warm-start per Omnigrok/Grokking-Tickets; 20% replay per Dong 2023/Scialom 2022)."
+}

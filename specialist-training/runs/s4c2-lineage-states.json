@@ -1,0 +1,118 @@
+[
+ {
+  "id": "joint-step-0",
+  "time": 0,
+  "geometry": {
+   "effectiveDimension": 4.362170142781611,
+   "anisotropy": 606.0459034030075,
+   "spread": 66.30854797363281,
+   "density": 0.8145621991701852
+  },
+  "uncertainty": {
+   "entropy": 2.2399028791057085,
+   "margin": 0.7055234634317458,
+   "calibration": 0.1414655840244078
+  },
+  "performance": {
+   "accuracy": 0.8226359263062477,
+   "loss": 1.231129903048365
+  },
+  "metadata": {
+   "source": "budgeter-conformance JOINT data-mixed retrain (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "peft-rslora-scaling"
+   ]
+  }
+ },
+ {
+  "id": "joint-step-800",
+  "time": 800,
+  "geometry": {
+   "effectiveDimension": 4.026712839347804,
+   "anisotropy": 682.0323393234346,
+   "spread": 71.4967269897461,
+   "density": 0.7614516371436897
+  },
+  "uncertainty": {
+   "entropy": 3.211668216351882e-05,
+   "margin": 0.9999977499246597,
+   "calibration": 0.04318486231955883
+  },
+  "performance": {
+   "accuracy": 0.9731348132093748,
+   "loss": 0.101215805737354
+  },
+  "metadata": {
+   "source": "budgeter-conformance JOINT data-mixed retrain (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "peft-rslora-scaling"
+   ]
+  }
+ },
+ {
+  "id": "joint-step-801",
+  "time": 801,
+  "geometry": {
+   "effectiveDimension": 4.481946422166285,
+   "anisotropy": 605.2918192941746,
+   "spread": 69.90176391601562,
+   "density": 0.7679752898575661
+  },
+  "uncertainty": {
+   "entropy": 1.4832074256787564e-05,
+   "margin": 0.9999993368983269,
+   "calibration": 0.04208461350632228
+  },
+  "performance": {
+   "accuracy": 0.9718120619654655,
+   "loss": 0.09147585052148581
+  },
+  "metadata": {
+   "source": "budgeter-conformance JOINT data-mixed retrain (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "peft-rslora-scaling"
+   ]
+  }
+ },
+ {
+  "id": "joint-step-802",
+  "time": 802,
+  "geometry": {
+   "effectiveDimension": 4.28748504272301,
+   "anisotropy": 665.2792318612992,
+   "spread": 70.72591400146484,
+   "density": 0.7578760304933851
+  },
+  "uncertainty": {
+   "entropy": 2.0089795863024545e-05,
+   "margin": 0.9999987979729971,
+   "calibration": 0.04208461350632228
+  },
+  "performance": {
+   "accuracy": 0.9718120619654655,
+   "loss": 0.09306566719595821
+  },
+  "metadata": {
+   "source": "budgeter-conformance JOINT data-mixed retrain (Qwen3-14B 4-bit, RTX 5090)",
+   "version": "1.0.0",
+   "tags": [
+    "n=24",
+    "last-token-hidden",
+    "native-uncertainty",
+    "peft-rslora-scaling"
+   ]
+  }
+ }
+]

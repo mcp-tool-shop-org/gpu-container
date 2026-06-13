@@ -1,0 +1,17 @@
+{
+  "id": "budgeter-conformance-s4c2-soup-20260612",
+  "adapter_id": "budgeter-conformance-s4c2-soup",
+  "base_model": "Qwen/Qwen3-14B",
+  "gate_threshold": 0.6,
+  "certified_level": "L5",
+  "exam_hash": "cb6de192ca799f7bb604a0dacd513d44dada9ff22eb3229188108422c75b8dd3",
+  "exam_artifact": "tools/conformance-dataset/conformance_exam_records.jsonl (git-tracked; archived copy: gpu-container/specialist-training/certify/exams/cb6de192ca79-conformance_exam_records.jsonl)",
+  "field_audit_window": 200,
+  "created_at": "2026-06-12T22:30:00Z",
+  "ood_floor": 0.4,
+  "lineage": {
+    "parents": ["budgeter-14b600-soup-20260605", "conformance-14b-soup-20260606"],
+    "method": "warm-start-joint-sft (init from budgeter-14b600-soup, conformance+20%-replay 800 steps x 2 seeds, soup)"
+  },
+  "notes": "First certified cross-trained specialist (S4c-2, RUN-PLAN-s4c2.md). Conformance exam 0.972 acc / 0.944 flip / false-conformant 0.014 / cwe 0.0541 against the preregistered gate acc>=0.90 AND flip>=0.85 AND fc<=0.05 — single shot, attempt #4 on the all-attempts ledger. Also holds Token Budget Analyst at 0.918/0.803. This exam file is the cb6de192 pin, properly archived (retires the old unverifiable b9324a32 pin lineage). Serve via llama.cpp --lora scale 4 (rsLoRA r16 a32)."
+}

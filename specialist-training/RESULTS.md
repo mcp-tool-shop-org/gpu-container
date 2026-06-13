@@ -151,3 +151,45 @@ proven train pipeline with `BUDGETER_DATA` = concatenated SFT, 2 seeds, soup, ce
 exams. **Untraining note:** for linear weight-space merges, task-vector negation is exact
 by construction (subtracting λ_B·ΔW_B recovers λ_A·ΔW_A algebraically) — the experimental
 form of untraining only becomes meaningful on jointly-trained adapters → S4c scope.
+
+---
+
+# S4c — the first certified cross-trained specialist (2026-06-12)
+
+**`budgeter-conformance-s4c2-soup` — PASSED the preregistered gate on attempt #4** and is
+registered (L5, both roles, full lineage) in role-os. Solo parents remain the active
+pointers per-role (they are narrowly stronger per-skill); the cross-trained adapter is the
+certified breadth asset.
+
+| exam | S4c-2 soup | gate | parent |
+|---|---|---|---|
+| budgeter | **0.918 / 0.803** (L2 0.861/0.722) | ≥0.85 / ≥0.75 ✓ | 0.944 / 0.866 |
+| conformance | **0.972 / 0.944, fc 0.014** | ≥0.90 / ≥0.85 / ≤0.05 ✓ | 0.986 / 0.972, fc 0.014 |
+
+**The attempt ledger (the story):** #1 add-r32 λ=1 fusion — budgeter flip 0.441, FAIL.
+#2 CAT-calibrated fusion — 0.386, FAIL (train-CE and flip-consistency surfaces disagree).
+#3 uniform 50/50 joint retrain (1200 steps) — 0.669, FAIL (dilution + upsampled-conformance
+memorization pressure; study-swarm wf_3010a824-e2f diagnosed both). #4 **warm-start joint**
+(init from the grokked solo soup, conformance + 20% budgeter replay, 800 steps × 2 seeds,
+soup) — **PASS**. flip trajectory across attempts: 0.441 → 0.386 → 0.669 → **0.803**.
+
+**What the run proved:**
+- **Warm-start preserves grokked circuits through joint training.** L2-train basin proxy:
+  source 0.967/0.933 → seed42 0.950/0.900 → seed1337 0.933/0.867 → soup 0.933/0.867. The
+  Omnigrok/Grokking-Tickets prediction held exactly (vs re-grokking from scratch, which
+  stalled at every tested mixture).
+- **20% replay was enough protection** for the warm-started skill while conformance trained
+  to within 1.4 points of its dedicated parent — Dong 2023 / Scialom 2022 calibrated right.
+- **Mid-run ANDON discipline works**: the inter-seed L2 proxy (TRAIN-split only, exam
+  sealed) gated seed 1337's launch; its own reference control caught a harness bug
+  (thinking-mode gagging) before any decision was made on bad numbers.
+- Run receipts: `RUN-PLAN-s4c2.md` (preregistered design + gate), `data/s4c2_train_sft.jsonl`
+  (sha 34c81e44…), `logs/s4c2_seed{42,1337}.log`, `certify/s4c2-soup-{budgeter,conformance}.json`,
+  `certify/s4c2-version-{tba,tcc}.json`, caliper lineage baseline
+  (`runs/s4c2-lineage-states.json` → vector-caliper). Exams archived + hash-pinned
+  (ebc5416a… / cb6de192…).
+
+**Open follow-ups:** untraining experiment on the jointly-trained adapter (subtract the
+conformance task vector, re-proxy L2 + conformance — the meaningful form, now that a joint
+substrate exists); training-knowledge wave candidates: warm-start-preserves-grokking,
+CE-vs-flip divergence, allocator-creep VRAM lesson.

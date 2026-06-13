@@ -1,0 +1,182 @@
+{
+ "grokking-under-mixing": {
+  "question": "What does 2022-2026 literature establish about grokking/delayed generalization of algorithmic-compositional skills when training is mixed with other tasks — does interleaving delay or prevent the transition, and how does the required step/data budget scale vs solo training?",
+  "findings": [
+   {
+    "finding": "On algorithmic datasets, shrinking the effective training data requires sharply increasing amounts of optimization before the generalization transition occurs — time-to-grok grows super-linearly as data exposure per task shrinks.",
+    "authors": "Alethea Power, Yuri Burda, Harri Edwards, Igor Babuschkin, Vedant Misra",
+    "year": 2022,
+    "title_or_id": "Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets (arXiv:2201.02177)",
+    "url": "https://arxiv.org/abs/2201.02177",
+    "design_implication": "At 50/50 interleave, 1200 joint steps gives only ~600 budgeter-effective steps — the bare edge of the solo 300-600 grok window, and dilution demands MORE than solo-equivalent, not equal. Next run: 2000-2400 joint steps, or shift mix to ~65/35 budgeter-heavy (conformance already exceeds its parent and has slack to give).",
+    "retrieved": true
+   },
+   {
+    "finding": "When an algorithmic task is mixed with pure-memorization tasks, generalization-circuit formation is drastically suppressed (their setup needed a ~1570x larger model to generalize vs solo), because memorization circuits can't be abandoned while a co-task requires them; their fix was parameter separation — partitioning the FFN so memorization and algorithmic tasks use disjoint parameters.",
+    "authors": "Yufei Huang, Shengding Hu, Xu Han, Zhiyuan Liu, Maosong Sun",
+    "year": 2024,
+    "title_or_id": "Unified View of Grokking, Double Descent and Emergent Abilities: A Perspective from Circuits Competition (arXiv:2402.15175)",
+    "url": "https://arxiv.org/abs/2402.15175",
+    "design_implication": "Upsampled conformance rows (754 rows repeated) are exactly memorization-pressure on the shared r16 adapter, competing with L2 circuit formation. Reduce conformance upsampling, and consider parameter separation: two LoRA adapters (or disjoint target-module subsets) trained jointly, instead of one shared adapter for both tasks.",
+    "retrieved": true
+   },
+   {
+    "finding": "In dual/tri-task algorithmic training, grokking still occurs but in a staggered order with consistent per-task delays across seeds; weight decay is essential (a sharp no-decay failure mode exists) and grokking timescale covaries systematically with the weight-decay regime, while tasks share only 4-8 principal weight directions via superposition.",
+    "authors": "Yongzhong Xu",
+    "year": 2026,
+    "title_or_id": "The Geometry of Multi-Task Grokking: Transverse Instability, Superposition, and Weight Decay Phase Structure (arXiv:2602.18523)",
+    "url": "https://arxiv.org/abs/2602.18523",
+    "design_implication": "L2 stalling at step 1200 while conformance saturates is the expected staggered-grokking signature, not proof of failure. Keep wd=0.01 (don't remove, and the house prior already showed raising it hurts); extend the horizon and track flip-consistency per-rung every ~100 steps to catch a late transition rather than gating at a fixed step count.",
+    "retrieved": true
+   },
+   {
+    "finding": "Language-model grokking exhibits a critical data size: below it models stay stuck in memorization regardless of training length (data insufficiency / sufficiency / surplus regimes), and the critical point grows with model size.",
+    "authors": "Xuekai Zhu, Yao Fu, Bowen Zhou, Zhouhan Lin",
+    "year": 2024,
+    "title_or_id": "Critical Data Size of Language Models from a Grokking Perspective (arXiv:2401.10463)",
+    "url": "https://arxiv.org/abs/2401.10463",
+    "design_implication": "If 1633 budgeter rows put the L2 compositional rung below its critical size for a 14B under dilution, no step budget rescues it. Cheapest insurance: synthesize more L2-rung rows specifically (the stalled rung), so added steps act on a dataset above CDS rather than burning compute in the memorization regime.",
+    "retrieved": true
+   },
+   {
+    "finding": "Decomposing gradients into fast (overfitting) and slow (generalizing) components and amplifying the slow component via an EMA filter accelerates grokking by >50x across image, language, and graph tasks, with a few-lines-of-code optimizer wrapper.",
+    "authors": "Jaerin Lee, Bong Gyun Kang, Kihoon Kim, Kyoung Mu Lee",
+    "year": 2024,
+    "title_or_id": "Grokfast: Accelerated Grokking by Amplifying Slow Gradients (arXiv:2405.20233)",
+    "url": "https://arxiv.org/abs/2405.20233",
+    "design_implication": "The cheapest single lever for the next joint run: wrap the optimizer with Grokfast's EMA slow-gradient amplification on the LoRA params, pulling the diluted L2 transition inside the existing ~1200-step budget instead of paying 2x steps — and it composes with (not replaces) the mix-ratio fix.",
+    "retrieved": true
+   },
+   {
+    "finding": "Grokking delay is controlled by the mismatch between initialization weight norm and the generalizing solution's norm (the 'LU mechanism'): rescaling initialization can eliminate the delay on algorithmic tasks or induce it elsewhere — delayed generalization is an initialization artifact, not an inevitable dataset property.",
+    "authors": "Ziming Liu, Eric J. Michaud, Max Tegmark",
+    "year": 2022,
+    "title_or_id": "Omnigrok: Grokking Beyond Algorithmic Data (arXiv:2210.01117)",
+    "url": "https://arxiv.org/abs/2210.01117",
+    "design_implication": "Initialize the next joint run FROM the solo budgeter checkpoint that already grokked L2 (sequential warm-start, not weight soup — the failed fusion averaged orthogonal parents, which is a different operation). Joint training then starts inside the generalizing basin and only needs to preserve L2 while acquiring conformance, sidestepping the delayed transition entirely.",
+    "retrieved": true
+   }
+  ],
+  "summary": "The literature says interleaving DELAYS grokking and can effectively PREVENT it when the co-task is memorization-shaped, but does not forbid joint grokking. Power et al. (2022) establish that reduced effective data/steps per task super-linearly inflates time-to-grok — so 1200 joint steps at 50/50 (~600 budgeter-effective) sits at the bare edge of the solo 300-600 transition window, under-budgeted once dilution overhead is added. Xu (2026) shows multi-task grokking proceeds in a staggered per-task order with consistent delays and that weight decay is load-bearing (no-decay fails; timescale covaries with WD regime) — the L2 stall is the expected late-grokker signature, so keep wd=0.01 and extend the horizon with per-rung flip-consistency monitoring. The sharpest failure mode is Huang et al. (2024): mixing an algorithmic task with memorization-heavy data suppresses generalization circuits catastrophically at fixed capacity (their fix: parameter separation) — the upsampled conformance rows are memorization pressure on the shared adapter, arguing for less upsampling and/or split LoRA adapters. Zhu et al. (2024) warn of a critical data size below which no step budget helps — add L2-rung rows, not just steps. Two accelerators avoid paying 2x compute: Grokfast's slow-gradient EMA amplification (>50x faster grokking, optimizer-level, composes with everything) and Omnigrok's initialization result, which licenses warm-starting the joint run from the already-grokked solo budgeter checkpoint (sequential init, distinct from the failed orthogonal-parent soup). Recommended next-run stack, cheapest first: warm-start from solo budgeter LoRA + reduce conformance upsampling (shift to ~60-65% budgeter) + Grokfast wrapper + extend to ~2000 joint steps with per-rung monitoring; add L2 data if the stall persists."
+ },
+ "accelerating-grokking": {
+  "question": "What interventions are documented to ACCELERATE grokking or shorten delayed generalization, and which are practical inside a QLoRA SFT run on a 14B?",
+  "findings": [
+   {
+    "finding": "Low-pass filtering the gradient signal and amplifying its slow-varying component (EMA filter inserted between backward and optimizer step) accelerates grokking by more than 50x across algorithmic, image, language, and graph tasks with a few lines of code.",
+    "authors": "Jaerin Lee, Bong Gyun Kang, Kihoon Kim, Kyoung Mu Lee",
+    "year": 2024,
+    "title_or_id": "Grokfast: Accelerated Grokking by Amplifying Slow Gradients (arXiv:2405.20233)",
+    "url": "https://arxiv.org/abs/2405.20233",
+    "design_implication": "Top practical candidate for the next joint run: in QLoRA only the ~r16 adapter params have gradients, so gradfilter_ema's one-extra-gradient-copy overhead is trivial on a 14B. Insert between loss.backward() and optimizer.step() with alpha=0.98, lamb=2 (conservative start per repo guidance, alpha^N≈0.1 sizing), targeting the budgeter L2 transition that 600 budgeter-effective steps (50% of 1200) did not cross.",
+    "retrieved": true
+   },
+   {
+    "finding": "The official repo specifies EMA hyperparameters (alpha 0.98 algorithmic / 0.8-0.9 otherwise, lamb 2-5), recommends tuning the filter FIRST with weight decay fixed and only raising wd afterward, and explicitly warns the method 'may not work perfectly to every other problems' (task-dependent, hyperparameter-sensitive).",
+    "authors": "Jaerin Lee et al. (official Grokfast repository)",
+    "year": 2024,
+    "title_or_id": "ironjr/grokfast README",
+    "url": "https://github.com/ironjr/grokfast",
+    "design_implication": "Run Grokfast at the existing wd=0.01 — do NOT couple it with a wd raise (house data already shows raising wd over-regularizes other rungs). Budget one seed as a Grokfast A/B against a plain 2400-step extension, since sensitivity means it can fail silently; the conformance task (already 0.993) is the canary that amplified slow gradients aren't wrecking the learned skill.",
+    "retrieved": true
+   },
+   {
+    "finding": "After the fit point, gradients align with 'naive loss minimization' — scaling logits along the current weight direction without changing the function — which both explains the grokking delay and eventually triggers Softmax Collapse; StableMax and the OrthoGrad optimizer (project out the weight-parallel gradient component) produce grokking quickly and WITHOUT any weight decay.",
+    "authors": "Lucas Prieto, Melih Barsbey, Pedro A.M. Mediano, Tolga Birdal",
+    "year": 2025,
+    "title_or_id": "Grokking at the Edge of Numerical Stability (arXiv:2501.04697)",
+    "url": "https://arxiv.org/abs/2501.04697",
+    "design_implication": "The budgeter L2 signature (accuracy fine, flip-consistency flat at 0.463) matches NLM-style logit scaling on memorized templates rather than circuit formation. OrthoGrad is a drop-in optimizer wrapper applicable to adapter params only — a wd-free alternative lever given that the wd lever is burned; also log budgeter logit-norm growth across the run as the cheap diagnostic of whether the joint run is stuck in NLM.",
+    "retrieved": true
+   },
+   {
+    "finding": "Sparse subnetworks ('grokked tickets') identified AFTER the network generalizes drastically accelerate grokking when training restarts from them, while tickets taken at the memorization phase or pruning at initialization give no speedup — the accelerant is the discovered good structure, not lower weight norm or sparsity per se.",
+    "authors": "Gouki Minegishi, Yusuke Iwasawa, Yutaka Matsuo",
+    "year": 2024,
+    "title_or_id": "Bridging Lottery Ticket and Grokking (Grokking Tickets), arXiv:2310.19470, TMLR",
+    "url": "https://arxiv.org/abs/2310.19470",
+    "design_implication": "The solo budgeter adapter that already crossed its 300-600-step phase transition IS the grokked ticket: initialize the next joint run's LoRA from the solo-grokked budgeter adapter (not fresh A/B init) and train the 50/50 mix on top. Conformance exceeded its parent under joint training, so it can plausibly re-learn on a budgeter-favoring init. What fails: warm-starting from any pre-transition budgeter checkpoint.",
+    "retrieved": true
+   },
+   {
+    "finding": "GrokTransfer eliminates delayed generalization entirely by initializing a stronger model's embeddings from a weaker model that already generalizes, proving (on XOR, MLPs, Transformers) that data embedding quality determines whether generalization is delayed at all.",
+    "authors": "Zhiwei Xu, Zhiyu Ni, Yixin Wang, Wei Hu",
+    "year": 2025,
+    "title_or_id": "Let Me Grok for You: Accelerating Grokking via Embedding Transfer from a Weaker Model (arXiv:2504.13292)",
+    "url": "https://arxiv.org/abs/2504.13292",
+    "design_implication": "Independent corroboration of the warm-start strategy from a second mechanism: transfer learned representations from an already-generalizing model. With a frozen 4-bit base the embeddings can't be swapped, so the QLoRA-practical analogue is adapter-level transfer — seed from the solo parent (or the 2-seed soup, which house data shows reduces variance) rather than expecting the transition to re-occur from scratch inside the interference of interleaved conformance batches.",
+    "retrieved": true
+   },
+   {
+    "finding": "Grokking is the transition from lazy (kernel-like) to rich (feature-learning) dynamics and occurs without any regularization; the delay is controlled by output scale (logit multiplier), feature-learning rate, and initial kernel-task alignment — and NeuralGrok separately reports that traditional weight decay 'can introduce substantial instability and impede generalization,' matching the house result that raising wd hurt other rungs.",
+    "authors": "Tanishq Kumar, Blake Bordelon, Samuel J. Gershman, Cengiz Pehlevan (lazy-to-rich); Xinyu Zhou, Simin Fan, Martin Jaggi, Jie Fu (NeuralGrok)",
+    "year": 2023,
+    "title_or_id": "Grokking as the Transition from Lazy to Rich Training Dynamics (arXiv:2310.06110); NeuralGrok (arXiv:2504.17243)",
+    "url": "https://arxiv.org/abs/2310.06110",
+    "design_implication": "Retire the wd lever with literature backing — the delay is governed by output scale and effective learning rate, both directly tunable here: rsLoRA r16/alpha32 gives output multiplier alpha/sqrt(r)=8; a seed with alpha=16 (multiplier 4) or lr 2e-4 pushes the adapter into rich dynamics earlier. NeuralGrok's full bilevel gradient-transform machinery is NOT practical inside a 14B QLoRA run — treat it as evidence against wd, not as a tool.",
+    "retrieved": true
+   }
+  ],
+  "summary": "The literature offers four QLoRA-practical accelerants and clearly marks what fails. (1) Grokfast-EMA (Lee et al. 2024) is the cheapest add: amplifying slow gradient components gave >50x grokking speedups, and in QLoRA the extra gradient copy covers only adapter params — but its own repo warns of task-dependence and says tune the filter at FIXED weight decay, which matches the house result. (2) Warm-starting from an already-grokked artifact is the best-supported move and maps directly onto existing S4 lineage machinery: Grokking Tickets (Minegishi et al.) shows post-transition structure drastically accelerates re-training while pre-transition checkpoints and pruning-at-init do nothing, and GrokTransfer (Xu et al. 2025) eliminates delay entirely by transferring representations from a weaker generalizing model — so initialize the next joint LoRA from the solo-grokked budgeter adapter (or the 2-seed soup) instead of fresh init. (3) The L2 stall signature (accuracy fine, flip flat) matches Prieto et al.'s naive-loss-minimization/Softmax-Collapse mechanism; OrthoGrad is a drop-in, wd-free optimizer wrapper and budgeter logit-norm growth is the cheap mid-run diagnostic. (4) Lazy-to-rich theory (Kumar et al.) says the delay is governed by output scale and effective lr, not wd — so the tunable levers are rsLoRA alpha (32→16 halves the multiplier from 8 to 4) or lr 2e-4. What fails: raising weight decay (house data + NeuralGrok's reported wd instability), warm-starts from memorization-phase checkpoints, and full bilevel methods like NeuralGrok at 14B scale. Note the arithmetic: 1200 joint steps at 50/50 is only ~600 budgeter-effective steps — the exact upper edge of the solo transition window — so any of the above should be paired with extending to ~2400 steps rather than relying on the accelerant alone."
+ },
+ "curriculum-vs-mixing": {
+  "question": "For skill-pair fine-tuning where one skill is compositional/slow-to-grok (budgeter L2) and the other is robust pattern-following (tool-conformance), what do curriculum / staged / replay strategies show vs uniform 50/50 mixing?",
+  "findings": [
+   {
+    "finding": "Grokking on algorithmic tasks is optimization-bound: as effective training data (or gradient share) shrinks, the optimization required to cross from memorization to generalization grows rapidly, with generalization arriving well past overfitting.",
+    "authors": "Power, Burda, Edwards, Babuschkin, Misra",
+    "year": 2022,
+    "title_or_id": "Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets (arXiv:2201.02177)",
+    "url": "https://arxiv.org/abs/2201.02177",
+    "design_implication": "50/50 mixing gave the budgeter only ~600 effective steps — the bare top of its solo 300–600 transition window, with half gradient density. Next joint run: budget ≥800–1000 effective budgeter steps (e.g., 70/30 mix at 1200+ steps, or longer run), checkpoint every ~100 steps, and expect L2 to flip late rather than concluding failure at the old horizon.",
+    "retrieved": true
+   },
+   {
+    "finding": "Skills have prerequisite/ordering structure, and an online mixture that dynamically upweights not-yet-learned skills based on validation loss beats static uniform sampling (e.g., +36.5 pts on LEGO synthetic skills; matched uniform-sampling accuracy with 3x fewer tokens on RedPajama).",
+    "authors": "Chen, Roberts, Bhatia, Wang, Zhang, Sala, Ré",
+    "year": 2023,
+    "title_or_id": "Skill-It! A Data-Driven Skills Framework (arXiv:2307.14430, NeurIPS 2023 spotlight)",
+    "url": "https://arxiv.org/abs/2307.14430",
+    "design_implication": "Replace static 50/50 with a loss-guided schedule: evaluate budgeter L2 flip-consistency (or proxy val loss) every ~150 steps and keep budgeter share high (~70%) while it stalls, decaying toward parity only after L2 moves. Conformance exceeded its solo parent at 50%, so it has demonstrated headroom to absorb down-weighting to ~25–30%.",
+    "retrieved": true
+   },
+   {
+    "finding": "Mixed multi-task SFT degrades specialized skills when data is plentiful (LLaMA-7B GSM8K 47.53 mixed vs 49.1 solo; code 14.63 vs 18.4), while Dual-stage Mixed Fine-tuning — specialized data first, then the other task with a small replayed fraction k (k=1/256 best in their setup) — recovers the specialized skill; data amount mattered more than ratio.",
+    "authors": "Dong, Yuan, Lu, et al.",
+    "year": 2023,
+    "title_or_id": "How Abilities in LLMs are Affected by SFT Data Composition (arXiv:2310.05492, ACL 2024)",
+    "url": "https://arxiv.org/html/2310.05492v1",
+    "design_implication": "The strongest staged recipe for this pair: Stage 1 budgeter-only until an L2 flip ≥0.75 checkpoint gate passes (their finding predicts solo-grade grokking returns once conformance gradients stop interfering), then Stage 2 conformance with a small budgeter replay fraction (start 10–20%, sweep down) to hold the grokked circuit. ANDON-gate Stage 2 on L2 not regressing.",
+    "retrieved": true
+   },
+   {
+    "finding": "In sequential fine-tuning across 70 tasks, rehearsing just 1% of prior-task data gives \"almost perfect stability\" — near-zero catastrophic forgetting of earlier skills.",
+    "authors": "Scialom, Chakrabarty, Muresan",
+    "year": 2022,
+    "title_or_id": "Fine-tuned Language Models are Continual Learners (arXiv:2205.12393, EMNLP 2022)",
+    "url": "https://ar5iv.labs.arxiv.org/html/2205.12393",
+    "design_implication": "Asymmetric mixtures are nearly free for the robust skill: in a budgeter-heavy phase, 1–5% conformance replay should hold conformance at gate (it is the pattern-following, fast-to-learn skill), freeing ~95% of gradient for the fragile L2 rung. The 50/50 ratio was paying a huge protection premium the conformance task never needed.",
+    "retrieved": true
+   },
+   {
+    "finding": "MiniCPM's ablation (A-2 vs A-1) shows blending high-quality/SFT data of the target capability INTO the learning-rate decay (annealing) phase substantially beats reserving it for a separate later stage (C-Eval 52.6 vs 40.0); 'specialization... should start from the decay phase.'",
+    "authors": "Hu, Tang, Han, et al.",
+    "year": 2024,
+    "title_or_id": "MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies (arXiv:2404.06395)",
+    "url": "https://arxiv.org/html/2404.06395v2",
+    "design_implication": "If hard two-stage feels risky, anneal-the-mixture instead: run budgeter-heavy (~80/20) through the constant-LR region where grokking must occur, then ramp conformance toward 50/50 only in the final LR-decay segment — late-blended conformance still trains well (it exceeded its parent even at 50%), while early budgeter gradient density is maximized for the phase transition.",
+    "retrieved": true
+   },
+   {
+    "finding": "For multi-task code LLMs, mix-vs-merge is scale- and interference-dependent: 7B models with low cross-task weight-update correlation merge nearly losslessly (-0.01% best), while smaller models with correlated updates (~0.7–0.9) do better with data mixing; merge-ratio sweeps (0.1–0.9) across Linear/TIES/DARE/DELLA vary results substantially.",
+    "authors": "Zhu, et al.",
+    "year": 2026,
+    "title_or_id": "Multi-task Code LLMs: Data Mix or Model Merge? (arXiv:2601.21115)",
+    "url": "https://arxiv.org/html/2601.21115v1",
+    "design_implication": "Your failed fusion sat in the literature's FAVORABLE regime (orthogonal parents, 14B) and the grokked L2 still broke — evidence grokked circuits are uniquely brittle to weight interpolation, beyond what task-correlation metrics predict. Keep joint/staged data training as the primary path for the fragile skill; if merging is retried, sweep asymmetric ratios (0.7–0.9 toward the budgeter parent) and gate directly on L2 flip-consistency, not exam accuracy.",
+    "retrieved": true
+   }
+  ],
+  "summary": "The literature consistently says static 50/50 mixing is the worst recipe for an asymmetric skill pair: uniform interleaving halves effective optimization for the slow compositional skill exactly where grokking is optimization-bound (Power 2022), and mixed multi-task SFT measurably degrades specialized skills relative to solo training when data is plentiful (Dong 2023) — matching the observed L2 stall at 0.463 while robust conformance thrived. Protection of the robust skill is nearly free (1% rehearsal suffices, Scialom 2022), so the gradient budget should tilt hard toward the budgeter. Recommended next run, in order of evidence strength: (1) two-stage — budgeter-only past a checkpointed L2 flip ≥0.75 gate, then conformance with 10–20% budgeter replay, ANDON-gated on L2 regression; or (2) single-run annealed mixture — ~80/20 budgeter-heavy through the constant-LR region, ramping conformance in only during LR decay (MiniCPM 2024), optionally with Skill-It-style loss-guided reweighting every ~150 steps. Either way, give the budgeter ≥800–1000 effective steps. Post-hoc merging stays deprioritized: the failed fusion occurred in the regime the merge literature calls favorable (Zhu 2026), suggesting grokked circuits are interpolation-brittle."
+ }
+}
