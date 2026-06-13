@@ -1,0 +1,61 @@
+{
+  "schema": "roleos-citation-receipt/v1",
+  "kind": "citation-verification",
+  "tool": "roleos verify-citations",
+  "input": "E:\\AI\\gpu-container\\specialist-training\\RUN-PLAN-s4c2.md",
+  "verdict": "escalate",
+  "blocking": false,
+  "advisory": true,
+  "citations_sha256": "812a111f6b4a05e386e84d4589005eeab5d5455f57f28905661c7ed0a00d867f",
+  "prism_receipt": {
+    "id": "prism-01ktyfscr7qdxxhv20nqnz85yq",
+    "signature": "cdd16eaa167e75ef976a2ac098fbb7fde244c7a5e9cd82ca1e1cc5522d04d39a3341dedf7051f44abb451a66b51d6bf811654fa0852d318abf21851c5acb3d02",
+    "verdict": "escalate"
+  },
+  "retrieval_pins": [
+    {
+      "id": "c1",
+      "identifier": "arXiv:2201.02177",
+      "query": "https://export.arxiv.org/api/query?id_list=2201.02177",
+      "source_sha256": "9f72ba99d194ec89af2957ce759be3ecf612f212892221d6aa88adae2d4eede1",
+      "existence": "resolved"
+    },
+    {
+      "id": "c2",
+      "identifier": "arXiv:2402.15175",
+      "query": "https://export.arxiv.org/api/query?id_list=2402.15175",
+      "source_sha256": "ba301adc9b1237292dc00929800fa19669dac25968a10faca6d5f20792f71d15",
+      "existence": "resolved"
+    },
+    {
+      "id": "c3",
+      "identifier": "arXiv:2602.18523",
+      "query": "https://export.arxiv.org/api/query?id_list=2602.18523",
+      "source_sha256": "fbae190d21a6bacc1c54933f88848303ae2f6df966597c46ed632a79ba3da82a",
+      "existence": "resolved"
+    },
+    {
+      "id": "c4",
+      "identifier": "arXiv:2205.12393",
+      "query": "https://export.arxiv.org/api/query?id_list=2205.12393",
+      "source_sha256": "7803534d9c7d438e385712c0cd49b5ea06c23337e526262010390e9aea10a798",
+      "existence": "resolved"
+    },
+    {
+      "id": "c5",
+      "identifier": "arXiv:2310.19470",
+      "query": "https://export.arxiv.org/api/query?id_list=2310.19470",
+      "source_sha256": "8003079e022f3b8ff91129d1c2440d93b6e025db21efafc83137017d58fa0ab2",
+      "existence": "resolved"
+    },
+    {
+      "id": "c6",
+      "identifier": "arXiv:2401.10463",
+      "query": "https://export.arxiv.org/api/query?id_list=2401.10463",
+      "source_sha256": "0c04a14872c64a09b17b4eb10f45663888457339ebc5ccab7e2f1ea90f77d65a",
+      "existence": "resolved"
+    }
+  ],
+  "local_panel": null,
+  "chain_sha256": "f17b51c6c591ce04d7792d404ba03758c52358fcb37b49d80e49f741e70501e0"
+}

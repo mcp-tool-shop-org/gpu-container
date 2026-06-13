@@ -53,6 +53,6 @@ t = Trainer(
 print(f"[cfg] model={MODEL} r={t.lora_r} alpha={t.lora_alpha} batch={t.batch_size} "
       f"accum={t.gradient_accumulation} ckpt={settings.lora.use_gradient_checkpointing} "
       f"seq={t.max_seq_length} seed={settings.lora.random_state} steps={STEPS} out={OUT}", flush=True)
-t.train(dataset=DATA, steps=STEPS, samples=2000)
+t.train(dataset=DATA, steps=STEPS, samples=int(os.environ.get("BUDGETER_SAMPLES", "2000")))
 saved = t.save(OUT)  # train() only writes checkpoints; save() writes the final adapter
 print(f"DONE seed={SEED} steps={STEPS} saved={saved}", flush=True)
