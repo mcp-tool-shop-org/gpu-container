@@ -9,7 +9,7 @@ proved the *methodology*; this session adapts it to the **WSL LLM path** (a diff
 - Session memory `role-os-dogfood-swarm-state` (E--AI-role-os) — the full S4–S6 arc, incl. the 6→7 result.
 - `gpu-container/specialist-training/RUN-PLAN-s6.3-edge-6-7-MEASURE.md` + `.phaseB-result.md` — the proven
   measurement STRUCTURE to reuse (M0 ANDON → M1 seal-T → M2 two arms × ≥3 seeds → honest write-back).
-- `C:/Users/mikey/.claude/projects/F--AI/memory/magnitude-coreadout-rescues-marginal-control.md` — **the key
+- `~/.claude/projects/F--AI/memory/magnitude-coreadout-rescues-marginal-control.md` — **the key
   lesson: when the control SNR is in doubt, preregister a sealed crossing-FREE magnitude co-readout** alongside
   the primary. The 6→7 primary came back `unverified` (marginal control); the co-readout rescued the finding.
 - `cross-family-cloud-verification` (F--AI) — adversarially verify the plan + harness via a LARGE Ollama Cloud
