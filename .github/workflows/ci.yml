@@ -10,6 +10,9 @@ on:
       - 'tests/**'
       - 'scripts/**'
       - '.github/workflows/**'
+      - 'site/package.json'
+      - 'site/package-lock.json'
+      - 'site/astro.config.mjs'
   pull_request:
     paths:
       - 'pyproject.toml'
@@ -17,6 +20,9 @@ on:
       - 'tests/**'
       - 'scripts/**'
       - '.github/workflows/**'
+      - 'site/package.json'
+      - 'site/package-lock.json'
+      - 'site/astro.config.mjs'
   workflow_dispatch:
 
 concurrency:
