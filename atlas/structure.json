@@ -1,0 +1,3565 @@
+{
+  "boundaries": [
+    {
+      "dynamicReads": 1,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "failurePaths": [
+            {
+              "kind": "catch",
+              "line": 18
+            },
+            {
+              "kind": "catch",
+              "line": 28
+            }
+          ],
+          "hash": "18f21f67549d25cbb9bd8e17315544815c8ef2bbc7b3f39fc85fb33d37429abe",
+          "path": ".claude/hooks/pre-tool-use.mjs"
+        },
+        {
+          "hash": "d2a3230906044e7a3e8cc1203a8c6358fbc35ec19dcca39007f209290f2e8029",
+          "path": ".claude/role-os/tool-contracts.json"
+        },
+        {
+          "hash": "d11538baee17d5a92059af9c44159db81b1849fc460f54d08c15f89810a5c3f0",
+          "path": ".claude/settings.json"
+        }
+      ],
+      "globs": [
+        ".claude/**"
+      ],
+      "importConfidence": "full",
+      "name": ".claude",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedNamed": [
+        {
+          "path": ".claude/hooks/pre-tool-use.mjs",
+          "specifier": "../../E:/AI/role-os/src/hooks.mjs",
+          "why": "missing"
+        }
+      ],
+      "unresolvedSites": 1
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "ab21c7146a1118646c5b103284d4cc00329d612c90641e00bafa4725dfd0a32b",
+          "path": ".github/workflows/ci.yml"
+        },
+        {
+          "hash": "fd0815a312ec2eb7af64d25a2391a25bb0fa28fb167fda9dc11fddd4720922bc",
+          "path": ".github/workflows/pages.yml"
+        },
+        {
+          "hash": "3a3517882e646b7e12cd6b89b5939a252594291f8a9f9de9cb6389a2ed7ede0b",
+          "path": ".github/workflows/release.yml"
+        }
+      ],
+      "globs": [
+        ".github/**"
+      ],
+      "importConfidence": "full",
+      "name": ".github",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "9ca9316c0d2366c511ccea92c4f81f88acbffa81a8bae987b84c78eae7ffdced",
+          "path": "assets/logo.png"
+        }
+      ],
+      "globs": [
+        "assets/**"
+      ],
+      "importConfidence": "full",
+      "name": "assets",
+      "origin": "authored",
+      "role": "data",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [
+        "docs/cli.md"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "1a4ffe54c84eea7b476d917b729644d569cb1ca26c1419d59a299c356e6ab57b",
+          "path": "docs/architecture.md"
+        },
+        {
+          "hash": "336b18654bc0f927f5e2a19ee14a6c9b297f981170134733f47aea2daa9c7186",
+          "path": "docs/cli.md"
+        },
+        {
+          "hash": "7879408568ccfc2c71aeaa98cdcc58ff79687d334f517f8bbb24d2c3a4f915e7",
+          "path": "docs/constraints.md"
+        },
+        {
+          "hash": "c4c6260744501e7dd940c459a0137f2bdd396c599642e5530d9ccc6ac4fe8f32",
+          "path": "docs/decisions/0001-per-expert-cache-build-vs-upstream.md"
+        },
+        {
+          "hash": "b4f97958963487525961244afa7a42267a1b9f0e95f1d86ddf8f890d1dc824dd",
+          "path": "docs/derisk-concentration.md"
+        },
+        {
+          "hash": "cdc64214a8dab328bbdbd31377bfb221948f71980d6208b7ced1a8aee89846d5",
+          "path": "docs/feasibility.md"
+        },
+        {
+          "hash": "9b86cc17f11bf28ff034c363f10a8d8b497b0755d99b389442ad42e65bce724a",
+          "path": "docs/features.md"
+        },
+        {
+          "hash": "38dac8ab73488085c8622ea3a3a66061e90818acce0e3f795ade68a8d9ed3a6d",
+          "path": "docs/moe-lane-architecture.md"
+        },
+        {
+          "hash": "8044172dd4a1aa102993979022d06bcbbd427ffe115d50c5ef8997e38e626c83",
+          "path": "docs/prior-art.md"
+        },
+        {
+          "hash": "f42ed82ba02caa28821a94f46276c58e7ffd08d4faa52a3b735b12fc13d86495",
+          "path": "docs/quickstart.md"
+        }
+      ],
+      "globs": [
+        "docs/**"
+      ],
+      "importConfidence": "full",
+      "name": "docs",
+      "origin": "authored",
+      "role": "docs",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 3,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 3,
+      "entryPoints": [
+        "gpu_container/__main__.py",
+        "gpu_container/planner/cli.py",
+        "gpu_container/planner/concentration_cli.py",
+        "gpu_container/planner/receipt_cli.py",
+        "gpu_container/profiler/cli.py",
+        "gpu_container/watchdog.py"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "constantOnly": true,
+          "hash": "6a6b4d703b5e6290711fab774a2d05c4d0fa29333836c4407bcd1e2af995b685",
+          "path": "gpu_container/__init__.py"
+        },
+        {
+          "entry": "main",
+          "entryRule": 0,
+          "exports": [
+            "main"
+          ],
+          "failurePaths": [
+            {
+              "kind": "raise",
+              "line": 63
+            }
+          ],
+          "hash": "bec7a4c4cc4b40e72ba63e649e334ddaf7613ab12d08c5f25a5aaf4efda25c06",
+          "importsFiles": [
+            "gpu_container/__init__.py"
+          ],
+          "path": "gpu_container/__main__.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "branch": "argv[0] in (\"-V\", \"--version\")",
+                  "line": 51,
+                  "name": "__version__",
+                  "passed": true,
+                  "target": {
+                    "file": "gpu_container/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": true,
+              "isDefaultExport": false,
+              "name": "main"
+            }
+          ]
+        },
+        {
+          "exports": [
+            "guard"
+          ],
+          "failurePaths": [
+            {
+              "in": "guard",
+              "kind": "except",
+              "line": 61
+            },
+            {
+              "in": "guard",
+              "kind": "except",
+              "line": 64
+            },
+            {
+              "in": "guard",
+              "kind": "except",
+              "line": 67
+            },
+            {
+              "in": "guard",
+              "kind": "raise",
+              "line": 69
+            }
+          ],
+          "hash": "604517138bd85e9d92b5ebf27fb9b75376dfa02d1b954d6bf9f5341f0eb36b9e",
+          "path": "gpu_container/errors.py"
+        },
+        {
+          "hash": "0ec50f861f98d32353b95f01e5404232abd07942a11a4df5a202c260790578df",
+          "importsFiles": [
+            "gpu_container/planner/calibration.py",
+            "gpu_container/planner/placement.py",
+            "gpu_container/planner/receipt.py"
+          ],
+          "path": "gpu_container/planner/__init__.py"
+        },
+        {
+          "exports": [
+            "analyze_concentration",
+            "analyze_layer",
+            "load_trace"
+          ],
+          "failurePaths": [
+            {
+              "in": "load_trace",
+              "kind": "except",
+              "line": 224
+            }
+          ],
+          "hash": "4b7a968c4749a6210f4d49c828e7125b2f359b33b9c7d6991f2485e5cdb609cb",
+          "path": "gpu_container/planner/activation.py"
+        },
+        {
+          "exports": [
+            "load_seed_points"
+          ],
+          "failurePaths": [
+            {
+              "in": "_load_points_file",
+              "kind": "except",
+              "line": 141
+            },
+            {
+              "in": "_load_points_file",
+              "kind": "except",
+              "line": 149
+            }
+          ],
+          "hash": "038acb7b54f4c251ff5d0de4ab6ad533cea90f5bff8e47e35c2010e5951c633c",
+          "path": "gpu_container/planner/calibration.py"
+        },
+        {
+          "hash": "b2018a5315af311304bb368f8da0ce78bcdeb5414478521502abac13c649f320",
+          "path": "gpu_container/planner/calibration_seed.json"
+        },
+        {
+          "entry": "main",
+          "entryRule": 0,
+          "exports": [
+            "main"
+          ],
+          "failurePaths": [
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 26
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 54
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 55
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 57
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 58
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 65
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 66
+            },
+            {
+              "kind": "raise",
+              "line": 101
+            }
+          ],
+          "hash": "beb1aa4588384ed9f11514bdd9999422f0d76e4ba3ef095c86c01a6ad0dc5c6f",
+          "importsFiles": [
+            "gpu_container/errors.py",
+            "gpu_container/planner/calibration.py",
+            "gpu_container/planner/placement.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/planner/cli.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 53,
+                  "name": "from_json",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 55,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 68,
+                  "name": "analyze_config",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                },
+                {
+                  "line": 76,
+                  "name": "CalibrationStore",
+                  "target": {
+                    "file": "gpu_container/planner/calibration.py"
+                  }
+                },
+                {
+                  "line": 77,
+                  "name": "from_seed",
+                  "target": {
+                    "file": "gpu_container/planner/calibration.py"
+                  }
+                },
+                {
+                  "line": 79,
+                  "name": "plan_llama_cpp",
+                  "target": {
+                    "file": "gpu_container/planner/placement.py"
+                  }
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_main"
+            },
+            {
+              "calls": [
+                {
+                  "line": 97,
+                  "name": "guard",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": true,
+              "isDefaultExport": false,
+              "name": "main"
+            }
+          ]
+        },
+        {
+          "entry": "main",
+          "entryRule": 0,
+          "exports": [
+            "main"
+          ],
+          "failurePaths": [
+            {
+              "in": "_trace_from_imatrix",
+              "kind": "except",
+              "line": 35
+            },
+            {
+              "in": "_trace_from_imatrix",
+              "kind": "raise",
+              "line": 36
+            },
+            {
+              "in": "_trace_from_imatrix",
+              "kind": "raise",
+              "line": 46
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 61
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 83
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 84
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 90
+            },
+            {
+              "kind": "raise",
+              "line": 120
+            }
+          ],
+          "hash": "01552ff6ce5a79daea2be519e953022837b8efea9d8b60edb012b4c266077fbb",
+          "importsFiles": [
+            "gpu_container/errors.py",
+            "gpu_container/planner/activation.py"
+          ],
+          "path": "gpu_container/planner/concentration_cli.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 51,
+                  "name": "from_dict",
+                  "target": {
+                    "file": "gpu_container/planner/activation.py"
+                  }
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_trace_from_imatrix"
+            },
+            {
+              "calls": [
+                {
+                  "line": 51,
+                  "name": "from_dict",
+                  "target": {
+                    "file": "gpu_container/planner/activation.py"
+                  },
+                  "via": "_trace_from_imatrix"
+                },
+                {
+                  "line": 84,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 88,
+                  "name": "load_trace",
+                  "target": {
+                    "file": "gpu_container/planner/activation.py"
+                  }
+                },
+                {
+                  "branch": "trace is None",
+                  "line": 90,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 94,
+                  "name": "analyze_concentration",
+                  "target": {
+                    "file": "gpu_container/planner/activation.py"
+                  }
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_main"
+            },
+            {
+              "calls": [
+                {
+                  "line": 116,
+                  "name": "guard",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": true,
+              "isDefaultExport": false,
+              "name": "main"
+            }
+          ]
+        },
+        {
+          "entry": "plan_llama_cpp",
+          "entryRule": 4,
+          "exports": [
+            "plan_llama_cpp"
+          ],
+          "hash": "13cde7f5f9aa8ca8a25560bfb213e898061ce4c02b55a95f9aaa89a5f12b763e",
+          "importsFiles": [
+            "gpu_container/planner/calibration.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/planner/placement.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "branch": "model is None or not model.expert.is_moe",
+                  "line": 51,
+                  "name": "PlacementPlan",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "branch": "model.expert_params_total is None or model.non_expert_param…",
+                  "line": 55,
+                  "name": "PlacementPlan",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "branch": "not vram_budget",
+                  "line": 60,
+                  "name": "PlacementPlan",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 63,
+                  "name": "bytes_per_weight",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                },
+                {
+                  "line": 73,
+                  "name": "non_expert_bytes_per_weight",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                },
+                {
+                  "branch": "vram_used_mib(N) > vram_budget",
+                  "line": 97,
+                  "name": "PlacementPlan",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "branch": "n_fit is None",
+                  "line": 108,
+                  "name": "PlacementPlan",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 148,
+                  "name": "estimate",
+                  "target": null
+                },
+                {
+                  "line": 188,
+                  "name": "PlacementPlan",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "plan_llama_cpp"
+            }
+          ]
+        },
+        {
+          "entry": "parse_llama_bench",
+          "entryRule": 4,
+          "exports": [
+            "build_receipt",
+            "parse_llama_bench",
+            "plan_to_calibration_point"
+          ],
+          "failurePaths": [
+            {
+              "in": "parse_llama_bench",
+              "kind": "except",
+              "line": 28
+            }
+          ],
+          "hash": "ead3cd0c2d053db592a944715a4550d7d341b8ff63f8f86670469006bc6624ee",
+          "importOrder": [
+            "gpu_container/profiler/schema.py",
+            "gpu_container/planner/activation.py",
+            "gpu_container/planner/calibration.py"
+          ],
+          "importsFiles": [
+            "gpu_container/planner/activation.py",
+            "gpu_container/planner/calibration.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/planner/receipt.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 23,
+                  "name": "rfind",
+                  "target": null
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "parse_llama_bench"
+            },
+            {
+              "calls": [
+                {
+                  "line": 113,
+                  "name": "Receipt",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "build_receipt"
+            },
+            {
+              "calls": [
+                {
+                  "line": 148,
+                  "name": "CalibrationPoint",
+                  "target": {
+                    "file": "gpu_container/planner/calibration.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "plan_to_calibration_point"
+            }
+          ]
+        },
+        {
+          "entry": "main",
+          "entryRule": 0,
+          "exports": [
+            "main"
+          ],
+          "failurePaths": [
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 42
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 76
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 81
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 101
+            },
+            {
+              "kind": "raise",
+              "line": 143
+            }
+          ],
+          "hash": "06d1dbd436c7a72873682f393b4abab8598a58bbf6ff91c5127aeff420b184d2",
+          "importsFiles": [
+            "gpu_container/errors.py",
+            "gpu_container/planner/activation.py",
+            "gpu_container/planner/calibration.py",
+            "gpu_container/planner/receipt.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/planner/receipt_cli.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 69,
+                  "name": "from_json",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 74,
+                  "name": "parse_llama_bench",
+                  "target": {
+                    "file": "gpu_container/planner/receipt.py"
+                  }
+                },
+                {
+                  "branch": "not rows",
+                  "line": 76,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 78,
+                  "name": "_pick",
+                  "target": {
+                    "file": "gpu_container/planner/receipt.py"
+                  }
+                },
+                {
+                  "branch": "decode is None",
+                  "line": 81,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 88,
+                  "name": "load_trace",
+                  "target": {
+                    "file": "gpu_container/planner/activation.py"
+                  }
+                },
+                {
+                  "line": 92,
+                  "name": "analyze_concentration",
+                  "target": {
+                    "file": "gpu_container/planner/activation.py"
+                  }
+                },
+                {
+                  "line": 105,
+                  "name": "build_receipt",
+                  "target": {
+                    "file": "gpu_container/planner/receipt.py"
+                  }
+                },
+                {
+                  "line": 111,
+                  "name": "plan_to_calibration_point",
+                  "target": {
+                    "file": "gpu_container/planner/receipt.py"
+                  }
+                },
+                {
+                  "line": 115,
+                  "name": "CalibrationStore",
+                  "target": {
+                    "file": "gpu_container/planner/calibration.py"
+                  }
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_main"
+            },
+            {
+              "calls": [
+                {
+                  "line": 139,
+                  "name": "guard",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": true,
+              "isDefaultExport": false,
+              "name": "main"
+            }
+          ]
+        },
+        {
+          "hash": "99bdf178e72f4863feff8d385688ffc66a89ef7dd246034ea2b5abd659304d1f",
+          "importsFiles": [
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/profiler/__init__.py"
+        },
+        {
+          "exports": [
+            "emit_baseline"
+          ],
+          "hash": "4c5ed85e8e2ba95551119b95403e8e85b7b87b6a3ec80fe3733803760d882fd3",
+          "importsFiles": [
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/profiler/baseline.py"
+        },
+        {
+          "entry": "main",
+          "entryRule": 0,
+          "exports": [
+            "main"
+          ],
+          "failurePaths": [
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 95
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 105
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 106
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 116
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 117
+            },
+            {
+              "in": "_main",
+              "kind": "raise",
+              "line": 129
+            },
+            {
+              "kind": "raise",
+              "line": 151
+            }
+          ],
+          "hash": "7de6c13ae98168c8dcfb0b6fd8ca1762c2a72251d5e23ff448077b5494110ec4",
+          "importsFiles": [
+            "gpu_container/errors.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/baseline.py",
+            "gpu_container/profiler/hardware.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/profiler/cli.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 104,
+                  "name": "from_json",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 106,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 110,
+                  "name": "profile_hardware",
+                  "target": {
+                    "file": "gpu_container/profiler/hardware.py"
+                  }
+                },
+                {
+                  "line": 117,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 119,
+                  "name": "analyze_config",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                },
+                {
+                  "line": 120,
+                  "name": "Profile",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 120,
+                  "name": "SCHEMA_VERSION",
+                  "passed": true,
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 125,
+                  "name": "emit_baseline",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                },
+                {
+                  "branch": "\"error\" in summary",
+                  "line": 129,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_main"
+            },
+            {
+              "calls": [
+                {
+                  "line": 147,
+                  "name": "guard",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": true,
+              "isDefaultExport": false,
+              "name": "main"
+            }
+          ]
+        },
+        {
+          "exports": [
+            "available",
+            "load_error",
+            "measure_pcie",
+            "measure_pinnable_ceiling",
+            "runtime_version"
+          ],
+          "failurePaths": [
+            {
+              "in": "_load_cudart",
+              "kind": "except",
+              "line": 57
+            },
+            {
+              "in": "_load_cudart",
+              "kind": "except",
+              "line": 64
+            },
+            {
+              "in": "_errstr",
+              "kind": "except",
+              "line": 107
+            }
+          ],
+          "hash": "bcbc423561ea16627cd14ed1797c7f18eb6b2fceeb49aac4553864740fff8568",
+          "path": "gpu_container/profiler/cuda_bench.py"
+        },
+        {
+          "entry": "profile_hardware",
+          "entryRule": 4,
+          "exports": [
+            "detect_gpu",
+            "detect_memory",
+            "detect_platform",
+            "measure_bandwidth",
+            "measure_cpu_mem_bw",
+            "profile_hardware"
+          ],
+          "failurePaths": [
+            {
+              "in": "_nvidia_smi_query",
+              "kind": "except",
+              "line": 37
+            },
+            {
+              "in": "_as_int",
+              "kind": "except",
+              "line": 48
+            },
+            {
+              "in": "_refine_vram_pynvml",
+              "kind": "except",
+              "line": 67
+            },
+            {
+              "in": "_refine_vram_pynvml",
+              "kind": "except",
+              "line": 71
+            },
+            {
+              "in": "_refine_vram_pynvml",
+              "kind": "except",
+              "line": 79
+            },
+            {
+              "in": "_refine_vram_pynvml",
+              "kind": "except",
+              "line": 83
+            },
+            {
+              "in": "_refine_vram_pynvml",
+              "kind": "except",
+              "line": 96
+            },
+            {
+              "in": "_refine_vram_pynvml",
+              "kind": "except",
+              "line": 101
+            },
+            {
+              "in": "_cgroup_container_token",
+              "kind": "except",
+              "line": 133
+            },
+            {
+              "in": "_is_wsl2",
+              "kind": "except",
+              "line": 150
+            },
+            {
+              "in": "detect_memory",
+              "kind": "except",
+              "line": 192
+            },
+            {
+              "in": "detect_memory",
+              "kind": "except",
+              "line": 202
+            },
+            {
+              "in": "measure_cpu_mem_bw",
+              "kind": "except",
+              "line": 252
+            },
+            {
+              "in": "measure_cpu_mem_bw",
+              "kind": "except",
+              "line": 268
+            }
+          ],
+          "hash": "8631228b84bfd9d90832751521b564447dbeb3c65f192e924b7a8ebe01f80304",
+          "importsFiles": [
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/cuda_bench.py",
+            "gpu_container/profiler/nvme_bench.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/profiler/hardware.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 109,
+                  "name": "GpuInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 124,
+                  "name": "runtime_version",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "detect_gpu"
+            },
+            {
+              "calls": [
+                {
+                  "line": 174,
+                  "name": "PlatformInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "detect_platform"
+            },
+            {
+              "calls": [
+                {
+                  "line": 188,
+                  "name": "MemoryInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "detect_memory"
+            },
+            {
+              "calls": [
+                {
+                  "line": 212,
+                  "name": "measure_pcie",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                },
+                {
+                  "line": 213,
+                  "name": "measure_nvme",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                },
+                {
+                  "line": 215,
+                  "name": "BandwidthInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "measure_bandwidth"
+            },
+            {
+              "calls": [
+                {
+                  "line": 282,
+                  "name": "measure_pinnable_ceiling",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  }
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_probe_pinnable"
+            },
+            {
+              "calls": [
+                {
+                  "line": 109,
+                  "name": "GpuInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  },
+                  "via": "detect_gpu"
+                },
+                {
+                  "line": 124,
+                  "name": "runtime_version",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  },
+                  "via": "detect_gpu"
+                },
+                {
+                  "line": 174,
+                  "name": "PlatformInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  },
+                  "via": "detect_platform"
+                },
+                {
+                  "line": 188,
+                  "name": "MemoryInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  },
+                  "via": "detect_memory"
+                },
+                {
+                  "line": 212,
+                  "name": "measure_pcie",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  },
+                  "via": "measure_bandwidth"
+                },
+                {
+                  "line": 213,
+                  "name": "measure_nvme",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  },
+                  "via": "measure_bandwidth"
+                },
+                {
+                  "line": 215,
+                  "name": "BandwidthInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  },
+                  "via": "measure_bandwidth"
+                },
+                {
+                  "line": 282,
+                  "name": "measure_pinnable_ceiling",
+                  "target": {
+                    "file": "gpu_container/profiler/__init__.py"
+                  },
+                  "via": "_probe_pinnable"
+                },
+                {
+                  "line": 303,
+                  "name": "BandwidthInfo",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                },
+                {
+                  "line": 304,
+                  "name": "HardwareProfile",
+                  "target": {
+                    "file": "gpu_container/profiler/schema.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "profile_hardware"
+            }
+          ]
+        },
+        {
+          "exports": [
+            "analyze_config",
+            "bytes_per_weight",
+            "estimate_param_split",
+            "kv_bytes_per_token",
+            "non_expert_bytes_per_weight"
+          ],
+          "hash": "db5987d3add6e23bb8c302c5c5258700a34e507c19a3cba5d0af97380e6b860a",
+          "importsFiles": [
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "gpu_container/profiler/model.py"
+        },
+        {
+          "exports": [
+            "measure_nvme",
+            "resolve_bench_dir"
+          ],
+          "failurePaths": [
+            {
+              "in": "_mount_for",
+              "kind": "except",
+              "line": 40
+            },
+            {
+              "in": "_run_fio",
+              "kind": "except",
+              "line": 73
+            },
+            {
+              "in": "_run_fio",
+              "kind": "except",
+              "line": 86
+            },
+            {
+              "in": "measure_nvme",
+              "kind": "except",
+              "line": 118
+            },
+            {
+              "in": "measure_nvme",
+              "kind": "except",
+              "line": 140
+            }
+          ],
+          "hash": "9912048ae7518ca86d6f8b89be47a822e9b10d402bcf97f8a563b91be5d60d9f",
+          "path": "gpu_container/profiler/nvme_bench.py"
+        },
+        {
+          "hash": "7e1580b0c7d57e9c154cab0309471220b4eb24fde9b73c616a1faa3f85bcf3a5",
+          "path": "gpu_container/profiler/schema.py"
+        },
+        {
+          "entry": "main",
+          "entryRule": 0,
+          "exports": [
+            "evaluate",
+            "execute_action",
+            "main",
+            "sample",
+            "sample_host",
+            "sample_nvidia_smi",
+            "supervise"
+          ],
+          "failurePaths": [
+            {
+              "in": "_num",
+              "kind": "except",
+              "line": 110
+            },
+            {
+              "in": "sample_nvidia_smi",
+              "kind": "except",
+              "line": 142
+            },
+            {
+              "in": "_host_source",
+              "kind": "except",
+              "line": 201
+            },
+            {
+              "in": "sample_host",
+              "kind": "except",
+              "line": 212
+            },
+            {
+              "in": "execute_action",
+              "kind": "except",
+              "line": 321
+            },
+            {
+              "in": "_terminate_job",
+              "kind": "except",
+              "line": 338
+            },
+            {
+              "in": "_terminate_job",
+              "kind": "except",
+              "line": 343
+            },
+            {
+              "in": "_terminate_job",
+              "kind": "except",
+              "line": 348
+            },
+            {
+              "in": "_run_supervise",
+              "kind": "raise",
+              "line": 456
+            },
+            {
+              "in": "_main",
+              "kind": "except",
+              "line": 496
+            },
+            {
+              "kind": "raise",
+              "line": 563
+            }
+          ],
+          "hash": "5b9ddb16664aa1d7aa44c2fcb8630696590d7e6a9cb7f631b02ad175bb84d315",
+          "importsFiles": [
+            "gpu_container/errors.py"
+          ],
+          "path": "gpu_container/watchdog.py",
+          "sequences": [
+            {
+              "calls": [
+                {
+                  "line": 334,
+                  "name": "poll",
+                  "target": null
+                },
+                {
+                  "branch": "proc.poll() is not None",
+                  "line": 335,
+                  "name": "poll",
+                  "target": null
+                },
+                {
+                  "line": 337,
+                  "name": "terminate",
+                  "target": null
+                },
+                {
+                  "line": 341,
+                  "name": "wait",
+                  "target": null
+                },
+                {
+                  "line": 342,
+                  "name": "poll",
+                  "target": null
+                },
+                {
+                  "line": 345,
+                  "name": "kill",
+                  "target": null
+                },
+                {
+                  "line": 346,
+                  "name": "wait",
+                  "target": null
+                },
+                {
+                  "line": 347,
+                  "name": "poll",
+                  "target": null
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_terminate_job"
+            },
+            {
+              "calls": [
+                {
+                  "line": 334,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "proc.poll() is not None",
+                  "line": 335,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 337,
+                  "name": "terminate",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 341,
+                  "name": "wait",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 342,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 345,
+                  "name": "kill",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 346,
+                  "name": "wait",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 347,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "supervise"
+            },
+            {
+              "calls": [
+                {
+                  "line": 427,
+                  "name": "add_argument",
+                  "target": null
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_add_threshold_args"
+            },
+            {
+              "calls": [
+                {
+                  "branch": "not command",
+                  "line": 456,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                },
+                {
+                  "line": 334,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "proc.poll() is not None",
+                  "line": 335,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 337,
+                  "name": "terminate",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 341,
+                  "name": "wait",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 342,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 345,
+                  "name": "kill",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 346,
+                  "name": "wait",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "line": 347,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_run_supervise"
+            },
+            {
+              "calls": [
+                {
+                  "line": 427,
+                  "name": "add_argument",
+                  "target": null,
+                  "via": "_add_threshold_args"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 456,
+                  "name": "GpuContainerError",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  },
+                  "via": "_run_supervise"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 334,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 337,
+                  "name": "terminate",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 341,
+                  "name": "wait",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 342,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 345,
+                  "name": "kill",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 346,
+                  "name": "wait",
+                  "target": null,
+                  "via": "_terminate_job"
+                },
+                {
+                  "branch": "getattr(args, \"mode\", None) == \"run\"",
+                  "line": 347,
+                  "name": "poll",
+                  "target": null,
+                  "via": "_terminate_job"
+                }
+              ],
+              "exported": false,
+              "invokedAtTopLevel": false,
+              "isDefaultExport": false,
+              "name": "_main"
+            },
+            {
+              "calls": [
+                {
+                  "line": 559,
+                  "name": "guard",
+                  "target": {
+                    "file": "gpu_container/errors.py"
+                  }
+                }
+              ],
+              "exported": true,
+              "invokedAtTopLevel": true,
+              "isDefaultExport": false,
+              "name": "main"
+            }
+          ]
+        }
+      ],
+      "globs": [
+        "gpu_container/**"
+      ],
+      "importConfidence": "full",
+      "name": "gpu_container",
+      "origin": "authored",
+      "outsidePlaces": [
+        {
+          "reads": 9,
+          "where": [
+            "caller"
+          ],
+          "writes": 9
+        }
+      ],
+      "outsideReads": 9,
+      "outsideWrites": 9,
+      "role": "code",
+      "testRunners": [
+        "pytest"
+      ],
+      "testedBy": 10,
+      "unresolvedNamed": [
+        {
+          "path": "gpu_container/__main__.py",
+          "specifier": null,
+          "why": "dynamic"
+        }
+      ],
+      "unresolvedSites": 1
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [
+        "npm/bin/gpu-container.js"
+      ],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "367e5141e4f5884e5791c4021f33a9faa958840a5decf44e1b273a87aad1c459",
+          "path": "npm/LICENSE"
+        },
+        {
+          "hash": "6ac10c3518f1107515c4b900b2eb7a9df8c972fb736097b80f8b62b998330d18",
+          "path": "npm/README.es.md"
+        },
+        {
+          "hash": "f7b2a7683ac0492575f29c9c8bd05546d6a0f3b644f2d7ab25bb380154c7f19c",
+          "path": "npm/README.fr.md"
+        },
+        {
+          "hash": "cd315d6ea7a10f985a6c59fa1e6a442f3caba4c6ece3ee126d666ebafc902b3a",
+          "path": "npm/README.hi.md"
+        },
+        {
+          "hash": "e44b891978024dde7fee22728f3b4e45399ebc035200815eb03ba84a155fea15",
+          "path": "npm/README.it.md"
+        },
+        {
+          "hash": "83abcb3b13a02271d8b35762ffbaf3bdfd218f669d3d7da29a017d442f84ae54",
+          "path": "npm/README.ja.md"
+        },
+        {
+          "hash": "98adfb1fd8919a23cb9a66a46a2370f04addf3c6175d03b9c89e5c62328869f2",
+          "path": "npm/README.md"
+        },
+        {
+          "hash": "7b8d2212aa8929a586bc48e0a01d0db0d499b57d6d4594b197acee313367dc53",
+          "path": "npm/README.pt-BR.md"
+        },
+        {
+          "hash": "765ab121816f1524661b0501594a7c826628c033cd77816f03796f20bdfa53f7",
+          "path": "npm/README.zh.md"
+        },
+        {
+          "hash": "6f8c497ec8db09cc839541866c2b4b5f042dae93d09c696a26596e06f2735022",
+          "path": "npm/bin/gpu-container.js"
+        },
+        {
+          "hash": "f8f823b6f79d4123c0694d99b38cd1e4627664565790fffc98142ac1e3f987db",
+          "path": "npm/package.json"
+        }
+      ],
+      "globs": [
+        "npm/**"
+      ],
+      "importConfidence": "full",
+      "name": "npm",
+      "origin": "authored",
+      "role": "code",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "b90f1aafa4c565fec77f4dd85a8b7ebc693d152d0531586c256618716a85e408",
+          "path": ".dockerignore"
+        },
+        {
+          "hash": "58bc2de150b4f7f1faedb5fa11ea93a2e49c64866008873517e3dae2d4f35921",
+          "path": ".gitignore"
+        },
+        {
+          "hash": "00a7c942cba3adcfaabe668fe35f1d09f792d3964a406e9deef3137906286e9b",
+          "path": "CHANGELOG.md"
+        },
+        {
+          "hash": "5e84cbc6e243c785b5b4ba0b29def029fabd680d033d7fdaae32aa2f553c3822",
+          "path": "Dockerfile"
+        },
+        {
+          "hash": "367e5141e4f5884e5791c4021f33a9faa958840a5decf44e1b273a87aad1c459",
+          "path": "LICENSE"
+        },
+        {
+          "hash": "2a8fdb2b434bd404dcc5d7f19b969739fa9be88a2f357cd2c8807a37926acee1",
+          "path": "README.es.md"
+        },
+        {
+          "hash": "da09c7e33c7f850c3194c578b162faf2b012d525335aaf26ac9807d0eac7decb",
+          "path": "README.fr.md"
+        },
+        {
+          "hash": "0990c4905d91a38a33257e42a5c1bde684d1ce2c5dd693dc2adcc8ff875f9aaf",
+          "path": "README.hi.md"
+        },
+        {
+          "hash": "5461ac273dc8e2da83b409599859037d26acc917e9547b3c95b50aaf4e6a49fd",
+          "path": "README.it.md"
+        },
+        {
+          "hash": "aa9569904be69257685c9cb615dec07c0f7dae0420b889e0b5adeae315090aa8",
+          "path": "README.ja.md"
+        },
+        {
+          "hash": "057b922f90766eba07e280ffb5867c940918cfe85021233716d95dc0ed069936",
+          "path": "README.md"
+        },
+        {
+          "hash": "29c586011e94699107d15f00d34deba8069efc78e091b80bded29a8bfe9328b8",
+          "path": "README.pt-BR.md"
+        },
+        {
+          "hash": "b2a3da574b97bb77e765d3c33162f3360d82abfeb2e1c7d34596980ff26e2ebc",
+          "path": "README.zh.md"
+        },
+        {
+          "hash": "f77bb3ca8e3fa6af2340a25b4fa2e64c40ce2a96385af5f18ead084f7e05c9a3",
+          "path": "RELEASE_ASSESSMENT.md"
+        },
+        {
+          "hash": "65fb801e825778d84917651a056ad345ff28d7909af3d6152512cba6bd0c8ef8",
+          "path": "SCORECARD.md"
+        },
+        {
+          "hash": "c9309c5cf66529e79bd2dd0febf93d01c52319d79b419e9f62390f9434d7993f",
+          "path": "SECURITY.md"
+        },
+        {
+          "hash": "4ff024f498674e37d94c000033ecbfa0faa3b2ce09bbf02dfe380e2537beca0b",
+          "path": "SHIP_GATE.md"
+        },
+        {
+          "hash": "f18bbf6c797a653abb26f294a25e1567051197b0a1b2aa2c7384abf71d927e58",
+          "path": "pyproject.toml"
+        },
+        {
+          "hash": "bfac01c48a2864712b90c1cb76516cef000b5b6d88024cd7c1ded00e6c46f7d8",
+          "path": "watchdog.example.json"
+        }
+      ],
+      "globs": [
+        "*"
+      ],
+      "importConfidence": "full",
+      "name": "root",
+      "origin": "authored",
+      "role": "config",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 1,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 1,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "exports": [
+            "build_seed_points",
+            "main"
+          ],
+          "failurePaths": [
+            {
+              "kind": "raise",
+              "line": 102
+            }
+          ],
+          "hash": "fea8ed8f220761bc25cf904c2493612c0f7949cc451deccbb1e2f65b157951fd",
+          "importsFiles": [
+            "gpu_container/planner/__init__.py",
+            "gpu_container/planner/calibration.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "scripts/gen_calibration_seed.py"
+        },
+        {
+          "exports": [
+            "main"
+          ],
+          "failurePaths": [
+            {
+              "kind": "raise",
+              "line": 111
+            }
+          ],
+          "hash": "c58a0e33f66e2e2dad76d985e7a3be5e78c24a9f049f2e7572903a2f2f1aaa25",
+          "importsFiles": [
+            "gpu_container/planner/__init__.py",
+            "gpu_container/planner/receipt.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "scripts/ingest_sweep.py"
+        },
+        {
+          "entry": "main",
+          "entryRule": 1,
+          "exports": [
+            "main",
+            "run"
+          ],
+          "failurePaths": [
+            {
+              "kind": "raise",
+              "line": 58
+            }
+          ],
+          "hash": "da26c2572e1423e0c6426d647ef9ded2ded9329245983bd66c3e40bc871bd0bb",
+          "path": "scripts/verify.py",
+          "sequences": []
+        }
+      ],
+      "globs": [
+        "scripts/**"
+      ],
+      "importConfidence": "full",
+      "name": "scripts",
+      "origin": "authored",
+      "outsidePlaces": [
+        {
+          "reads": 3,
+          "where": [
+            "caller"
+          ],
+          "writes": 2
+        }
+      ],
+      "outsideReads": 3,
+      "outsideWrites": 2,
+      "role": "code",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "hash": "3bfd3895c7fec84964af7ac099285df3c0b8e7502f998698d9e940cbe259f4ca",
+          "path": "site/astro.config.mjs"
+        },
+        {
+          "hash": "af5d4f54dca60686724d306eb58759fb25b6f5ba4d66559ab84a968112a184e5",
+          "path": "site/package-lock.json"
+        },
+        {
+          "hash": "ede5fe47605b55555e8d3ed7b2eb904e0c9b03a975348882ae0a870ef5b98bb7",
+          "path": "site/package.json"
+        },
+        {
+          "constantOnly": true,
+          "hash": "ee756dfba4122d2acc94a39b2555d9f200fff56a87a8c0b10f9cd01df26a8b62",
+          "path": "site/src/content.config.ts"
+        },
+        {
+          "hash": "32eed021a3143b5dbf26869afd545ac62cecc0b187eb9c676d2c9768078febc4",
+          "path": "site/src/content/docs/handbook/cli.md"
+        },
+        {
+          "hash": "b69ab440df43a6226cfc97cbab41d6e2ff1e187b39279fc85abb135e1fa86f68",
+          "path": "site/src/content/docs/handbook/derisk.md"
+        },
+        {
+          "hash": "49350c676ffd535d1756f5bc595bc60c617dc22a8979cb180e5be0a5dfa40be9",
+          "path": "site/src/content/docs/handbook/getting-started.md"
+        },
+        {
+          "hash": "a29537a562a9635ab87e1ee95c466493956d395b294122d6f89ba5b1ab43b7be",
+          "path": "site/src/content/docs/handbook/index.md"
+        },
+        {
+          "hash": "949b9c110e5774e8cb9794f0b04c93a375b4bcf6672da057d4f899c231f41725",
+          "path": "site/src/content/docs/handbook/moe-lane.md"
+        },
+        {
+          "hash": "9485c11264550e5fb396659a9dd1b05432350326a5f2a197d37dfe90e8f1b104",
+          "path": "site/src/content/docs/handbook/reference.md"
+        },
+        {
+          "hash": "f753158a50432ad908c00fd6b6c23ec72d68912c9628d4b3524f8b899a573c16",
+          "path": "site/src/content/docs/handbook/safety.md"
+        },
+        {
+          "hash": "391533713539035d3c92282579d43de0f137067867fdb502d7eaea3c74601d2a",
+          "importOrder": [
+            "site/src/styles/global.css",
+            "site/src/site-config.ts"
+          ],
+          "importsFiles": [
+            "site/src/site-config.ts",
+            "site/src/styles/global.css"
+          ],
+          "path": "site/src/pages/index.astro"
+        },
+        {
+          "constantOnly": true,
+          "hash": "f35a03121d9a03247ef7de16bcf90be22de854a2fcd791c96ce9c0814858b022",
+          "path": "site/src/site-config.ts"
+        },
+        {
+          "hash": "29ee8df91833e694bdba973126b34a6177de4cf01dab6d9ef7d3126e8e2b67fb",
+          "path": "site/src/styles/global.css"
+        },
+        {
+          "hash": "caf3bea3424477e9528b80490e442ff4fad4ccc7562df9457497382c5bd62339",
+          "path": "site/src/styles/starlight-custom.css"
+        },
+        {
+          "hash": "b5b0a5b04a14cddd7713c5e1c82e86c79c17c2f86b170e26e9b170b3d5e01cd9",
+          "path": "site/tsconfig.json"
+        }
+      ],
+      "globs": [
+        "site/**"
+      ],
+      "importConfidence": "full",
+      "name": "site",
+      "origin": "authored",
+      "role": "site",
+      "testedBy": 0,
+      "unresolvedSites": 0
+    },
+    {
+      "dynamicReads": 0,
+      "dynamicSpawns": 0,
+      "dynamicSpawnsInTests": 0,
+      "dynamicWrites": 0,
+      "entryPoints": [],
+      "externals": 0,
+      "files": [
+        {
+          "exports": [
+            "test_concentrated_trace_cache_helps",
+            "test_concentration_orders_uniform_below_concentrated",
+            "test_empty_trace_is_graceful",
+            "test_load_trace_is_tolerant",
+            "test_roundtrip_serialization",
+            "test_single_expert_layer_is_fully_concentrated",
+            "test_uniform_trace_cache_does_not_help",
+            "test_workload_dependence_note_present",
+            "test_zero_mass_layer_is_skipped"
+          ],
+          "hash": "94daad0682fbd8e54b3e33a336fcf53916afff418cb273a1f8825065e19ba698",
+          "importsFiles": [
+            "gpu_container/planner/activation.py"
+          ],
+          "path": "tests/test_activation.py"
+        },
+        {
+          "exports": [
+            "test_estimate_in_vram_centers_on_measured_efficiency",
+            "test_estimate_offload_interpolates_over_fraction",
+            "test_estimate_returns_none_for_unseen_regime",
+            "test_plan_cli_calibrates_by_default",
+            "test_plan_to_calibration_point_feeds_the_store",
+            "test_planner_calibrated_forecast_is_below_ceiling_with_band",
+            "test_planner_uncalibrated_forecast_is_the_ceiling",
+            "test_recalibration_loop_closes_in_sample",
+            "test_recalibration_loop_closes_leave_one_out",
+            "test_receipt_cli_writes_back_to_store",
+            "test_receipt_records_efficiency_and_band_membership",
+            "test_seed_ceilings_consistent_with_current_planner",
+            "test_seed_has_three_qwen3_points_with_expected_efficiency",
+            "test_store_roundtrip",
+            "test_store_tolerates_garbage"
+          ],
+          "hash": "d930e57c2240d19938fb7a74b5eda1ef03512ee555c2d0a7bb133a7b1361f89b",
+          "importOrder": [
+            "gpu_container/planner/__init__.py",
+            "gpu_container/planner/receipt.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py",
+            "gpu_container/planner/cli.py",
+            "gpu_container/planner/receipt_cli.py"
+          ],
+          "importsFiles": [
+            "gpu_container/planner/__init__.py",
+            "gpu_container/planner/cli.py",
+            "gpu_container/planner/receipt.py",
+            "gpu_container/planner/receipt_cli.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "tests/test_calibration.py"
+        },
+        {
+          "exports": [
+            "test_concentrated_exits_5",
+            "test_missing_trace_exits_2",
+            "test_threshold_flips_verdict",
+            "test_uniform_exits_0_and_writes_report"
+          ],
+          "hash": "a48f7dd01f02e825a14e7eb24d0659d5daeaa3e09304028e8fee10413d4997d1",
+          "importOrder": [
+            "gpu_container/planner/concentration_cli.py",
+            "gpu_container/planner/activation.py"
+          ],
+          "importsFiles": [
+            "gpu_container/planner/activation.py",
+            "gpu_container/planner/concentration_cli.py"
+          ],
+          "path": "tests/test_concentration_cli.py"
+        },
+        {
+          "exports": [
+            "test_routes_to_subcommand",
+            "test_unknown_command_exits_2",
+            "test_version_help_and_bare_exit_zero"
+          ],
+          "hash": "d21aaaf4717e89900cd4f3a15ae85bc04e18149d88bb1e0e903c666dc0f37574",
+          "importsFiles": [
+            "gpu_container/__init__.py",
+            "gpu_container/__main__.py"
+          ],
+          "path": "tests/test_dispatch.py"
+        },
+        {
+          "exports": [
+            "test_error_renders_code_message_hint_cause_retryable",
+            "test_error_to_dict_shape",
+            "test_guard_honours_custom_exit_code",
+            "test_guard_passes_through_verdict_codes",
+            "test_guard_renders_structured_error_and_returns_exit_code",
+            "test_guard_reraises_unexpected_with_debug",
+            "test_guard_swallows_unexpected_without_debug"
+          ],
+          "hash": "ef59ba6fb03cc90ca654cdd3f92ddf324695cd6e95982c671c8aa8d71d2afbf3",
+          "importsFiles": [
+            "gpu_container/errors.py"
+          ],
+          "path": "tests/test_errors.py",
+          "testFramework": "pytest"
+        },
+        {
+          "exports": [
+            "test_benches_degrade_without_crashing_off_gpu",
+            "test_emit_baseline_idempotent_by_source_file",
+            "test_emit_baseline_missing_db",
+            "test_emit_baseline_refuses_unmeasured_profile",
+            "test_emit_baseline_writes_measured_rows",
+            "test_resolve_bench_dir_explicit_and_missing",
+            "test_schema_roundtrip_preserves_measured_fields"
+          ],
+          "hash": "1585a5ed4c95041a331de98d854769d971ee2e5d3dd7f5342b5318105405b206",
+          "importsFiles": [
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/baseline.py",
+            "gpu_container/profiler/cuda_bench.py",
+            "gpu_container/profiler/nvme_bench.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "tests/test_measure.py"
+        },
+        {
+          "exports": [
+            "test_dense_model_refused_from_moe_lane",
+            "test_mixtral_q8_needs_cpu_offload_but_ships",
+            "test_param_split_mixtral_matches_published_size",
+            "test_param_split_qwen3_matches_published_size",
+            "test_parse_llama_bench_and_build_receipt",
+            "test_qwen3_q4_fits_fully_in_vram",
+            "test_refuse_below_floor_even_if_memory_fits",
+            "test_refuse_when_nonexpert_alone_exceeds_vram"
+          ],
+          "hash": "d81830a8913e7e25107ed3be5121cd2c089f3542b789a3d79f8ef878263948a7",
+          "importsFiles": [
+            "gpu_container/planner/__init__.py",
+            "gpu_container/planner/receipt.py",
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "tests/test_planner.py"
+        },
+        {
+          "exports": [
+            "test_analyze_llama_is_dense",
+            "test_analyze_mixtral_is_moe",
+            "test_kv_bytes_per_token_closed_form",
+            "test_profile_json_roundtrip_reconstructs_nested_dataclasses"
+          ],
+          "hash": "1ff660e3e46e574bdf74e1ed8ca66e4d190e0dbfb336a8a9991d5e4cd4fd9729",
+          "importsFiles": [
+            "gpu_container/profiler/__init__.py",
+            "gpu_container/profiler/model.py"
+          ],
+          "path": "tests/test_profiler.py"
+        },
+        {
+          "exports": [
+            "test_peaks_do_not_clobber_within_band",
+            "test_receipt_carries_routing_verdict_concentrated",
+            "test_receipt_carries_routing_verdict_uniform",
+            "test_receipt_carries_safety_envelope",
+            "test_receipt_safety_envelope_breached_note",
+            "test_receipt_without_peaks_leaves_envelope_none",
+            "test_receipt_without_trace_leaves_routing_none"
+          ],
+          "hash": "53b5ee580920a132bc651c220bd2f7f0c6ade7886f03e4d811fa8b268e52c7da",
+          "importOrder": [
+            "gpu_container/planner/receipt.py",
+            "gpu_container/planner/activation.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "importsFiles": [
+            "gpu_container/planner/activation.py",
+            "gpu_container/planner/receipt.py",
+            "gpu_container/profiler/schema.py"
+          ],
+          "path": "tests/test_receipt_trace.py"
+        },
+        {
+          "exports": [
+            "test_all_calm_is_ok",
+            "test_append_log_writes_parseable_jsonl",
+            "test_approaching_limit_warns_not_aborts",
+            "test_cli_flags_override_thresholds",
+            "test_config_override_tightens",
+            "test_default_action_is_alert_only_and_runs_nothing",
+            "test_host_available_low_aborts",
+            "test_host_memory_high_aborts",
+            "test_host_source_is_a_known_tag",
+            "test_host_source_windows",
+            "test_multi_gpu_takes_worst_case",
+            "test_na_field_stays_none_not_zero",
+            "test_none_metrics_are_skipped",
+            "test_nvidia_smi_nonzero_exit_is_none_with_note",
+            "test_nvidia_smi_unavailable_is_all_none_with_note",
+            "test_peak_tracker_all_none_stays_none",
+            "test_peak_tracker_tracks_worst_case_none_safe",
+            "test_power_over_limit_aborts",
+            "test_report_serializes_to_json",
+            "test_run_subcommand_without_command_errors",
+            "test_sample_host_tags_mem_source",
+            "test_shipped_example_config_loads_and_ignores_comment",
+            "test_single_gpu_parses",
+            "test_supervise_clean_completion_is_ok",
+            "test_supervise_kill_job_on_breach_terminates_child",
+            "test_supervise_max_polls_stops_and_kills",
+            "test_supervise_nonkill_action_runs_and_also_kills_job",
+            "test_supervise_propagates_job_failure_without_breach",
+            "test_terminate_job_already_exited",
+            "test_terminate_job_kills_when_terminate_ignored",
+            "test_wsl_shutdown_action_invokes_the_runner"
+          ],
+          "hash": "22899026dd4e62be14aa87e842ca6c8b081dee3343029e739facb197aa6b6ec8",
+          "importsFiles": [
+            "gpu_container/__init__.py",
+            "gpu_container/watchdog.py"
+          ],
+          "path": "tests/test_watchdog.py"
+        }
+      ],
+      "globs": [
+        "tests/**"
+      ],
+      "importConfidence": "full",
+      "name": "tests",
+      "origin": "authored",
+      "role": "test",
+      "testRunners": [
+        "pytest"
+      ],
+      "testedBy": 0,
+      "unresolvedSites": 0
+    }
+  ],
+  "doors": [
+    {
+      "checksCount": 1,
+      "commands": [
+        {
+          "dir": "",
+          "job": "test",
+          "programs": [
+            "npx"
+          ],
+          "step": "Atlas check"
+        },
+        {
+          "dir": "",
+          "job": "test",
+          "programs": [
+            "python"
+          ],
+          "step": "4"
+        },
+        {
+          "dir": "",
+          "job": "test",
+          "programs": [
+            "pip"
+          ],
+          "step": "5"
+        },
+        {
+          "dir": "",
+          "job": "test",
+          "programs": [
+            "python"
+          ],
+          "step": "6"
+        },
+        {
+          "dir": "",
+          "job": "deps",
+          "programs": [
+            "python"
+          ],
+          "step": "2"
+        },
+        {
+          "dir": "",
+          "job": "deps",
+          "programs": [
+            "pip"
+          ],
+          "step": "3"
+        },
+        {
+          "dir": "",
+          "job": "deps",
+          "programs": [
+            "pip-audit"
+          ],
+          "step": "4"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/ci.yml",
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "test",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "3.11",
+                  "range": ">=3.11.0 <3.12.0-0"
+                },
+                {
+                  "from": "3.12",
+                  "range": ">=3.12.0 <3.13.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-python",
+              "version": "${{ matrix.python-version }}"
+            },
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "Set up Node for Atlas",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "deps",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "3.12",
+                  "range": ">=3.12.0 <3.13.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-python",
+              "version": "3.12"
+            }
+          ]
+        }
+      ],
+      "landings": [],
+      "mentions": [],
+      "name": "CI",
+      "permissions": [
+        "contents:read"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 20
+        },
+        {
+          "boundary": "scripts",
+          "depth": 0,
+          "files": 1
+        },
+        {
+          "boundary": "tests",
+          "depth": 0,
+          "files": 10
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "directory": true,
+          "job": "test",
+          "path": "gpu_container/",
+          "runKind": "checks",
+          "via": "scripts/verify.py → build pyproject.toml"
+        },
+        {
+          "job": "test",
+          "path": "gpu_container/watchdog.py",
+          "runKind": "executes",
+          "via": "scripts/verify.py"
+        },
+        {
+          "job": "test",
+          "path": "scripts/verify.py",
+          "runKind": "executes"
+        },
+        {
+          "directory": true,
+          "job": "test",
+          "matched": true,
+          "path": "tests/",
+          "runKind": "executes",
+          "via": "scripts/verify.py → pytest pyproject.toml"
+        }
+      ],
+      "runsCount": 4,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "tests": [
+        {
+          "config": "pyproject.toml",
+          "files": 10,
+          "job": "test",
+          "runner": "pytest",
+          "step": "6",
+          "through": [
+            "scripts/verify.py"
+          ]
+        }
+      ],
+      "triggers": [
+        {
+          "event": "pull_request",
+          "paths": [
+            ".github/workflows/**",
+            "atlas/**",
+            "gpu_container/**",
+            "pyproject.toml",
+            "scripts/**",
+            "site/astro.config.mjs",
+            "site/package-lock.json",
+            "site/package.json",
+            "tests/**"
+          ]
+        },
+        {
+          "event": "push",
+          "paths": [
+            ".github/workflows/**",
+            "atlas/**",
+            "gpu_container/**",
+            "pyproject.toml",
+            "scripts/**",
+            "site/astro.config.mjs",
+            "site/package-lock.json",
+            "site/package.json",
+            "tests/**"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/setup-node",
+        "actions/setup-python"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [
+        {
+          "dir": "site",
+          "job": "build",
+          "programs": [
+            "npm"
+          ],
+          "step": "Install site dependencies"
+        },
+        {
+          "dir": "site",
+          "job": "build",
+          "programs": [
+            "npm"
+          ],
+          "step": "Build site"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/pages.yml",
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "build",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "1",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "environment": {
+            "name": "github-pages"
+          },
+          "name": "deploy",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        }
+      ],
+      "landings": [],
+      "mentions": [],
+      "name": "Deploy site to GitHub Pages",
+      "permissions": [
+        "contents:read",
+        "id-token:write",
+        "pages:write"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "site",
+          "depth": 0,
+          "files": 5
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "job": "build",
+          "matched": true,
+          "path": "site/astro.config.mjs",
+          "runKind": "executes",
+          "via": "astro build"
+        },
+        {
+          "directory": true,
+          "job": "build",
+          "matched": true,
+          "path": "site/src/",
+          "runKind": "executes",
+          "via": "astro build"
+        }
+      ],
+      "runsCount": 2,
+      "secrets": [],
+      "sends": {
+        "deploysPages": true,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [
+        {
+          "branches": [
+            "main"
+          ],
+          "event": "push",
+          "paths": [
+            ".github/workflows/pages.yml",
+            "site/**"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/deploy-pages",
+        "actions/setup-node",
+        "actions/upload-pages-artifact"
+      ],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 4,
+      "commands": [
+        {
+          "dir": "",
+          "job": "pypi",
+          "programs": [
+            "echo",
+            "grep",
+            "sed"
+          ],
+          "step": "Verify the tag matches pyproject version"
+        },
+        {
+          "dir": "",
+          "job": "pypi",
+          "programs": [
+            "uv"
+          ],
+          "step": "Build sdist + wheel"
+        },
+        {
+          "dir": "",
+          "job": "pypi",
+          "programs": [
+            "uvx"
+          ],
+          "step": "Check distribution metadata"
+        },
+        {
+          "dir": "",
+          "job": "build-binaries",
+          "programs": [
+            "uv"
+          ],
+          "step": "2"
+        },
+        {
+          "dir": "",
+          "job": "build-binaries",
+          "programs": [
+            "uv"
+          ],
+          "step": "3"
+        },
+        {
+          "dir": "",
+          "job": "build-binaries",
+          "programs": [
+            "uv"
+          ],
+          "step": "Install gpu-container + PyInstaller"
+        },
+        {
+          "dir": "",
+          "job": "build-binaries",
+          "programs": [
+            "echo",
+            "mv",
+            "uv"
+          ],
+          "step": "Build binary"
+        },
+        {
+          "dir": "",
+          "job": "build-binaries",
+          "programs": [],
+          "step": "Smoke-test the binary"
+        },
+        {
+          "dir": "",
+          "job": "release-binaries",
+          "programs": [
+            "cat",
+            "cd",
+            "sha256sum"
+          ],
+          "step": "Generate checksums"
+        },
+        {
+          "dir": "",
+          "job": "npm",
+          "programs": [
+            "echo",
+            "grep",
+            "node"
+          ],
+          "step": "Verify the npm launcher version matches the tag"
+        },
+        {
+          "dir": "",
+          "job": "npm",
+          "programs": [
+            "echo",
+            "mkdir",
+            "npm",
+            "popd",
+            "pushd"
+          ],
+          "step": "Install npm >= 11.5 for OIDC trusted-publishing auth"
+        },
+        {
+          "dir": "npm",
+          "job": "npm",
+          "programs": [
+            "npm"
+          ],
+          "step": "Publish launcher with provenance (OIDC trusted publisher)"
+        },
+        {
+          "dir": "",
+          "job": "docker",
+          "programs": [
+            "echo"
+          ],
+          "step": "Compute image tags"
+        }
+      ],
+      "elsewhere": [],
+      "file": ".github/workflows/release.yml",
+      "jobs": [
+        {
+          "basis": "declared",
+          "name": "pypi",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "build-binaries",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            },
+            {
+              "labels": [
+                "macos-latest"
+              ],
+              "platform": {
+                "cpu": "arm64",
+                "os": "darwin"
+              }
+            },
+            {
+              "labels": [
+                "windows-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "os": "win32"
+              }
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "release-binaries",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "npm",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ],
+          "setup": [
+            {
+              "ranges": [
+                {
+                  "from": "22",
+                  "range": ">=22.0.0 <23.0.0-0"
+                }
+              ],
+              "step": "2",
+              "uses": "actions/setup-node",
+              "version": "22"
+            }
+          ]
+        },
+        {
+          "basis": "declared",
+          "name": "docker",
+          "runsOn": [
+            {
+              "labels": [
+                "ubuntu-latest"
+              ],
+              "platform": {
+                "cpu": "x64",
+                "libc": "glibc",
+                "os": "linux"
+              }
+            }
+          ]
+        }
+      ],
+      "landings": [],
+      "mentions": [
+        {
+          "job": "npm",
+          "path": "npm/bin/gpu-container.js"
+        },
+        {
+          "job": "npm",
+          "path": "npm/package.json"
+        },
+        {
+          "job": "pypi",
+          "path": "pyproject.toml"
+        }
+      ],
+      "name": "Release",
+      "permissions": [
+        "contents:read",
+        "contents:write",
+        "id-token:write",
+        "packages:write"
+      ],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 20
+        },
+        {
+          "boundary": "root",
+          "depth": 0,
+          "files": 3
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "job": "docker",
+          "packed": true,
+          "path": "LICENSE",
+          "runKind": "checks",
+          "via": "docker build Dockerfile"
+        },
+        {
+          "job": "docker",
+          "packed": true,
+          "path": "README.md",
+          "runKind": "checks",
+          "via": "docker build Dockerfile"
+        },
+        {
+          "directory": true,
+          "job": "docker",
+          "packed": true,
+          "path": "gpu_container/",
+          "runKind": "checks",
+          "via": "docker build Dockerfile"
+        },
+        {
+          "directory": true,
+          "job": "pypi",
+          "path": "gpu_container/",
+          "runKind": "checks",
+          "via": "build pyproject.toml"
+        },
+        {
+          "built": true,
+          "job": "build-binaries",
+          "path": "gpu_container/__main__.py",
+          "runKind": "executes"
+        },
+        {
+          "job": "docker",
+          "path": "gpu_container/profiler/cli.py",
+          "runKind": "executes",
+          "via": "docker build Dockerfile"
+        },
+        {
+          "job": "docker",
+          "packed": true,
+          "path": "pyproject.toml",
+          "runKind": "checks",
+          "via": "docker build Dockerfile"
+        }
+      ],
+      "runsCount": 6,
+      "secrets": [
+        "GITHUB_TOKEN"
+      ],
+      "sends": {
+        "assets": [
+          "binary:darwin-arm64",
+          "binary:linux-x64",
+          "binary:win-x64"
+        ],
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "packages": [
+          {
+            "dir": "npm",
+            "name": "gpu-container",
+            "registry": "npm"
+          }
+        ],
+        "publishes": true,
+        "publishesTo": [
+          "container image",
+          "npm",
+          "pypi"
+        ],
+        "releases": false
+      },
+      "stages": [],
+      "tests": [
+        {
+          "job": "build-binaries",
+          "runner": null,
+          "step": "Smoke-test the binary"
+        }
+      ],
+      "triggers": [
+        {
+          "event": "release",
+          "types": [
+            "published"
+          ]
+        },
+        {
+          "event": "workflow_dispatch"
+        }
+      ],
+      "unresolvedChecks": [
+        {
+          "job": "build-binaries",
+          "manifest": "pyproject.toml",
+          "requires": ">=3.10",
+          "rule": "D1-python",
+          "step": "Install gpu-container + PyInstaller",
+          "tool": "uv pip",
+          "why": "no setup-python step before it"
+        }
+      ],
+      "uses": [
+        "actions/checkout",
+        "actions/download-artifact",
+        "actions/setup-node",
+        "actions/upload-artifact",
+        "astral-sh/setup-uv",
+        "docker/build-push-action",
+        "docker/login-action",
+        "pypa/gh-action-pypi-publish",
+        "softprops/action-gh-release"
+      ],
+      "usesWorkflowToken": true
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "npm/package.json",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "gpu-container",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "npm",
+          "depth": 0,
+          "files": 1
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "npm/bin/gpu-container.js",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "pyproject.toml",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "gpu-container",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 2
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "gpu_container/__main__.py",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "pyproject.toml",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "gpu-container-concentration",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 3
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "gpu_container/planner/concentration_cli.py",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "pyproject.toml",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "gpu-container-plan",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 7
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "gpu_container/planner/cli.py",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "pyproject.toml",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "gpu-container-profile",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 9
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "gpu_container/profiler/cli.py",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "pyproject.toml",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "gpu-container-receipt",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 6
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "gpu_container/planner/receipt_cli.py",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    },
+    {
+      "checksCount": 0,
+      "commands": [],
+      "elsewhere": [],
+      "file": "pyproject.toml",
+      "kind": "command",
+      "landings": [],
+      "mentions": [],
+      "name": "gpu-container-watchdog",
+      "permissions": [],
+      "pushes": false,
+      "reach": [
+        {
+          "boundary": "gpu_container",
+          "depth": 0,
+          "files": 2
+        }
+      ],
+      "readers": [],
+      "runs": [
+        {
+          "path": "gpu_container/watchdog.py",
+          "runKind": "executes"
+        }
+      ],
+      "runsCount": 1,
+      "secrets": [],
+      "sends": {
+        "deploysPages": false,
+        "dispatchesTo": [],
+        "opensIssues": false,
+        "opensIssuesOnFailure": false,
+        "opensPullRequests": false,
+        "publishes": false,
+        "publishesTo": [],
+        "releases": false
+      },
+      "stages": [],
+      "triggers": [],
+      "uses": [],
+      "usesWorkflowToken": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "scripts",
+      "kind": "file",
+      "to": "gpu_container"
+    },
+    {
+      "from": "scripts",
+      "kind": "spawns",
+      "to": "gpu_container"
+    },
+    {
+      "from": "scripts",
+      "kind": "spawns",
+      "to": "tests"
+    },
+    {
+      "from": "tests",
+      "fromTests": true,
+      "kind": "file",
+      "to": "gpu_container"
+    }
+  ],
+  "engine": "1.24.0",
+  "generatedFrom": {
+    "commit": "687377310d712121119139e23dac3d3e08fea874",
+    "tracked": 97
+  },
+  "landings": [
+    {
+      "readers": [
+        {
+          "by": ".claude/settings.json",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": ".claude/hooks",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "pyproject.toml",
+          "call": "configuration",
+          "confidence": "config"
+        }
+      ],
+      "target": "README.md",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "gpu_container/planner/calibration.py",
+          "call": "literal",
+          "confidence": "ast"
+        },
+        {
+          "by": "gpu_container/planner/calibration.py",
+          "call": "open",
+          "confidence": "ast"
+        }
+      ],
+      "target": "gpu_container/planner/calibration_seed.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/release.yml",
+          "confidence": "config"
+        }
+      ],
+      "target": "npm/bin/gpu-container.js",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/release.yml",
+          "confidence": "config"
+        }
+      ],
+      "target": "npm/package.json",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": ".github/workflows/release.yml",
+          "confidence": "config"
+        }
+      ],
+      "target": "pyproject.toml",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "site/astro.config.mjs",
+          "call": "content-collection",
+          "confidence": "ast"
+        }
+      ],
+      "target": "site/src/content/docs",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "site/astro.config.mjs",
+          "call": "autogenerate",
+          "confidence": "ast"
+        }
+      ],
+      "target": "site/src/content/docs/handbook",
+      "writers": []
+    },
+    {
+      "readers": [
+        {
+          "by": "tests/test_watchdog.py",
+          "call": "literal",
+          "confidence": "ast",
+          "fromTests": true
+        }
+      ],
+      "target": "watchdog.example.json",
+      "writers": []
+    }
+  ],
+  "overlaps": [],
+  "submodules": [],
+  "symlinks": [],
+  "testFiles": 10,
+  "unassigned": []
+}
