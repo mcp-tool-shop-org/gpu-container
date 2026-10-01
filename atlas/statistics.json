@@ -1,0 +1,759 @@
+{
+  "authorship": {
+    "parts": [],
+    "places": []
+  },
+  "boundaries": [
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": ".claude",
+      "qualifyingSourceCommits": 1,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": ".github",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "assets",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "docs",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [
+          "npm"
+        ],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": [
+          "scripts",
+          "tests"
+        ]
+      },
+      "cohesion": 0,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "gpu_container",
+      "qualifyingSourceCommits": 16,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [
+          "gpu_container"
+        ],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": 0,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "npm",
+      "qualifyingSourceCommits": 5,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "root",
+      "qualifyingSourceCommits": 0,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "scripts",
+      "qualifyingSourceCommits": 2,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": []
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "site",
+      "qualifyingSourceCommits": 2,
+      "rebaseline": null
+    },
+    {
+      "breakage": {
+        "coChangesOnly": [],
+        "collapsed": false,
+        "confidence": "low",
+        "importsAndCoChanges": [],
+        "importsOnly": [
+          "scripts"
+        ]
+      },
+      "cohesion": null,
+      "cohesionDropped": false,
+      "confidence": "low",
+      "highWater": null,
+      "name": "tests",
+      "qualifyingSourceCommits": 13,
+      "rebaseline": null
+    }
+  ],
+  "churn": {
+    "definition": "commits is how many commits in the window touch the file, including merges and commits dropped from coupling. lines is added plus deleted in those commits.",
+    "files": [
+      {
+        "commits": 1,
+        "lines": 30,
+        "path": ".claude/hooks/pre-tool-use.mjs"
+      },
+      {
+        "commits": 1,
+        "lines": 639,
+        "path": ".claude/role-os/tool-contracts.json"
+      },
+      {
+        "commits": 1,
+        "lines": 15,
+        "path": ".claude/settings.json"
+      },
+      {
+        "commits": 1,
+        "lines": 10,
+        "path": ".dockerignore"
+      },
+      {
+        "commits": 4,
+        "lines": 73,
+        "path": ".github/workflows/ci.yml"
+      },
+      {
+        "commits": 2,
+        "lines": 58,
+        "path": ".github/workflows/pages.yml"
+      },
+      {
+        "commits": 4,
+        "lines": 247,
+        "path": ".github/workflows/release.yml"
+      },
+      {
+        "commits": 3,
+        "lines": 58,
+        "path": ".gitignore"
+      },
+      {
+        "commits": 5,
+        "lines": 60,
+        "path": "CHANGELOG.md"
+      },
+      {
+        "commits": 1,
+        "lines": 30,
+        "path": "Dockerfile"
+      },
+      {
+        "commits": 1,
+        "lines": 21,
+        "path": "LICENSE"
+      },
+      {
+        "commits": 1,
+        "lines": 82,
+        "path": "README.es.md"
+      },
+      {
+        "commits": 1,
+        "lines": 82,
+        "path": "README.fr.md"
+      },
+      {
+        "commits": 1,
+        "lines": 82,
+        "path": "README.hi.md"
+      },
+      {
+        "commits": 1,
+        "lines": 84,
+        "path": "README.it.md"
+      },
+      {
+        "commits": 1,
+        "lines": 82,
+        "path": "README.ja.md"
+      },
+      {
+        "commits": 9,
+        "lines": 98,
+        "path": "README.md"
+      },
+      {
+        "commits": 1,
+        "lines": 84,
+        "path": "README.pt-BR.md"
+      },
+      {
+        "commits": 1,
+        "lines": 82,
+        "path": "README.zh.md"
+      },
+      {
+        "commits": 2,
+        "lines": 157,
+        "path": "RELEASE_ASSESSMENT.md"
+      },
+      {
+        "commits": 2,
+        "lines": 70,
+        "path": "SCORECARD.md"
+      },
+      {
+        "commits": 1,
+        "lines": 40,
+        "path": "SECURITY.md"
+      },
+      {
+        "commits": 2,
+        "lines": 91,
+        "path": "SHIP_GATE.md"
+      },
+      {
+        "commits": 1,
+        "lines": 0,
+        "path": "assets/logo.png"
+      },
+      {
+        "commits": 3,
+        "lines": 109,
+        "path": "docs/architecture.md"
+      },
+      {
+        "commits": 1,
+        "lines": 213,
+        "path": "docs/cli.md"
+      },
+      {
+        "commits": 1,
+        "lines": 64,
+        "path": "docs/constraints.md"
+      },
+      {
+        "commits": 3,
+        "lines": 61,
+        "path": "docs/decisions/0001-per-expert-cache-build-vs-upstream.md"
+      },
+      {
+        "commits": 1,
+        "lines": 95,
+        "path": "docs/derisk-concentration.md"
+      },
+      {
+        "commits": 2,
+        "lines": 67,
+        "path": "docs/feasibility.md"
+      },
+      {
+        "commits": 2,
+        "lines": 170,
+        "path": "docs/features.md"
+      },
+      {
+        "commits": 5,
+        "lines": 128,
+        "path": "docs/moe-lane-architecture.md"
+      },
+      {
+        "commits": 1,
+        "lines": 103,
+        "path": "docs/prior-art.md"
+      },
+      {
+        "commits": 1,
+        "lines": 111,
+        "path": "docs/quickstart.md"
+      },
+      {
+        "commits": 5,
+        "lines": 17,
+        "path": "gpu_container/__init__.py"
+      },
+      {
+        "commits": 2,
+        "lines": 65,
+        "path": "gpu_container/__main__.py"
+      },
+      {
+        "commits": 1,
+        "lines": 72,
+        "path": "gpu_container/errors.py"
+      },
+      {
+        "commits": 2,
+        "lines": 19,
+        "path": "gpu_container/planner/__init__.py"
+      },
+      {
+        "commits": 1,
+        "lines": 225,
+        "path": "gpu_container/planner/activation.py"
+      },
+      {
+        "commits": 1,
+        "lines": 224,
+        "path": "gpu_container/planner/calibration.py"
+      },
+      {
+        "commits": 1,
+        "lines": 44,
+        "path": "gpu_container/planner/calibration_seed.json"
+      },
+      {
+        "commits": 3,
+        "lines": 113,
+        "path": "gpu_container/planner/cli.py"
+      },
+      {
+        "commits": 2,
+        "lines": 130,
+        "path": "gpu_container/planner/concentration_cli.py"
+      },
+      {
+        "commits": 3,
+        "lines": 216,
+        "path": "gpu_container/planner/placement.py"
+      },
+      {
+        "commits": 4,
+        "lines": 169,
+        "path": "gpu_container/planner/receipt.py"
+      },
+      {
+        "commits": 4,
+        "lines": 157,
+        "path": "gpu_container/planner/receipt_cli.py"
+      },
+      {
+        "commits": 2,
+        "lines": 24,
+        "path": "gpu_container/profiler/__init__.py"
+      },
+      {
+        "commits": 1,
+        "lines": 122,
+        "path": "gpu_container/profiler/baseline.py"
+      },
+      {
+        "commits": 3,
+        "lines": 207,
+        "path": "gpu_container/profiler/cli.py"
+      },
+      {
+        "commits": 1,
+        "lines": 306,
+        "path": "gpu_container/profiler/cuda_bench.py"
+      },
+      {
+        "commits": 3,
+        "lines": 390,
+        "path": "gpu_container/profiler/hardware.py"
+      },
+      {
+        "commits": 3,
+        "lines": 178,
+        "path": "gpu_container/profiler/model.py"
+      },
+      {
+        "commits": 1,
+        "lines": 158,
+        "path": "gpu_container/profiler/nvme_bench.py"
+      },
+      {
+        "commits": 6,
+        "lines": 259,
+        "path": "gpu_container/profiler/schema.py"
+      },
+      {
+        "commits": 3,
+        "lines": 649,
+        "path": "gpu_container/watchdog.py"
+      },
+      {
+        "commits": 1,
+        "lines": 21,
+        "path": "npm/LICENSE"
+      },
+      {
+        "commits": 1,
+        "lines": 67,
+        "path": "npm/README.es.md"
+      },
+      {
+        "commits": 1,
+        "lines": 67,
+        "path": "npm/README.fr.md"
+      },
+      {
+        "commits": 1,
+        "lines": 67,
+        "path": "npm/README.hi.md"
+      },
+      {
+        "commits": 1,
+        "lines": 67,
+        "path": "npm/README.it.md"
+      },
+      {
+        "commits": 1,
+        "lines": 67,
+        "path": "npm/README.ja.md"
+      },
+      {
+        "commits": 2,
+        "lines": 83,
+        "path": "npm/README.md"
+      },
+      {
+        "commits": 1,
+        "lines": 67,
+        "path": "npm/README.pt-BR.md"
+      },
+      {
+        "commits": 1,
+        "lines": 67,
+        "path": "npm/README.zh.md"
+      },
+      {
+        "commits": 5,
+        "lines": 50,
+        "path": "npm/bin/gpu-container.js"
+      },
+      {
+        "commits": 6,
+        "lines": 49,
+        "path": "npm/package.json"
+      },
+      {
+        "commits": 11,
+        "lines": 49,
+        "path": "pyproject.toml"
+      },
+      {
+        "commits": 1,
+        "lines": 102,
+        "path": "scripts/gen_calibration_seed.py"
+      },
+      {
+        "commits": 1,
+        "lines": 111,
+        "path": "scripts/ingest_sweep.py"
+      },
+      {
+        "commits": 1,
+        "lines": 58,
+        "path": "scripts/verify.py"
+      },
+      {
+        "commits": 2,
+        "lines": 35,
+        "path": "site/astro.config.mjs"
+      },
+      {
+        "commits": 2,
+        "lines": 13788,
+        "path": "site/package-lock.json"
+      },
+      {
+        "commits": 2,
+        "lines": 24,
+        "path": "site/package.json"
+      },
+      {
+        "commits": 1,
+        "lines": 7,
+        "path": "site/src/content.config.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 77,
+        "path": "site/src/content/docs/handbook/cli.md"
+      },
+      {
+        "commits": 1,
+        "lines": 47,
+        "path": "site/src/content/docs/handbook/derisk.md"
+      },
+      {
+        "commits": 1,
+        "lines": 75,
+        "path": "site/src/content/docs/handbook/getting-started.md"
+      },
+      {
+        "commits": 1,
+        "lines": 48,
+        "path": "site/src/content/docs/handbook/index.md"
+      },
+      {
+        "commits": 1,
+        "lines": 44,
+        "path": "site/src/content/docs/handbook/moe-lane.md"
+      },
+      {
+        "commits": 1,
+        "lines": 65,
+        "path": "site/src/content/docs/handbook/reference.md"
+      },
+      {
+        "commits": 1,
+        "lines": 56,
+        "path": "site/src/content/docs/handbook/safety.md"
+      },
+      {
+        "commits": 1,
+        "lines": 33,
+        "path": "site/src/pages/index.astro"
+      },
+      {
+        "commits": 1,
+        "lines": 86,
+        "path": "site/src/site-config.ts"
+      },
+      {
+        "commits": 1,
+        "lines": 3,
+        "path": "site/src/styles/global.css"
+      },
+      {
+        "commits": 1,
+        "lines": 5,
+        "path": "site/src/styles/starlight-custom.css"
+      },
+      {
+        "commits": 1,
+        "lines": 5,
+        "path": "site/tsconfig.json"
+      },
+      {
+        "commits": 1,
+        "lines": 101,
+        "path": "tests/test_activation.py"
+      },
+      {
+        "commits": 1,
+        "lines": 223,
+        "path": "tests/test_calibration.py"
+      },
+      {
+        "commits": 1,
+        "lines": 45,
+        "path": "tests/test_concentration_cli.py"
+      },
+      {
+        "commits": 2,
+        "lines": 22,
+        "path": "tests/test_dispatch.py"
+      },
+      {
+        "commits": 1,
+        "lines": 57,
+        "path": "tests/test_errors.py"
+      },
+      {
+        "commits": 1,
+        "lines": 145,
+        "path": "tests/test_measure.py"
+      },
+      {
+        "commits": 2,
+        "lines": 132,
+        "path": "tests/test_planner.py"
+      },
+      {
+        "commits": 1,
+        "lines": 59,
+        "path": "tests/test_profiler.py"
+      },
+      {
+        "commits": 2,
+        "lines": 73,
+        "path": "tests/test_receipt_trace.py"
+      },
+      {
+        "commits": 2,
+        "lines": 310,
+        "path": "tests/test_watchdog.py"
+      },
+      {
+        "commits": 1,
+        "lines": 9,
+        "path": "watchdog.example.json"
+      }
+    ]
+  },
+  "confidence": {
+    "level": "low",
+    "reason": "fewer than 20 source files reach 10 revisions in the window"
+  },
+  "generatedAt": "2026-10-01T02:58:49.231Z",
+  "generatedFrom": {
+    "commit": "687377310d712121119139e23dac3d3e08fea874"
+  },
+  "pairs": [
+    {
+      "a": "CHANGELOG.md",
+      "b": "gpu_container/__init__.py",
+      "either": 6,
+      "shared": 4,
+      "strength": 0.666667
+    },
+    {
+      "a": "CHANGELOG.md",
+      "b": "npm/bin/gpu-container.js",
+      "either": 6,
+      "shared": 4,
+      "strength": 0.666667
+    },
+    {
+      "a": "CHANGELOG.md",
+      "b": "npm/package.json",
+      "either": 7,
+      "shared": 4,
+      "strength": 0.571429
+    },
+    {
+      "a": "gpu_container/__init__.py",
+      "b": "npm/bin/gpu-container.js",
+      "either": 6,
+      "shared": 4,
+      "strength": 0.666667
+    },
+    {
+      "a": "gpu_container/__init__.py",
+      "b": "npm/package.json",
+      "either": 7,
+      "shared": 4,
+      "strength": 0.571429
+    },
+    {
+      "a": "npm/bin/gpu-container.js",
+      "b": "npm/package.json",
+      "either": 6,
+      "shared": 5,
+      "strength": 0.833333
+    }
+  ],
+  "parameters": {
+    "appliedChangesetLimit": 25.5,
+    "changeset": 50,
+    "changesetFraction": 0.25,
+    "cohesionDrop": 0.2,
+    "couplingPopulation": "source",
+    "fallenShared": 3,
+    "floor": "fallen",
+    "floorHeld": false,
+    "floorTrigger": "revision-depth",
+    "headDate": "2026-09-17T18:54:29-07:00",
+    "inScopeFiles": 102,
+    "pinnedStart": null,
+    "priorFloor": null,
+    "qualifyingCommits": 33,
+    "qualifyingMinimum": 30,
+    "revisions": 5,
+    "shared": 10,
+    "sharedFloorUsed": 3,
+    "since": "2026-03-22T01:54:29.000Z",
+    "sourceExtensions": [
+      ".js",
+      ".mjs",
+      ".cjs",
+      ".jsx",
+      ".ts",
+      ".tsx",
+      ".mts",
+      ".cts",
+      ".py",
+      ".rs",
+      ".gd"
+    ],
+    "sourceFileReach": 20,
+    "sourceFileRise": 25,
+    "sourceFilesReachingStrongFloor": 0,
+    "strength": 0.5,
+    "windowDays": 180
+  },
+  "strengthDefinition": "strength is the shared qualifying commits divided by either. either is the number of qualifying commits that touch either file."
+}
