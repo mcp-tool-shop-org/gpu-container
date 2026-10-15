@@ -70,9 +70,7 @@
     },
     {
       "breakage": {
-        "coChangesOnly": [
-          "npm"
-        ],
+        "coChangesOnly": [],
         "collapsed": false,
         "confidence": "low",
         "importsAndCoChanges": [],
@@ -81,25 +79,23 @@
           "tests"
         ]
       },
-      "cohesion": 0,
+      "cohesion": null,
       "cohesionDropped": false,
       "confidence": "low",
       "highWater": null,
       "name": "gpu_container",
-      "qualifyingSourceCommits": 16,
+      "qualifyingSourceCommits": 12,
       "rebaseline": null
     },
     {
       "breakage": {
-        "coChangesOnly": [
-          "gpu_container"
-        ],
+        "coChangesOnly": [],
         "collapsed": false,
         "confidence": "low",
         "importsAndCoChanges": [],
         "importsOnly": []
       },
-      "cohesion": 0,
+      "cohesion": null,
       "cohesionDropped": false,
       "confidence": "low",
       "highWater": null,
@@ -136,7 +132,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "scripts",
-      "qualifyingSourceCommits": 2,
+      "qualifyingSourceCommits": 1,
       "rebaseline": null
     },
     {
@@ -170,7 +166,7 @@
       "confidence": "low",
       "highWater": null,
       "name": "tests",
-      "qualifyingSourceCommits": 13,
+      "qualifyingSourceCommits": 9,
       "rebaseline": null
     }
   ],
@@ -198,8 +194,8 @@
         "path": ".dockerignore"
       },
       {
-        "commits": 4,
-        "lines": 73,
+        "commits": 6,
+        "lines": 93,
         "path": ".github/workflows/ci.yml"
       },
       {
@@ -213,7 +209,7 @@
         "path": ".github/workflows/release.yml"
       },
       {
-        "commits": 3,
+        "commits": 2,
         "lines": 58,
         "path": ".gitignore"
       },
@@ -258,8 +254,8 @@
         "path": "README.ja.md"
       },
       {
-        "commits": 9,
-        "lines": 98,
+        "commits": 8,
+        "lines": 96,
         "path": "README.md"
       },
       {
@@ -298,7 +294,32 @@
         "path": "assets/logo.png"
       },
       {
-        "commits": 3,
+        "commits": 2,
+        "lines": 202,
+        "path": "atlas/README.md"
+      },
+      {
+        "commits": 2,
+        "lines": 84,
+        "path": "atlas/boundaries.yaml"
+      },
+      {
+        "commits": 2,
+        "lines": 876,
+        "path": "atlas/page.json"
+      },
+      {
+        "commits": 2,
+        "lines": 1518,
+        "path": "atlas/statistics.json"
+      },
+      {
+        "commits": 2,
+        "lines": 7130,
+        "path": "atlas/structure.json"
+      },
+      {
+        "commits": 2,
         "lines": 109,
         "path": "docs/architecture.md"
       },
@@ -333,8 +354,8 @@
         "path": "docs/features.md"
       },
       {
-        "commits": 5,
-        "lines": 128,
+        "commits": 4,
+        "lines": 118,
         "path": "docs/moe-lane-architecture.md"
       },
       {
@@ -363,8 +384,8 @@
         "path": "gpu_container/errors.py"
       },
       {
-        "commits": 2,
-        "lines": 19,
+        "commits": 1,
+        "lines": 17,
         "path": "gpu_container/planner/__init__.py"
       },
       {
@@ -383,8 +404,8 @@
         "path": "gpu_container/planner/calibration_seed.json"
       },
       {
-        "commits": 3,
-        "lines": 113,
+        "commits": 2,
+        "lines": 111,
         "path": "gpu_container/planner/cli.py"
       },
       {
@@ -393,13 +414,13 @@
         "path": "gpu_container/planner/concentration_cli.py"
       },
       {
-        "commits": 3,
-        "lines": 216,
+        "commits": 2,
+        "lines": 200,
         "path": "gpu_container/planner/placement.py"
       },
       {
-        "commits": 4,
-        "lines": 169,
+        "commits": 3,
+        "lines": 155,
         "path": "gpu_container/planner/receipt.py"
       },
       {
@@ -408,7 +429,7 @@
         "path": "gpu_container/planner/receipt_cli.py"
       },
       {
-        "commits": 2,
+        "commits": 1,
         "lines": 24,
         "path": "gpu_container/profiler/__init__.py"
       },
@@ -418,8 +439,8 @@
         "path": "gpu_container/profiler/baseline.py"
       },
       {
-        "commits": 3,
-        "lines": 207,
+        "commits": 2,
+        "lines": 165,
         "path": "gpu_container/profiler/cli.py"
       },
       {
@@ -428,12 +449,12 @@
         "path": "gpu_container/profiler/cuda_bench.py"
       },
       {
-        "commits": 3,
-        "lines": 390,
+        "commits": 1,
+        "lines": 304,
         "path": "gpu_container/profiler/hardware.py"
       },
       {
-        "commits": 3,
+        "commits": 1,
         "lines": 178,
         "path": "gpu_container/profiler/model.py"
       },
@@ -443,8 +464,8 @@
         "path": "gpu_container/profiler/nvme_bench.py"
       },
       {
-        "commits": 6,
-        "lines": 259,
+        "commits": 3,
+        "lines": 245,
         "path": "gpu_container/profiler/schema.py"
       },
       {
@@ -508,8 +529,8 @@
         "path": "npm/package.json"
       },
       {
-        "commits": 11,
-        "lines": 49,
+        "commits": 8,
+        "lines": 43,
         "path": "pyproject.toml"
       },
       {
@@ -533,8 +554,8 @@
         "path": "site/astro.config.mjs"
       },
       {
-        "commits": 2,
-        "lines": 13788,
+        "commits": 4,
+        "lines": 13800,
         "path": "site/package-lock.json"
       },
       {
@@ -666,22 +687,15 @@
   },
   "confidence": {
     "level": "low",
-    "reason": "fewer than 20 source files reach 10 revisions in the window"
+    "reason": "fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions"
   },
-  "generatedAt": "2026-10-01T02:58:49.231Z",
+  "generatedAt": "2026-10-15T02:51:11.565Z",
   "generatedFrom": {
-    "commit": "687377310d712121119139e23dac3d3e08fea874"
+    "commit": "82f20f218c31b3fbd6ca2f9cdd017caa25e1d9a2"
   },
   "pairs": [
     {
       "a": "CHANGELOG.md",
-      "b": "gpu_container/__init__.py",
-      "either": 6,
-      "shared": 4,
-      "strength": 0.666667
-    },
-    {
-      "a": "CHANGELOG.md",
       "b": "npm/bin/gpu-container.js",
       "either": 6,
       "shared": 4,
@@ -695,18 +709,11 @@
       "strength": 0.571429
     },
     {
-      "a": "gpu_container/__init__.py",
-      "b": "npm/bin/gpu-container.js",
-      "either": 6,
+      "a": "CHANGELOG.md",
+      "b": "pyproject.toml",
+      "either": 8,
       "shared": 4,
-      "strength": 0.666667
-    },
-    {
-      "a": "gpu_container/__init__.py",
-      "b": "npm/package.json",
-      "either": 7,
-      "shared": 4,
-      "strength": 0.571429
+      "strength": 0.5
     },
     {
       "a": "npm/bin/gpu-container.js",
@@ -714,6 +721,20 @@
       "either": 6,
       "shared": 5,
       "strength": 0.833333
+    },
+    {
+      "a": "npm/bin/gpu-container.js",
+      "b": "pyproject.toml",
+      "either": 7,
+      "shared": 5,
+      "strength": 0.714286
+    },
+    {
+      "a": "npm/package.json",
+      "b": "pyproject.toml",
+      "either": 8,
+      "shared": 5,
+      "strength": 0.625
     }
   ],
   "parameters": {
@@ -725,17 +746,17 @@
     "fallenShared": 3,
     "floor": "fallen",
     "floorHeld": false,
-    "floorTrigger": "revision-depth",
-    "headDate": "2026-09-17T18:54:29-07:00",
+    "floorTrigger": "both",
+    "headDate": "2026-10-01T13:34:53-07:00",
     "inScopeFiles": 102,
     "pinnedStart": null,
-    "priorFloor": null,
-    "qualifyingCommits": 33,
+    "priorFloor": "fallen",
+    "qualifyingCommits": 29,
     "qualifyingMinimum": 30,
     "revisions": 5,
     "shared": 10,
     "sharedFloorUsed": 3,
-    "since": "2026-03-22T01:54:29.000Z",
+    "since": "2026-04-04T20:34:53.000Z",
     "sourceExtensions": [
       ".js",
       ".mjs",
