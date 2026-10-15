@@ -1,14 +1,14 @@
 # gpu-container: how it works
 
-Mapped at 2026-10-01 from commit 6873773 by Atlas 1.24.0.
+Mapped at 2026-10-15 from commit 82f20f2 by Atlas 1.24.0.
 
 ## What this is
 
 10 parts, mostly Python (33 files), JavaScript (3), CSS (2), TypeScript (2) and Astro (1). Work enters through 10 doors; the busiest is CI, which reaches 3 parts. It publishes to PyPI, gpu-container to npm, and a container image. It deploys a site to GitHub Pages. People run gpu-container, gpu-container-concentration, gpu-container-plan, gpu-container-profile, gpu-container-receipt and gpu-container-watchdog.
 
-## What changed since the last map
+## What changed since 2026-10-01 (6873773)
 
-This is the first map.
+Nothing structural changed since 2026-10-01; 1 file changed content.
 
 ## What comes in
 
@@ -58,11 +58,9 @@ CI writes nothing this map can see.
 
 ## What tends to change together
 
-- **gpu_container/__init__.py** and **npm/bin/gpu-container.js** changed together in 4 of 6 commits, though neither part imports the other.
+No two source files changed together often enough to name.
 
-Confidence is low: fewer than 20 source files reach 10 revisions in the window.
-
-Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do.
+Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits.
 
 ## What no test touches
 
@@ -96,6 +94,6 @@ Read those in order to follow one pull request end to end.
 - 2 imports could not be resolved: `.claude/hooks/pre-tool-use.mjs` imports `../../E:/AI/role-os/src/hooks.mjs`, which is not in this repository; `gpu_container/__main__.py` imports a path built at run time.
 - 4 writes and 5 reads use paths built at run time and are not named here.
 - 11 writes and 12 reads go to a path their caller passes, not to this repository.
-- Statistics confidence is low: fewer than 20 source files reach 10 revisions in the window.
+- Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions.
 
 Regenerate with `npx --yes @dogfood-lab/atlas map`.

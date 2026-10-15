@@ -36,31 +36,32 @@
     }
   ],
   "changes": {
-    "first": true
+    "fileCounts": {
+      "added": 0,
+      "changed": 1,
+      "moved": 0,
+      "parts": 1,
+      "removed": 0
+    },
+    "items": [
+      {
+        "kind": "counts",
+        "sentence": "Nothing structural changed since 2026-10-01; 1 file changed content.",
+        "subjects": []
+      }
+    ],
+    "since": {
+      "commit": "687377310d712121119139e23dac3d3e08fea874",
+      "generatedAt": "2026-10-01T02:58:49.231Z"
+    },
+    "unchanged": true
   },
-  "changesTogether": [
-    {
-      "a": "gpu_container/__init__.py",
-      "b": "npm/bin/gpu-container.js",
-      "either": 6,
-      "partLabels": [
-        "gpu_container",
-        "npm"
-      ],
-      "parts": [
-        "gpu_container",
-        "npm"
-      ],
-      "relation": "none",
-      "shared": 4
-    }
-  ],
+  "changesTogether": [],
   "changesTogetherNote": [
-    "Confidence is low: fewer than 20 source files reach 10 revisions in the window.",
-    "Window: 180 days; a pair counts from 3 shared commits, since 0 source files reach 10 revisions; the floor rises to 10 when 25 do."
+    "Window: 180 days; a pair counts from 3 shared commits, since the window holds fewer than 30 qualifying commits."
   ],
   "changesTogetherWithTests": 0,
-  "commit": "687377310d712121119139e23dac3d3e08fea874",
+  "commit": "82f20f218c31b3fbd6ca2f9cdd017caa25e1d9a2",
   "defaultBranch": "main",
   "derived": "10 parts, mostly Python (33 files), JavaScript (3), CSS (2), TypeScript (2) and Astro (1). Work enters through 10 doors; the busiest is CI, which reaches 3 parts. It publishes to PyPI, gpu-container to npm, and a container image. It deploys a site to GitHub Pages. People run gpu-container, gpu-container-concentration, gpu-container-plan, gpu-container-profile, gpu-container-receipt and gpu-container-watchdog.",
   "doors": [
@@ -379,12 +380,12 @@
   ],
   "engine": "1.24.0",
   "generated": [],
-  "generatedAt": "2026-10-01T02:58:49.231Z",
+  "generatedAt": "2026-10-15T02:51:11.565Z",
   "limits": [
     "2 imports could not be resolved: `.claude/hooks/pre-tool-use.mjs` imports `../../E:/AI/role-os/src/hooks.mjs`, which is not in this repository; `gpu_container/__main__.py` imports a path built at run time.",
     "4 writes and 5 reads use paths built at run time and are not named here.",
     "11 writes and 12 reads go to a path their caller passes, not to this repository.",
-    "Statistics confidence is low: fewer than 20 source files reach 10 revisions in the window."
+    "Statistics confidence is low: fewer than 30 qualifying commits in the window, and fewer than 25 source files reach 10 revisions."
   ],
   "mainDoor": ".github/workflows/ci.yml",
   "partLabels": {
