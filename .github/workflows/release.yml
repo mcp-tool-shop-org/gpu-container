@@ -57,7 +57,7 @@ jobs:
 
       - name: Publish to PyPI
         # Trusted Publishing: no token. PEP 740 attestations are on by default (action >= v1.11.0).
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
 
   build-binaries:
     name: Build binary (${{ matrix.target }})
